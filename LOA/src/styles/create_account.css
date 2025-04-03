@@ -31,17 +31,21 @@ h2 {
 .input-group {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 20px;
     padding: 8px;
     margin-bottom: 10px;
-    background: white;
-}
+    gap: 10px; /* 추가 : 라벨과 입력 필드 사이 간격 */
+}s /* 이거 꼭 있어야 함 */
 
 .input-group label {
-    width: 70px;        /**/
-    font-size: 16px;     /**/
-    font-weight: bold;   /**/
+    width: 120px;     /* 70px -> 120px */
+    font-size: 16px;     
+    font-weight: bold;   
+    text-align: left; /* 추가 : 라벨을 왼쪽 정렬 */
+}
+
+.input-group input ::placeholder{
+    color: #aaa;
+    font-size: 14px;
 }
 
 .input-group input {
@@ -49,15 +53,7 @@ h2 {
     outline: none;
     width: 100%;
     font-size: 14px;
-}
-
-.input-row{
-    display: flex;
-    gap: 10px;
-}
-
-.input-row input {
-    flex: 1;
+    flex: 1; /* 추가 : 입력 필드가 남은 공간을 차지하도록 설정 */
 }
 
 .signup-btn {
