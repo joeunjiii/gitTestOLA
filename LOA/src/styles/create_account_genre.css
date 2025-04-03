@@ -14,11 +14,6 @@ body {
     text-align: center;
 }
 
-.signup-container {
-    height: auto;
-    min-height: 500px;
-}
-
 .container h2 {
     margin-bottom: 20px;
 }
