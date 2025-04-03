@@ -17,6 +17,11 @@ body {
     text-align: center;
 }
 
+.create_account-box {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
 h2 {
     font-size: 18px;
     margin-bottom: 5px;
