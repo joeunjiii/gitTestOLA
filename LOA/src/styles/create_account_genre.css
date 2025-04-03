@@ -8,11 +8,12 @@ body {
 }
 .container {
     background-color: #fff;
-    padding: 70px;
+    padding: 120px;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 .container h2 {
     margin-bottom: 20px;
 }
