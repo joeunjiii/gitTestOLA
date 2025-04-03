@@ -13,6 +13,11 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
+.container {
+    box-shadow: none;
+}
+
 .container h2 {
     margin-bottom: 20px;
 }
