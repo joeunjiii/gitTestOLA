@@ -20,7 +20,7 @@ body {
 .genres {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 5px;
     margin-bottom: 20px;
     min-height: 300px; /* 파란색 부분 늘리기 */
 }
