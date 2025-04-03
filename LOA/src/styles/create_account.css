@@ -17,6 +17,12 @@ body {
     text-align: center;
 }
 
+.create_account-box {
+    display: block; /* 블록 요소로 변경 */
+    text-align: center; /* 로고 가운데 정렬 */
+    user-select: none; /* 선택 방지 (추가하면 더 확실) */
+}
+
 .create_account-box img {
     width: 150px;  /* 원하는 크기로 조정 */
     height: auto;  /* 비율 유지 (자동 조정) */
@@ -65,10 +71,12 @@ h2 {
 .input-group input {
     border: none;
     outline: none;
-    width: 100%;
-    font-size: 14px;
-    flex: 1; /* 추가 : 입력 필드가 남은 공간을 차지하도록 설정 */
-    padding: 8px;
+    width: 80%; /* 입력 칸 너비 조정 (현재 100%라면 줄이기) */
+    max-width: 300px; /* 최대 너비 제한 */
+    padding: 8px 12px; /* 안쪽 여백 줄이기 */
+    margin: 1px 0; /* 위아래 간격 줄이기 */
+    height: 1px; /* 입력 칸 높이 줄이기 */
+    font-size: 14px; /* 글자 크기 줄이기 */
 }
 
 .signup-btn {
@@ -82,6 +90,8 @@ h2 {
     border-radius: 20px;
     cursor: pointer;
     margin-top: 10px;
+    outline: none;
+    user-select: none;
 }
 
 .signup-btn:hover {
