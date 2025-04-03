@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구독 서비스 선택</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        .service-icons {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .service-icons button {
+            width: 50px;
+            height: 50px;
+            margin: 0 10px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background-color: #ddd;
+        }
+        .complete-button {
+            background-color: #0044cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>구독중인 서비스를 선택해주세요</p>
+        <div class="service-icons">
+            <button></button>
+            <button></button>
+            <button></button>
+        </div>
+        <button class="complete-button">선택완료</button>
+    </div>
+</body>
+</html>
