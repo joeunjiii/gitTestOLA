@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -19,30 +11,27 @@
         <h2>OLA 회원가입</h2>
         <form>
             <div class="input-group">
-                <label for="name">이름:</label>
-                <input type="text" id="name" name="name" required>
+                <label for="username">회원ID:</label>
+                <input type="text" id="username" name="USER_ID" required>
             </div>
             <div class="input-group">
-                <label for="username">ID:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="password">비밀번호:</label>
+                <input type="password" id="password" name="USER_PW" required>
             </div>
             <div class="input-group">
-                <label for="password">PW:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="input-group">
-                <label for="confirm-password">PW확인:</label>
+                <label for="confirm-password">비밀번호 확인:</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
             <div class="input-group">
                 <label for="nickname">닉네임:</label>
-                <input type="text" id="nickname" name="nickname" required>
+                <input type="text" id="nickname" name="USER_NICK" required>
+            </div>
+            <div class="input-group">
+                <label for="phone">휴대폰 번호:</label>
+                <input type="text" id="phone" name="USER_PHONE" required>
             </div>
             <button type="submit" class="signup-btn">가입하기</button>
         </form>
     </div>
-</body>
-</html>
-
 </body>
 </html>
