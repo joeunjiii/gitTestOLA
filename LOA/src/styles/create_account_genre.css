@@ -22,7 +22,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-bottom: 20px;
-    min-height: 300px;
+    min-height: 300px; /* 파란색 부분 늘리기 */
 }
 .genres label {
     display: flex;
