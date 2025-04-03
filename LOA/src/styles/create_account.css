@@ -51,6 +51,15 @@ h2 {
     font-size: 14px;
 }
 
+.input-row{
+    display: flex;
+    gap: 10px;
+}
+
+.input-row input {
+    flex: 1;
+}
+
 .signup-btn {
     width: 30%;
     padding: 10px;
