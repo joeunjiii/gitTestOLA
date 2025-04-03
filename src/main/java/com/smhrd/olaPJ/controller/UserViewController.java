@@ -11,6 +11,7 @@ public class UserViewController {
     //회원가입 호출
     @GetMapping("/signup")
     public String signup() {
+        System.out.println("회원가입 페이지 요청됨: signup.html 반환");
         return "signup";
     }
 
@@ -20,5 +21,12 @@ public class UserViewController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/")
+    public String mainPage() {
+        return "main";  // main.html 반환
+    }
+
+
 
 }

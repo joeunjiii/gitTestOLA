@@ -29,16 +29,18 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/imges/**", "/static/**").permitAll()
-                        .requestMatchers("/login", "/signup","/user","/recommend", "/api/recommend").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll() //css,js, 이미지 파일 등 권한 허용
+                        .requestMatchers("/", "/login", "/signup","/user","/recommend", "/api/recommend", "/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/contents", true)
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout

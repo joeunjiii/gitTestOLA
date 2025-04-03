@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/style_login.css" type="text/css"/>
     <title>로그인</title>
     <style>
     </style>
@@ -14,11 +14,11 @@
 
     <!-- 로고 박스 -->
     <div class="logo-box">
-        <img src="/static/images/Logo_1.png" alt="OLA 로고">
+        <img src="/images/Logo_1.png" alt="OLA 로고">
     </div>
 
     <div class="login-container"> <!-- 로그인 폼을 감싸는 컨테이너 -->
-        <form> <!-- 로그인 입력 폼 -->
+        <form action="/login" method="post"> <!-- 로그인 입력 폼 -->
 
             <!-- 아이디 입력 필드 -->
             <div class="input-group">
@@ -54,11 +54,11 @@
         <div class="sub-menu">
             <a href="#" id="find-pw-btn">비밀번호 찾기</a> <span>|</span>
             <a href="#" id="find-id-btn">아이디 찾기</a> <span>|</span>
-            <a href="#" id="create-btn">회원가입</a>
+            <a href="/signup" id="create-btn">회원가입</a>
         </div>
     </div>
 
-    <script src="https://github.com/Park-Ji-Gwang/gitTestOLA/blob/d36abd3c8fa94c64e308a00d38f802aa7d865e0b/LOA/src/pages/login.js" defer></script>
+    <script src="/js/login.js" defer></script>
 
 </body>
 </html>
