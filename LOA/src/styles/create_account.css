@@ -34,7 +34,16 @@ h2 {
     padding: 8px;
     margin-bottom: 10px;
     gap: 10px; /* 추가 : 라벨과 입력 필드 사이 간격 */
+    border-bottom: 1px solid #ccc; /* 입력 필드 하단에 구분선 추가 */
+    justify-content: flex-start; /* 왼쪽 정렬 추가 */
+    border-radius: 25px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
 }s /* 이거 꼭 있어야 함 */
+
+.input-group:last-child {
+    border-bottom: none;
+}
 
 .input-group label {
     width: 120px;     /* 70px -> 120px */
@@ -54,6 +63,7 @@ h2 {
     width: 100%;
     font-size: 14px;
     flex: 1; /* 추가 : 입력 필드가 남은 공간을 차지하도록 설정 */
+    padding: 8px;
 }
 
 .signup-btn {
