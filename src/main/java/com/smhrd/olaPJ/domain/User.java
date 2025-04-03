@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class User implements UserDetails {
     private String role;
 
     @Column(name="JOINED_AT", nullable = false)
-    private Timestamp joinedAt;
+    private LocalDateTime joinedAt;
 
     @Builder
     public User(String userId, String password, String phone, String nickname, String profileImg, String role, Timestamp joinedAt) {
@@ -53,7 +54,13 @@ public class User implements UserDetails {
         this.nickname = nickname;
         this.profileImg = profileImg;
         this.role = role;
-        this.joinedAt = joinedAt;
+
+    }
+
+    //회원가입 시 자동으로 현재 시간을 저장하도록 설정
+    @PrePersist
+    protected void onCreate() {
+        this.joinedAt = LocalDateTime.now();
     }
 
     @Override
@@ -64,7 +71,7 @@ public class User implements UserDetails {
     //사용자의 id 반환 (고유값을 반환하기 때문에 어떤값을 설정하면 좋을지 생각필요)
     @Override
     public String getUsername() {
-        return this.userId;
+        return nickname;
     }
 
     //사용자의 패스워드 반환
