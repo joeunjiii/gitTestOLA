@@ -19,15 +19,15 @@ public class UserDetailService implements UserDetailsService {
 
     // 사용자 이름(username)으로 사용자의 정보를 가져오는 메서드
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("🔥 로그인 시도: {}", username); // log 사용법 수정
+        log.info(" 로그인 시도: {}", username); // log 사용법 수정
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
-                    log.error("❌ 사용자 없음: {}", username); // 오류 로그 추가
+                    log.error(" 사용자 없음: {}", username); // 오류 로그 추가
                     return new UsernameNotFoundException("User not found with ID: " + username);
                 });
 
-        log.info("✅ 사용자 찾음: {}", user.getUsername());
+        log.info(" 사용자 찾음: {}", user.getUsername());
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())

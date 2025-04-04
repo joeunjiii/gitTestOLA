@@ -12,6 +12,7 @@ public class AddUserRequest {
     private String password;
     private String phone;
     private String nickname;
+    //회원가입에서 받을 회원 정보
 
 
 }

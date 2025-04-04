@@ -18,43 +18,31 @@
     </div>
 
     <div class="login-container"> <!-- 로그인 폼을 감싸는 컨테이너 -->
+        <input type="hidden" name="token" th:value="${token ?: ''}" />
         <form action="/login" method="post"> <!-- 로그인 입력 폼 -->
 
             <!-- 아이디 입력 필드 -->
             <div class="input-group">
                 <label for="username">ID:</label>
-                <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="input-box"
-                        required
-                        autocomplete="username"
-                />
+                <input type="text" id="username" name="username" class="input-box" required autocomplete="username"/>
             </div>
 
             <!-- 비밀번호 입력 필드 -->
             <div class="input-group">
                 <label for="password">PW:</label>
-                <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="input-box"
-                        required
-                        autocomplete="current-password"
-                />
+                <input type="password" id="password" name="password" class="input-box" required autocomplete="current-password"/>
             </div>
 
             <!-- 로그인 버튼 -->
-            <button type="submit" class="login-btn">로그인</button>
+            <button type="submit" id="login-btn">로그인</button>
+
         </form>
 
         <!-- 로그인 관련 추가 메뉴 -->
         <div class="sub-menu">
             <a href="#" id="find-pw-btn">비밀번호 찾기</a> <span>|</span>
             <a href="#" id="find-id-btn">아이디 찾기</a> <span>|</span>
-            <a href="/signup" id="create-btn">회원가입</a>
+            <a href="/signup" id="signup-btn">회원가입</a>
         </div>
     </div>
 

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function()  {
 
 document.addEventListener("DOMContentLoaded", function()  {
 
-    document.getElementById("create-btn").addEventListener("click", function (event) {
+    document.getElementById("signup-btn").addEventListener("click", function (event) {
         event.preventDefault();
         window.location.href = "/signup";  //절대 경로 사용
     });
@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function()  {
 
 document.addEventListener("DOMContentLoaded", function()  {
 
-    document.getElementById("find-id-btn").addEventListener("click", function (event) {
-        event.preventDefault();
-        window.location.href = "idfind.html";
+    document.getElementById("login-btn").addEventListener("click", function (event) {
+            document.querySelector("form").submit();
+
     });
 });

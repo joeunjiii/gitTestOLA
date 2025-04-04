@@ -24,6 +24,7 @@ public class UserViewController {
 
     @GetMapping("/")
     public String mainPage() {
+        System.out.println("메인 페이지 요청 : main.html 반환");
         return "main";  // main.html 반환
     }
 

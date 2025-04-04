@@ -57,9 +57,9 @@ public class User implements UserDetails {
         this.password = password;
         this.phone = phone;
         this.nickname = nickname;
-        this.profileImg = profileImg;
-        this.role = role;
-        this.joinedAt = LocalDateTime.now(); // 명시적으로 현재 시간 설정
+        this.profileImg = profileImg; //프로필 이미지
+        this.role = role; // 회원구분
+        this.joinedAt = LocalDateTime.now(); // 현재 시간 설정
     }
 
     //회원가입 시 자동으로 현재 시간을 저장하도록 설정
