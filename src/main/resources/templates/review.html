@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 작성</title>
+</head>
+<body>
+<h2>작품 리뷰 작성</h2>
+
+<form id="postForm">
+    <label>작성자 ID: <input type="text" name="userId" required></label><br><br>
+    <label>제목: <input type="text" name="postTitle" required></label><br><br>
+    <label>내용:<br>
+        <textarea name="postContent" rows="5" cols="50" required></textarea>
+    </label><br><br>
+    <label>첨부파일1: <input type="text" name="postFile1"></label><br><br>
+    <label>첨부파일2: <input type="text" name="postFile2"></label><br><br>
+    <label>첨부파일3: <input type="text" name="postFile3"></label><br><br>
+
+    <button type="submit">작성 완료</button>
+</form>
+
+<script>
+    const form = document.getElementById('postForm');
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault(); // 폼 제출 방지
+
+        const formData = new FormData(form);
+        const postData = {};
+
+        formData.forEach((value, key) => {
+            postData[key] = value;
+        });
+
+        try {
+            const response = await fetch('/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            });
+
+            if (response.ok) {
+                alert('리뷰 등록 성공!');
+                form.reset();
+            } else {
+                alert('리뷰 등록 실패!');
+            }
+        } catch (err) {
+            console.error('에러 발생:', err);
+            alert('오류가 발생했습니다.');
+        }
+    });
+</script>
+</body>
+</html>
