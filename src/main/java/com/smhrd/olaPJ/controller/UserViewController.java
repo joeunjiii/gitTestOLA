@@ -23,9 +23,16 @@ public class UserViewController {
     }
 
     @GetMapping("/")
-    public String mainPage() {
-        System.out.println("메인 페이지 요청 : main.html 반환");
+    public String FirstPage() {
+        System.out.println("main page 반환 : login.html");
         return "main";  // main.html 반환
+    }
+
+    //장르 페이지 호출
+    @GetMapping("/genre")
+    public String genre() {
+        System.out.println("회원가입 -> 장르페이지 반환 : genre.html");
+        return "select_genre";
     }
 
 

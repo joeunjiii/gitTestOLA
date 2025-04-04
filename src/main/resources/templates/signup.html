@@ -1,50 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OLA 회원가입</title>
-  <link rel="stylesheet" href="/css/style_signup.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLA 회원가입</title>
+    <link rel="stylesheet" href="/css/style_signup.css">
+   <script src="/js/signup.js" defer></script>
 </head>
 <body>
 <div class="signup-container">
-  <h2>OLA 회원가입</h2>
-  <form th:action="@{/user}" method="post">
-    <input type = "hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
-    <div class="input-group">
-      <label for="name">이름:</label>
-      <input type="text" id="name" name="name" required>
-    </div>
-    <div class="input-group">
-      <label for="username">ID:</label>
-      <input type="text" id="username" name="username" required>
-    </div>
-    <div class="input-group">
-      <label for="password">PW:</label>
-      <input type="password" id="password" name="password" required>
-    </div>
-    <div class="input-group">
-      <label for="confirm-password">PW확인:</label>
-      <input type="password" id="confirm-password" name="confirm-password" required>
-    </div>
-    <div class="input-group">
-      <label for="nickname">닉네임:</label>
-      <input type="text" id="nickname" name="nickname" required>
-    </div>
-    <div class="input-group">
-      <label for="phone">Phone:</label>
-      <input type="tel" id="phone" name="phone" required>
-    </div>
-    <button type="submit" class="signup-btn">가입하기</button>
-  </form>
+    <form th:action="@{/user}" method="post">
+        <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
+
+      <div>
+        <div class="create_account-box">
+          <img src="/images/Logo_1.png" alt="OLA 로고">
+        </div>
+      </div>
+
+        <div class="input-group">
+            <label for="name"></label>
+            <input type="text" id="name" name="name" placeholder="이름" required>
+        </div>
+        <div class="input-group">
+            <label for="username"></label>
+            <input type="text" id="username" name="username" placeholder="ID" required>
+        </div>
+        <div class="input-group">
+            <label for="password"></label>
+            <input type="password" id="password" name="password" placeholder="비밀번호" required>
+        </div>
+        <div class="input-group">
+            <label for="confirm-password"></label>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="비밀번호 확인" required>
+        </div>
+        <div class="input-group">
+            <label for="nickname"></label>
+            <input type="text" id="nickname" name="nickname" placeholder="닉네임" required>
+        </div>
+        <div class="input-group">
+            <label for="phone"></label>
+            <input type="tel" id="phone" name="phone" placeholder="핸드폰 번호" required>
+        </div>
+        <button type="submit" id="signup-btn">가입하기</button>
+    </form>
 </div>
 </body>
 </html>

@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,6 +49,7 @@ public class User implements UserDetails {
 
     @Column(name="JOINED_AT", nullable = false)
     private LocalDateTime joinedAt;
+
 
     @Builder
     public User(String username, String password, String phone, String nickname, String profileImg, String role) {
