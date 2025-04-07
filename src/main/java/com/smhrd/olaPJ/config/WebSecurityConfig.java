@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll() // 정적 리소스 허용
                         .requestMatchers("/", "/login", "/signup", "/user", "/genre", "/genre/save", "/main", "/redirect").permitAll()
-                        .requestMatchers("/api/user/current").permitAll() // API도 허용 (또는 authenticated()로 바꿔도 OK)
+                        .requestMatchers("/api/user/current").authenticated() // API도 허용 (또는 authenticated()로 바꿔도 OK)
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
