@@ -1,11 +1,7 @@
 package com.smhrd.olaPJ.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UuidGenerator;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,6 +47,12 @@ public class User implements UserDetails {
     @Column(name="JOINED_AT", nullable = false)
     private LocalDateTime joinedAt;
 
+    @Setter
+    @Column(name="GENRE_SELECTED", nullable = false)
+    private int genreSelected;
+
+
+
     @Builder
     public User(String username, String password, String phone, String nickname, String profileImg, String role) {
         this.username = username;
@@ -60,6 +62,7 @@ public class User implements UserDetails {
         this.profileImg = profileImg; //프로필 이미지
         this.role = role; // 회원구분
         this.joinedAt = LocalDateTime.now(); // 현재 시간 설정
+
     }
 
     //회원가입 시 자동으로 현재 시간을 저장하도록 설정
@@ -128,4 +131,7 @@ public class User implements UserDetails {
     }
 
 
+    public boolean isGenreSelected() {
+        return this.genreSelected == 1;
+    }
 }
