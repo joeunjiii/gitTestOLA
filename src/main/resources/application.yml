@@ -5,10 +5,6 @@ spring:
     password: smhrd2
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  web:
-    resources:
-      static-locations: classpath:/static/, classpath:/public/, classpath:/resources/, classpath:/META-INF/resources/
-
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
@@ -16,5 +12,8 @@ spring:
     show-sql: true
 
 server:
-  port: 8083
+  port: 8089
+
+
+
 

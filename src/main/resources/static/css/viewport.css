@@ -1,0 +1,166 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    width: 500px;
+    height: 600px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.ott-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    height: 100%;
+    transform: translateY(-120px);
+}
+
+.ott {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ott input {
+    display: none;
+}
+
+.circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-size: cover;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* hover 애니메이션 */
+.circle:hover {
+    transform: scale(1.2) rotate(5deg);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.6);
+    animation: glow 1.5s infinite;
+}
+
+/* 체크된 경우 강조 효과 */
+.ott input:checked + .circle {
+    transform: scale(1.2);
+    box-shadow: 0 0 25px #007bff;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    }
+}
+
+.select-btn {
+    width: 200px;
+    padding: 12px 15px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: auto;
+}
+
+.select-btn:hover {
+    background-color: #0056b3;
+}
+
+/* OTT별 이미지 배경 설정 */
+.watcha {
+    background-image: url('../images/w.jpg');
+}
+
+.coupangplay {
+    background-image: url('../images/koo.jpg');
+}
+
+.tving {
+    background-image: url('../images/tig.jpg');
+}
+
+.netflix {
+    background-image: url('../images/N.png');
+}
+/* OTT 애니메이션: 눈에 확 띄는 효과들 */
+.circle.animated-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+/* Watcha - 강한 분홍빛 + 확장 */
+.circle.watcha.hover-effect {
+    transform: scale(1.25) rotate(-5deg);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.8), 0 0 40px rgba(255, 105, 180, 0.6);
+    filter: brightness(1.4) saturate(1.5);
+}
+
+/* Coupang Play - 푸른 빛 + 흔들리는 듯한 느낌 */
+.circle.coupangplay.hover-effect {
+    animation: shake-coupang 0.5s;
+    transform: scale(1.2);
+    box-shadow: 0 0 25px rgba(0, 123, 255, 0.8);
+    filter: brightness(1.3);
+}
+
+@keyframes shake-coupang {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(3px); }
+    50% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+}
+
+/* Tving - 팡팡팡 튀어오르는 bounce */
+@keyframes tving-pop {
+    0% { transform: scale(1); }
+    20% { transform: scale(1.3); }
+    50% { transform: scale(0.9); }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1.2); }
+}
+
+.circle.tving.hover-effect {
+    animation: tving-pop 0.6s ease-out;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    filter: brightness(1.4) saturate(1.2);
+}
+
+/* Netflix - 붉은 글로우 + 확대 + 위로 살짝 뜨는 느낌 */
+.circle.netflix.hover-effect {
+    transform: scale(1.3) translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.9), 0 0 40px rgba(255, 50, 50, 0.6);
+    filter: brightness(1.3) saturate(1.3);
+}
+  

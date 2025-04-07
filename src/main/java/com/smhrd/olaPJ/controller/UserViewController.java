@@ -48,8 +48,10 @@ public class UserViewController {
         System.out.println("회원가입 -> 장르페이지 반환 : genre.html");
         return "select_genre";
     }
+
     @Autowired
     private AiServiceClient aiServiceClient;
+
     //메인 페이지 호출
     @GetMapping("/main")
     public String showMainPage(Model model) {
@@ -67,5 +69,4 @@ public class UserViewController {
         }
         return "redirect_check";
     }
-
 }
