@@ -1,6 +1,11 @@
 package com.smhrd.olaPJ.controller;
 
+
+import ch.qos.logback.core.util.COWArrayList;
+import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.UserResponse;
+import com.smhrd.olaPJ.repository.UserRepository;
+import com.smhrd.olaPJ.service.UserDetailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -9,11 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.util.Optional;
+
 
 //사용자 정보 관리 컨트롤러
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    private final UserDetailService userDetailService;
+    private final UserRepository userRepository;
+
+    public UserController(UserDetailService userDetailService, UserRepository userRepository) {
+        this.userDetailService = userDetailService;
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/current")
     public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
@@ -22,8 +37,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        System.out.println("현재 로그인된 사용자: " + authentication.getName());
-        return ResponseEntity.ok(new UserResponse(authentication.getName()));
+        String userName = authentication.getName();
+        System.out.println("현재 로그인된 사용자: " + userName);
+
+        Optional<User> optionalUser = userRepository.findByUsername(userName);
+
+        if(optionalUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        User user = optionalUser.get();
+        Integer genreSelected = user.getGenreSelected();
+
+        return ResponseEntity.ok(new UserResponse(userName, genreSelected));
     }
+
+
 }
 

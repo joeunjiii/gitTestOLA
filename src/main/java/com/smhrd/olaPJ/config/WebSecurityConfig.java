@@ -34,14 +34,14 @@ public class WebSecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll() //css,js, 이미지 파일 등 권한 허용
-                        .requestMatchers("/", "/login", "/signup","/user", "/genre", "/genre/save").permitAll()
+                        .requestMatchers("/", "/login", "/signup","/user", "/genre", "/genre/save", "/redirect").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/genre")
+                        .defaultSuccessUrl("/redirect", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )

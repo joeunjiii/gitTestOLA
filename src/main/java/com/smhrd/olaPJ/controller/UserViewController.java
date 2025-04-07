@@ -1,12 +1,19 @@
 package com.smhrd.olaPJ.controller;
 
+import com.smhrd.olaPJ.repository.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @Controller
 public class UserViewController {
 
+
+    private final UserRepository userRepository;
+
+    public UserViewController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     //회원가입 호출
     @GetMapping("/signup")
@@ -14,7 +21,6 @@ public class UserViewController {
         System.out.println("회원가입 페이지 요청됨: signup.html 반환");
         return "signup";
     }
-
 
     //로그인 호출
     @GetMapping("/login")
@@ -34,6 +40,21 @@ public class UserViewController {
         System.out.println("회원가입 -> 장르페이지 반환 : genre.html");
         return "select_genre";
     }
+
+    //메인 페이지 호출
+    @GetMapping("/main")
+    public String showMainPage() {
+        System.out.println("main.html 반환");
+        return "main"; //메인페이지 반환
+    }
+
+    //gerne/main 분기 결정 페이지 호출
+    @GetMapping("/redirect")
+    public String redirect() {
+        return "redirect_check";
+    }
+
+
 
 
 

@@ -1,4 +1,3 @@
-// JavaScript 코드 (js/script.js)
 
 document.addEventListener("DOMContentLoaded", function () {
     // 비밀번호 찾기 버튼 클릭 시 페이지 이동

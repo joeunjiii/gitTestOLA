@@ -1,0 +1,54 @@
+<!-- genre/main 분기 나누는 코드 -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 리다이렉트 중...</title>
+    <script>
+        window.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const res = await fetch("/api/user/current", {
+                    credentials: "include"
+                });
+
+                const contentType = res.headers.get("Content-Type");
+                if (!res.ok || !contentType.includes("application/json")) {
+                    throw new Error("비정상 응답: 로그인 안됨 또는 에러");
+                }
+
+                const userData = await res.json();
+                const genreSelected = Number(userData.genreSelected);
+
+                // 2초 후 리다이렉트
+                setTimeout(() => {
+                    if (genreSelected === 1) {
+                        window.location.href = "/main";
+                    } else {
+                        window.location.href = "/genre";
+                    }
+                }, 2000); // 2초
+
+            } catch (error) {
+                console.error("리다이렉트 중 오류 발생:", error);
+                window.location.href = "/login";
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+        .loading {
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<h2><img src="/images/Logo_1.png" alt="OLA 로고"></h2>
+<p class="loading">화면 이동중...</p>
+</body>
+</html>
