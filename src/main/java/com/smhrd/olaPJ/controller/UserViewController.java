@@ -25,7 +25,7 @@ public class UserViewController {
     @GetMapping("/")
     public String FirstPage() {
         System.out.println("main page 반환 : login.html");
-        return "main";  // main.html 반환
+        return "login";  // http://localhost:8083/ 으로 실행 시 login 화면이 출력됨
     }
 
     //장르 페이지 호출

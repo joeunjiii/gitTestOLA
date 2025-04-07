@@ -27,8 +27,8 @@ public class Genre {
     @Column(name = "ROMANCE", nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
     private char romance = 'N';
 
-    @Column(name = "CODEDY", nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
-    private char codeDy = 'N';
+    @Column(name = "COMEDY", nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
+    private char comedy = 'N';
 
     @Column(name = "THRILLER", nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'N'")
     private char thriller = 'N';

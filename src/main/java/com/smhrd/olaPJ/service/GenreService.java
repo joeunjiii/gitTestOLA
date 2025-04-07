@@ -18,18 +18,18 @@ public class GenreService {
         // USER_NAME으로 USER_ID(UUID) 가져오기
         String userId = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 정보 없음"))
-                .getUserId();  // UUID
+                .getUserId();  // UUID 가져오기
 
         Genre genre = Genre.builder()
                 .userId(userId)  // 여기에 UUID 설정됨
-                .romance(request.getRomance() != null ? 'Y' : 'N')
-                .codeDy(request.getComedy() != null ? 'Y' : 'N')
-                .thriller(request.getThriller() != null ? 'Y' : 'N')
-                .animation(request.getAnimation() != null ? 'Y' : 'N')
-                .action(request.getAction() != null ? 'Y' : 'N')
-                .drama(request.getDrama() != null ? 'Y' : 'N')
-                .horror(request.getHorror() != null ? 'Y' : 'N')
-                .fantasy(request.getFantasy() != null ? 'Y' : 'N')
+                .romance("Y".equals(request.getRomance()) ? 'Y' : 'N')
+                .comedy("Y".equals(request.getComedy()) ? 'Y' : 'N')
+                .thriller("Y".equals(request.getThriller()) ? 'Y' : 'N')
+                .animation("Y".equals(request.getAnimation()) ? 'Y' : 'N')
+                .action("Y".equals(request.getAction()) ? 'Y' : 'N')
+                .drama("y".equals(request.getDrama()) ? 'Y' : 'N')
+                .horror("Y".equals(request.getHorror()) ? 'Y' : 'N')
+                .fantasy("Y".equals(request.getFantasy()) ? 'Y' : 'N')
                 .ottPlatform(request.getOttPlatform())
                 .director(request.getDirector())
                 .characters(request.getCharacters())
