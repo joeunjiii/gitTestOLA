@@ -1,11 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTT LIFE A</title>
+    <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
-<h1>환영합니다!</h1>
-<a href="/logout">로그아웃</a>
+<div class="container">
+    <!-- 상단 로고 -->
+    <header class="header">
+        <img src="/images/logo.png" alt="로고" class="logo" />
+        <nav class="nav-icons">
+            <span>🏠</span>
+            <span>🔍</span>
+            <span>👤</span>
+        </nav>
+    </header>
+
+    <!-- 추천 콘텐츠 슬라이드 -->
+    <section class="slide-section">
+        <h2>추천 콘텐츠</h2>
+        <div class="slide">
+            <a th:each="item : ${results}" href="#" class="slide-item">
+                <img th:src="${item.poster}" th:alt="${item.title}" />
+            </a>
+        </div>
+    </section>
+
+    <!-- 게시물 카드 -->
+    <section class="review-preview">
+        <!-- 유저 정보 -->
+        <div class="review-header">
+            <img src="/images/profile.jpg" class="profile-img" alt="프로필 이미지" />
+            <div class="user-info">
+                <strong>OO</strong>
+                <p class="sub">소음없이 거짓말 (OTT 제목)</p>
+            </div>
+            <button class="follow-btn">팔로우</button>
+        </div>
+
+        <!-- 콘텐츠 이미지 -->
+        <div class="review-thumbnail">
+            <img src="/images/ch.webp" alt="콘텐츠 이미지" />
+        </div>
+
+        <!-- 좋아요, 댓글 -->
+        <div class="review-stats">
+            <span>❤️ 150</span>
+            <span>💬 댓글</span>
+        </div>
+
+        <!-- 본문 -->
+        <div class="review-text">
+            <p>팝콘 진짜 개맛있다. CGV에서는 무조건 반반콤보를 시켜야함</p>
+            <p>그리고 달콤한 맛이랑 이낀딴 또는 더블치즈 두개 중 하나는 골라야 단짠의 정수</p>
+            <p>CU에 가면 콘소메맛 팝콘 있음 그게 진짜 개맛도리임</p>
+            <p>금날은 최고의 맛집 CGV! 다음에 또 방문하겠습니다.</p>
+        </div>
+
+        <!-- 댓글창 -->
+        <div class="review-comment">
+            <input type="text" placeholder="댓글을 입력하세요..." />
+            <button class="comment-btn">💬 댓글</button>
+        </div>
+    </section>
+
+    <!-- 컬렉션 박스 -->
+    <section class="ott-ranking">
+        <div class="ranking-list">
+            <h3>OTT 랭킹</h3>
+            <div class="ranking-list">
+                <div class="ranking-item">
+                    <img src="/images/ch.webp" alt="1위 콘텐츠" class="ranking-thumb" />
+                    <div class="ranking-text">
+                        <p class="ranking-title">1.청설</p>
+                        <span class="ranking-info">2025년 · 감성 로맨스</span>
+                    </div>
+                </div>
+
+                <div class="ranking-item">
+                    <img src="/images/ex-01.webp" alt="2위 콘텐츠" class="ranking-thumb" />
+                    <div class="ranking-text">
+                        <p class="ranking-title">2. 폭싹 속았수다</p>
+                        <span class="ranking-info">2025년 · 액션 판타지</span>
+                    </div>
+                </div>
+
+                <div class="ranking-item">
+                    <img src="/images/rank3.jpg" alt="3위 콘텐츠" class="ranking-thumb" />
+                    <div class="ranking-text">
+                        <p class="ranking-title">3. 인터버커 와이쇼울</p>
+                        <span class="ranking-info">2025년 · SF 스릴러</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ott-slider-section">
+        <h3>OTT 인기 컨텐츠 추천해요</h3>
+        <div class="ott-slider">
+            <button class="arrow">◀</button>
+            <div class="ott-slide-track">
+                <div class="ott-card"><img src="/images/thumb1.jpg" alt="콘텐츠1" /></div>
+                <div class="ott-card"><img src="/images/thumb2.jpg" alt="콘텐츠2" /></div>
+                <div class="ott-card"><img src="/images/thumb3.jpg" alt="콘텐츠3" /></div>
+                <div class="ott-card"><img src="/images/thumb4.jpg" alt="콘텐츠4" /></div>
+                <div class="ott-card"><img src="/images/thumb4.jpg" alt="콘텐츠5" /></div>
+            </div>
+            <button class="arrow">▶</button>
+        </div>
+    </section>
+
+    <section class="ott-banner-box">
+        <!-- 광고나 공백 삽입 영역 -->
+    </section>
+
+    <section class="ott-recommend-user">
+        <div class="user-row">
+            <div class="user-info">
+                <img src="/images/profile.jpg" class="profile-img" />
+                <span>OO님과 비상한 커텐츠에요</span>
+            </div>
+            <button class="follow-btn">팔로우</button>
+        </div>
+        <div class="ott-slider">
+            <button class="arrow">◀</button>
+            <div class="ott-slide-track">
+                <div class="ott-card">콘텐츠1</div>
+                <div class="ott-card">콘텐츠2</div>
+                <div class="ott-card">콘텐츠3</div>
+                <div class="ott-card">콘텐츠4</div>
+            </div>
+            <button class="arrow">▶</button>
+        </div>
+    </section>
+
+    <!-- 하단 로고 -->
+    <footer class="footer">
+        <img src="/images/footer-logo.png" alt="footer logo" class="footer-logo" />
+    </footer>
+</div>
+
+<!-- 고정 네비 -->
+<nav class="bottom-nav">
+    <ul class="nav-menu">
+        <li class="nav-item active">
+            <img src="/icons/home-filled.svg" alt="홈" />
+        </li>
+        <li class="nav-item">
+            <img src="/icons/ranking-outline.svg" alt="랭킹" />
+        </li>
+        <li class="nav-item">
+            <img src="/icons/plus-outline.svg" alt="추가" />
+        </li>
+        <li class="nav-item">
+            <img src="/icons/bell-outline.svg" alt="알림" />
+        </li>
+        <li class="nav-item">
+            <img src="/icons/user-outline.svg" alt="마이" />
+        </li>
+    </ul>
+</nav>
+
+<!-- ✅ JS도 경로 수정 -->
+<script src="/js/main.js"></script>
 </body>
 </html>
