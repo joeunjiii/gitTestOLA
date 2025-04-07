@@ -5,14 +5,16 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 
 @Table(name="TB_USER")
@@ -24,8 +26,12 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @Column(name ="USER_ID", length = 50, nullable = false)
-    private String userId;
+    @Column(name = "USER_ID", length = 50, updatable = false, nullable = false)
+    private String userId = UUID.randomUUID().toString();
+
+    @Column(name = "USER_NAME",length = 50, nullable = false, unique = true)
+    private String username; //이녀석이 id가 될 상인가
+
 
     @Column(name="USER_PW", length = 200, nullable = false)
     private String password;
@@ -43,17 +49,23 @@ public class User implements UserDetails {
     private String role;
 
     @Column(name="JOINED_AT", nullable = false)
-    private Timestamp joinedAt;
+    private LocalDateTime joinedAt;
 
     @Builder
-    public User(String userId, String password, String phone, String nickname, String profileImg, String role, Timestamp joinedAt) {
-        this.userId = userId;
+    public User(String username, String password, String phone, String nickname, String profileImg, String role) {
+        this.username = username;
         this.password = password;
         this.phone = phone;
         this.nickname = nickname;
-        this.profileImg = profileImg;
-        this.role = role;
-        this.joinedAt = joinedAt;
+        this.profileImg = profileImg; //프로필 이미지
+        this.role = role; // 회원구분
+        this.joinedAt = LocalDateTime.now(); // 현재 시간 설정
+    }
+
+    //회원가입 시 자동으로 현재 시간을 저장하도록 설정
+    @PrePersist
+    protected void onCreate() {
+        this.joinedAt = LocalDateTime.now();
     }
 
     @Override
@@ -64,7 +76,7 @@ public class User implements UserDetails {
     //사용자의 id 반환 (고유값을 반환하기 때문에 어떤값을 설정하면 좋을지 생각필요)
     @Override
     public String getUsername() {
-        return this.userId;
+        return username;
     }
 
 

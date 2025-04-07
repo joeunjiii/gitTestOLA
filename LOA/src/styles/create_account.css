@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+.signup-container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.create_account-box {
+    display: block; /* 블록 요소로 변경 */
+    text-align: center; /* 로고 가운데 정렬 */
+    user-select: none; /* 선택 방지 (추가하면 더 확실) */
+}
+
+.create_account-box img {
+    width: 150px;  /* 원하는 크기로 조정 */
+    height: auto;  /* 비율 유지 (자동 조정) */
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.sub-text {
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 10px;
+    gap: 10px; /* 추가 : 라벨과 입력 필드 사이 간격 */
+    border-bottom: 1px solid #ccc; /* 입력 필드 하단에 구분선 추가 */
+    justify-content: flex-start; /* 왼쪽 정렬 추가 */
+    border-radius: 25px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+}s /* 이거 꼭 있어야 함 */
+
+.input-group:last-child {
+    border-bottom: none;
+}
+
+.input-group label {
+    width: 120px;     /* 70px -> 120px */
+    font-size: 16px;     
+    font-weight: bold;   
+    text-align: left; /* 추가 : 라벨을 왼쪽 정렬 */
+}
+
+.input-group input ::placeholder{
+    color: #aaa;
+    font-size: 14px;
+}
+
+.input-group input {
+    border: none;
+    outline: none;
+    width: 80%; /* 입력 칸 너비 조정 (현재 100%라면 줄이기) */
+    max-width: 300px; /* 최대 너비 제한 */
+    padding: 8px 12px; /* 안쪽 여백 줄이기 */
+    margin: 1px 0; /* 위아래 간격 줄이기 */
+    height: 1px; /* 입력 칸 높이 줄이기 */
+    font-size: 14px; /* 글자 크기 줄이기 */
+}
+
+.signup-btn {
+    width: 30%;
+    padding: 10px;
+    background: #0c2340;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    outline: none;
+    user-select: none;
+}
+
+.signup-btn:hover {
+    background: #08172c;
+}
