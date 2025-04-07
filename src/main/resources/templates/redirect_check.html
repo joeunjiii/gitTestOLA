@@ -4,9 +4,12 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>로그인 리다이렉트 중...</title>
+    <title></title>
     <script>
         window.addEventListener("DOMContentLoaded", async () => {
+
+
+
             try {
                 const res = await fetch("/api/user/current", {
                     credentials: "include"
@@ -14,13 +17,13 @@
 
                 const contentType = res.headers.get("Content-Type");
                 if (!res.ok || !contentType.includes("application/json")) {
-                    throw new Error("비정상 응답: 로그인 안됨 또는 에러");
+                   return new Error("비정상 응답");
                 }
 
                 const userData = await res.json();
                 const genreSelected = Number(userData.genreSelected);
 
-                // 2초 후 리다이렉트
+                // 2초 후 화면이 넘어갈 수 있게
                 setTimeout(() => {
                     if (genreSelected === 1) {
                         window.location.href = "/main";
@@ -37,18 +40,12 @@
     </script>
     <style>
         body {
-            font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 100px;
-        }
-        .loading {
-            font-size: 1.2em;
-            color: #555;
         }
     </style>
 </head>
 <body>
 <h2><img src="/images/Logo_1.png" alt="OLA 로고"></h2>
-<p class="loading">화면 이동중...</p>
 </body>
 </html>

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+//장르 저장
+
 @Table(name="TB_GENRE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -12,7 +14,6 @@ import lombok.*;
 @Setter
 @Entity
 @Builder
-//장르 저장
 public class Genre {
 
 

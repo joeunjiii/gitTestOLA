@@ -3,6 +3,8 @@ package com.smhrd.olaPJ.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+//체크박스 장르 선택에서 받을 정보 / 메인페이지 최신년도/감독/주연
+
 @Getter
 @Setter
 public class GenreRequest {

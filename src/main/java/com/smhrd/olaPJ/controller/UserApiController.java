@@ -38,7 +38,7 @@ public class UserApiController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/login";
+        return "redirect:/login"; //로그아웃 버튼 -> 로그인 페이지 이동
     }
 
 
