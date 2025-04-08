@@ -51,6 +51,8 @@ public class GenreService {
         // 장르선택 페이지에서 체크 후 다음 버튼 -> genreSelected == 0 -> 1로 바뀜(저장되었다는 뜻)
         user.setGenreSelected(1);
         userRepository.save(user);
+
+
     }
 
     }

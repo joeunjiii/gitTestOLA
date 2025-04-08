@@ -1,7 +1,9 @@
 package com.smhrd.olaPJ.config;
 
 import com.smhrd.olaPJ.service.UserDetailService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Request;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,7 +45,7 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/redirect")
+                        .defaultSuccessUrl("/redirect", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
@@ -52,6 +54,15 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/login?logout") // 로그아웃 후 이동
                         .invalidateHttpSession(true) // 세션 무효화
                         .deleteCookies("JSESSIONID") // 쿠키 제거
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            if (request.getRequestURI().startsWith("/api")) {
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                            } else {
+                                response.sendRedirect("/login");
+                            }
+                        })
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
