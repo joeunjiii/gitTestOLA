@@ -4,26 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OTT LIFE A</title>
-    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/CSS/main.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" />
+
 </head>
 <body>
 <div class="container">
     <!-- 상단 로고 -->
-    <header class="header">
-        <img src="/images/logo.png" alt="로고" class="logo" />
-        <nav class="nav-icons">
-            <span>🏠</span>
-            <span>🔍</span>
-            <span>👤</span>
-        </nav>
+    <header class="top-header">
+        <img src="/img/OLA.png" alt="로고" class="logo" />
+
+
+        <div class="search-box">
+            <i data-feather="search" class="search-icon"></i> <!-- Heroicons 돋보기 -->
+            <input type="text" placeholder="# OTT 검색" />
+        </div>
+
+        <button class="login-btn">
+            <i data-feather="log-in"></i>로그인</button>
     </header>
+
 
     <!-- 추천 콘텐츠 슬라이드 -->
     <section class="slide-section">
         <h2>추천 콘텐츠</h2>
         <div class="slide">
-            <a th:each="item : ${results}" href="#" class="slide-item">
-                <img th:src="${item.poster}" th:alt="${item.title}" />
+            <a href="detail1.html" class="slide-item">
+                <img src="/img/ex-01.webp" alt="콘텐츠1" />
+            </a>
+            <a href="detail2.html" class="slide-item">
+                <img src="/img/inside out2.webp" alt="콘텐츠2" />
+            </a>
+            <a href="detail3.html" class="slide-item">
+                <img src="/img/ch.webp" alt="콘텐츠3" />
+            </a>
+            <a href="detail3.html" class="slide-item">
+                <img src="/img/love.jpg"s alt="콘텐츠4" />
+            </a>
+            <a href="detail3.html" class="slide-item">
+                <img src="/img/ch.webp" alt="콘텐츠5" />
             </a>
         </div>
     </section>
@@ -32,7 +53,7 @@
     <section class="review-preview">
         <!-- 유저 정보 -->
         <div class="review-header">
-            <img src="/images/profile.jpg" class="profile-img" alt="프로필 이미지" />
+            <img src="/img/pjg.png" class="profile-img" alt="프로필 이미지" />
             <div class="user-info">
                 <strong>OO</strong>
                 <p class="sub">소음없이 거짓말 (OTT 제목)</p>
@@ -42,7 +63,7 @@
 
         <!-- 콘텐츠 이미지 -->
         <div class="review-thumbnail">
-            <img src="/images/ch.webp" alt="콘텐츠 이미지" />
+            <img src="/img/ch.webp" alt="콘텐츠 이미지" />
         </div>
 
         <!-- 좋아요, 댓글 -->
@@ -72,7 +93,7 @@
             <h3>OTT 랭킹</h3>
             <div class="ranking-list">
                 <div class="ranking-item">
-                    <img src="/images/ch.webp" alt="1위 콘텐츠" class="ranking-thumb" />
+                    <img src="/img/ch.webp" alt="1위 콘텐츠" class="ranking-thumb" />
                     <div class="ranking-text">
                         <p class="ranking-title">1.청설</p>
                         <span class="ranking-info">2025년 · 감성 로맨스</span>
@@ -80,7 +101,7 @@
                 </div>
 
                 <div class="ranking-item">
-                    <img src="/images/ex-01.webp" alt="2위 콘텐츠" class="ranking-thumb" />
+                    <img src="/img/ex-01.webp" alt="2위 콘텐츠" class="ranking-thumb" />
                     <div class="ranking-text">
                         <p class="ranking-title">2. 폭싹 속았수다</p>
                         <span class="ranking-info">2025년 · 액션 판타지</span>
@@ -88,28 +109,31 @@
                 </div>
 
                 <div class="ranking-item">
-                    <img src="/images/rank3.jpg" alt="3위 콘텐츠" class="ranking-thumb" />
+                    <img src="/img/love.jpg" alt="3위 콘텐츠" class="ranking-thumb" />
                     <div class="ranking-text">
-                        <p class="ranking-title">3. 인터버커 와이쇼울</p>
-                        <span class="ranking-info">2025년 · SF 스릴러</span>
+                        <p class="ranking-title">3. 오늘밤 세계에서 이 사랑이 사리진다 해도</p>
+                        <span class="ranking-info">2025년 · 로맨스</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+
     <section class="ott-slider-section">
-        <h3>OTT 인기 컨텐츠 추천해요</h3>
-        <div class="ott-slider">
-            <button class="arrow">◀</button>
-            <div class="ott-slide-track">
-                <div class="ott-card"><img src="/images/thumb1.jpg" alt="콘텐츠1" /></div>
-                <div class="ott-card"><img src="/images/thumb2.jpg" alt="콘텐츠2" /></div>
-                <div class="ott-card"><img src="/images/thumb3.jpg" alt="콘텐츠3" /></div>
-                <div class="ott-card"><img src="/images/thumb4.jpg" alt="콘텐츠4" /></div>
-                <div class="ott-card"><img src="/images/thumb4.jpg" alt="콘텐츠5" /></div>
+        <div class="ott-slider-wrapper">
+            <h3 class="ott-slider-title">OTT 인기 컨텐츠 추천해요</h3>
+            <div class="ott-slider">
+                <button class="arrow left">◀</button>
+                <div class="ott-slide-track">
+                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠1" /></div>
+                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠2" /></div>
+                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠3" /></div>
+                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠4" /></div>
+                    <div class="ott-card"><img src="/img/love.jpg" alt="콘텐츠5" /></div>
+                </div>
+                <button class="arrow right">▶</button>
             </div>
-            <button class="arrow">▶</button>
         </div>
     </section>
 
@@ -120,51 +144,94 @@
     <section class="ott-recommend-user">
         <div class="user-row">
             <div class="user-info">
-                <img src="/images/profile.jpg" class="profile-img" />
-                <span>OO님과 비상한 커텐츠에요</span>
+                <img src="/img/pjg.png" class="profile-img" />
+                <span>강쥐님과 비슷한 취향의 컨텐츠예요</span>
             </div>
             <button class="follow-btn">팔로우</button>
         </div>
+        <!--슬라이더-->
         <div class="ott-slider">
             <button class="arrow">◀</button>
             <div class="ott-slide-track">
-                <div class="ott-card">콘텐츠1</div>
-                <div class="ott-card">콘텐츠2</div>
-                <div class="ott-card">콘텐츠3</div>
-                <div class="ott-card">콘텐츠4</div>
+                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠1"/></a>
+                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠2"/></a>
+                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠3"/></a>
+                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠4"/></a>
+                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠5"/></a>
+
             </div>
             <button class="arrow">▶</button>
         </div>
     </section>
 
+
     <!-- 하단 로고 -->
     <footer class="footer">
-        <img src="/images/footer-logo.png" alt="footer logo" class="footer-logo" />
+        <img src="/img/OLA.png" alt="footer logo" class="footer-logo" />
     </footer>
 </div>
 
-<!-- 고정 네비 -->
 <nav class="bottom-nav">
     <ul class="nav-menu">
+
         <li class="nav-item active">
-            <img src="/icons/home-filled.svg" alt="홈" />
+            <a href="/HTML/main/main.html" class="icon-box">
+                <!-- 홈 아이콘 -->
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9.75L12 4l9 5.75v8.5A2.25 2.25 0 0118.75 20H5.25A2.25 2.25 0 013 18.25v-8.5z" />
+                    </svg>
+                </div>
+            </a>
         </li>
+
         <li class="nav-item">
-            <img src="/icons/ranking-outline.svg" alt="랭킹" />
+            <a href="#" class="icon-box"></a>
+            <!-- 랭킹/커뮤니티 -->
+            <div class="icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
+                </svg>
+            </div>
         </li>
+
         <li class="nav-item">
-            <img src="/icons/plus-outline.svg" alt="추가" />
+            <a href="#" class="icon-box"></a>
+            <!--  -->
+            <div class="icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+            </div>
         </li>
+
         <li class="nav-item">
-            <img src="/icons/bell-outline.svg" alt="알림" />
+            <a href="#" class="icon-box"></a>
+            <!-- 알림 -->
+            <div class="icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3c0 .386-.145.735-.405 1.005L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+            </div>
         </li>
+
         <li class="nav-item">
-            <img src="/icons/user-outline.svg" alt="마이" />
+            <a href="#" class="icon-box"></a>
+            <!-- 마이페이지 -->
+            <div class="icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A10.97 10.97 0 0112 15c2.21 0 4.257.654 5.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </div>
         </li>
+
     </ul>
 </nav>
 
-<!-- ✅ JS도 경로 수정 -->
-<script src="/js/main.js"></script>
+
+<script>
+    feather.replace();
+</script>
+<script src="/JS/main.js"></script>
 </body>
 </html>

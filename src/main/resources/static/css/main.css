@@ -1,3 +1,6 @@
+/* ========================
+  기본 초기화 및 레이아웃 설정
+========================= */
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +8,7 @@
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'SUIT', sans-serif;;
     background: #7b7a7a;
 }
 
@@ -16,28 +19,74 @@ body {
     background: white;
 }
 
-/* 헤더 */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-}
+/* ========================
+   상단 헤더
+========================= */
 .logo {
-    width: 210px;
-    height: 210px;
-}
-.nav-icons span {
-    margin-left: 10px;
+    width: 60px;
+    height: auto;
 }
 
-/* 슬라이드 */
+.top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: white;
+}
+
+.search-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: #b7b7c5;
+    padding: 0.1rem 0.5rem;
+    margin: 0 1rem;
+    border-radius: 20px;
+}
+
+.search-box i {
+    width: 20px;
+    height: 20px;
+    color: #333;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    margin-left: 0.5rem;
+    flex: 1;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.login-btn i {
+    width: 18px;
+    height: 18px;
+    color: #333;
+}
+
+/* ========================
+   슬라이드 섹션
+========================= */
 .slide-section {
     padding: 1rem;
 }
+
 .slide-section h2 {
     margin-bottom: 1rem;
 }
+
 .slide {
     display: flex;
     gap: 1rem;
@@ -45,6 +94,7 @@ body {
     padding-bottom: 0.5rem;
     scroll-behavior: smooth;
 }
+
 .slide-item {
     display: block;
     width: 170px;
@@ -56,81 +106,237 @@ body {
     background: #ccc;
     position: relative;
 }
+
 .slide-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 10px;
 }
 
-/* 게시물 */
-.post {
-    background: #fafafa;
-    margin: 1rem;
-    border-radius: 10px;
-    padding: 1rem;
+/* ========================
+    리뷰 카드
+========================= */
+.review-preview {
+    max-width: 700px;
+    margin: 2rem auto;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
 }
-.post-header {
+
+.review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.profile-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.user-row{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+
+
 }
-.post-image {
-    height: 200px;
-    background: #ffd;
-    margin: 1rem 0;
-    border-radius: 10px;
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
-.follow-btn {
-    background: #007aff;
+
+.sub {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.review-preview .review-thumbnail {
+    margin-top: 0.5rem;
+}
+
+.review-preview .review-thumbnail img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.review-preview .review-stats {
+    display: flex;
+    gap: 1.2rem;
+    font-size: 1rem;
+    color: #444;
+    margin-top: 0.6rem;
+}
+
+.review-preview .review-text {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #222;
+}
+
+.review-preview .review-comment {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+}
+
+.review-preview .review-comment input {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.comment-btn {
+    background: #002c59;
     color: white;
     border: none;
-    padding: 0.3rem 0.7rem;
-    border-radius: 5px;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
 }
 
-/* 컬렉션 */
-.collection {
+/* ========================
+   랭킹 리스트
+========================= */
+.ott-ranking {
     padding: 1rem;
+    margin: 1.5rem 0;
 }
-.collection-row {
+
+.ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 0.8rem;
+    border-radius: 10px;
+}
+
+.ranking-thumb {
+    width: 80px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1rem;
+}
+
+.ranking-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ranking-title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+}
+
+.ranking-info {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* ========================
+    슬라이더 공통
+========================= */
+.ott-slider-section,
+.ott-recommend-user {
+    margin: 2rem 0;
+    padding: 0 1rem;
+}
+
+.ott-slider-wrapper {
+    background-color: #878788;
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 2rem 1rem;
+}
+
+.ott-slider-title {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 0.8rem;
+}
+
+.ott-slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.ott-slide-track {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    padding: 1rem 0;
 }
-.collection-box {
-    flex: 1;
-    height: 120px;
-    background: #dde;
+
+.ott-card {
+    width: 120px;
+    height: 180px;
+    background: #ddd;
+    border-radius: 10px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.ott-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
     border-radius: 10px;
 }
 
-/* 추천 피드 */
-.recommend-feed {
-    padding: 1rem;
-}
-.feed-card {
-    background: #fff;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-}
-.feed-img {
-    height: 150px;
-    background: #eee;
-    margin: 0.5rem 0;
-    border-radius: 10px;
+.arrow {
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 50%;
+    box-shadow: none;
+    cursor: pointer;
+    z-index: 10;
+    color: white;            /* 아이콘 색이 안 보이면 흰색으로 지정 (또는 원하는 색) */
 }
 
-/* 푸터 */
+/* ========================
+    푸터 및 고정 네비
+========================= */
 .footer {
     text-align: center;
     margin: 2rem 0;
 }
+
 .footer-logo {
-    width: 100px;
+    width: 200px;
 }
 
-/* 하단 네비게이션 */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -143,6 +349,7 @@ body {
     padding: 0.6rem 0;
     z-index: 999;
 }
+
 .nav-menu {
     display: flex;
     justify-content: space-around;
@@ -151,172 +358,51 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .nav-item img {
     width: 24px;
     height: 24px;
     opacity: 0.6;
 }
+
 .nav-item.active img {
     opacity: 1;
     filter: brightness(0) saturate(100%) invert(15%) sepia(88%) saturate(688%) hue-rotate(194deg) brightness(94%) contrast(98%);
 }
 
-/* 사용자 리뷰 (프리뷰 카드) */
-.review-preview {
-    max-width: 700px;
-    margin: 2rem auto;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 15px;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
-}
-.review-preview .review-header {
+/* ========================
+  Heroicons SVG 네비 아이콘 스타일 추가
+========================= */
+.icon-box {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-.review-preview .profile-img {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-}
-.review-preview .user-info {
-    flex: 1;
-}
-.review-preview .user-info .sub {
-    font-size: 0.8rem;
-    color: #666;
-}
-.review-preview .follow-btn {
-    background: #002c59;
-    color: white;
-    border: none;
-    padding: 0.4rem 0.9rem;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.review-preview .review-thumbnail {
-    margin-top: 0.5rem;
-}
-.review-preview .review-thumbnail img {
+    height: 40px;
     width: 100%;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 12px;
-}
-.review-preview .review-stats {
-    display: flex;
-    gap: 1.2rem;
-    font-size: 1rem;
-    color: #444;
-    margin-top: 0.6rem;
-}
-.review-preview .review-text {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #222;
-}
-.review-preview .review-comment {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-top: 1.5rem;
-}
-.review-preview .review-comment input {
-    flex: 1;
-    padding: 0.6rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-.review-preview .comment-btn {
-    background: #002c59;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
-    cursor: pointer;
-}
-.ott-ranking .ranking-box {
-    background: #ccc;
-    padding: 1rem;
-    border-radius: 10px;
-    margin: 1.5rem 1rem;
-}
-.ranking-list {
-    list-style: none;
-    padding-left: 0;
-}
-.ranking-list li {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-}
-.ranking-list span {
-    font-size: 0.85rem;
-    color: #555;
 }
 
-.ott-slider-section,
-.ott-recommend-user {
-    margin: 2rem 0;
-    padding: 0 1rem;
-}
-.ott-slider {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-.ott-slide-track {
-    display: flex;
-    gap: 0.8rem;
-    overflow-x: auto;
-    padding: 1rem 0;
-}
-.ott-card {
-    width: 120px;
-    height: 180px;
-    background: #ddd;
-    border-radius: 10px;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-.ott-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 10px;
-}
-.arrow {
-    background: white;
-    border: none;
-    font-size: 1.2rem;
-    padding: 0.4rem 0.6rem;
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    cursor: pointer;
+.icon-svg {
+    width: 24px;
+    height: 24px;
+    stroke: #666; /* 기본 색상 */
+    stroke-width: 2;
+    transition: stroke 0.3s ease;
 }
 
-.user-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+.nav-item.active .icon-svg {
+    stroke: #007aff; /* 선택된 탭은 파란색 */
 }
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+
+.nav-item:hover .icon-svg {
+    stroke: #333; /* 마우스 오버 시 색상 변경 */
 }
-.profile-img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+
+
+
+
+/* ========================
+   ✅ 공통 버튼 스타일 정리
+========================= */
 .follow-btn {
     background: #002c59;
     color: white;
@@ -325,58 +411,3 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
-
-.ott-banner-box {
-    background: #ccc;
-    height: 120px;
-    border-radius: 10px;
-    margin: 2rem 1rem;
-}
-.ott-ranking {
-    margin: 1.5rem 1rem;
-}
-.ranking-container {
-    background: #a6a6b8;
-    border-radius: 10px;
-    padding: 1rem;
-    color: white;
-}
-
-.ott-ranking {
-    padding: 1rem;
-    margin: 1.5rem 0;
-}
-.ranking-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-.ranking-item {
-    display: flex;
-    align-items: center;
-    background: #f0f0f0;
-    padding: 0.8rem;
-    border-radius: 10px;
-}
-.ranking-thumb {
-    width: 80px;
-    height: 110px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 1rem;
-}
-.ranking-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.ranking-title {
-    font-weight: bold;
-    font-size: 1rem;
-    margin-bottom: 0.4rem;
-}
-.ranking-info {
-    font-size: 0.85rem;
-    color: #666;
-}
-
