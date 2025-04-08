@@ -25,11 +25,11 @@ rightBtn.addEventListener("click", () => {
         behavior: "smooth"
     });
 });
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
     const ottList = JSON.parse(localStorage.getItem("selectedOtt")) || [];
 
     if (ottList.length > 0) {
-        fetch("genre/save-ott", {
+        fetch("/genre/save-ott", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -37,10 +37,13 @@ document.addEventListener("DOMContentLoaded", function(){
             body: JSON.stringify({ ottPlatform: ottList })
         }).then(res => {
             if (res.ok) {
-                console.log("OTT 저장 완료");
+                console.log("✅ OTT 저장 완료");
                 localStorage.removeItem("selectedOtt"); // 저장 후 정리
+
+                // ✅ 메인 페이지 새로고침 or 이동
+                window.location.href = "/main"; // 또는 window.location.reload();
             } else {
-                console.error("OTT 저장 실패");
+                console.error("❌ OTT 저장 실패");
             }
         });
     }

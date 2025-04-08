@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -58,11 +59,20 @@ public class UserViewController {
     @GetMapping("/main")
     public String showMainPage(Model model, Principal principal) {
         String username = principal.getName(); // 현재 로그인 유저 이름
-        List<Map<String, Object>> recommendations = aiServiceClient.getRecommendation(username);
 
-        model.addAttribute("results", recommendations); // 👈 main.html에서 쓸 데이터
+        // 기본 추천
+        List<Map<String, Object>> basicRecommendations = aiServiceClient.getBasicRecommendation(username);
+        model.addAttribute("basicResults", basicRecommendations);
+
+        // ✅ 선택 콘텐츠 하드코딩 테스트 ("더 글로리" 기준)
+        String selectedTitle = "폭싹 속았수다";
+        List<Map<String, Object>> selectedRecommendations = aiServiceClient.getSelectedRecommendation(username, selectedTitle);
+        model.addAttribute("selectedResults", selectedRecommendations);
+
         return "main"; // templates/main.html
     }
+
+
 
 
 

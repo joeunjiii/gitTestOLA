@@ -31,8 +31,7 @@
     <section class="slide-section">
         <h2>추천 콘텐츠</h2>
         <div class="slide">
-            <!-- AI 추천 콘텐츠 슬라이드 -->
-            <a th:each="item : ${results}" href="#" class="slide-item">
+            <a th:each="item : ${basicResults}" href="#" class="slide-item">
                 <img th:src="${item.poster}" th:alt="${item.title}" />
             </a>
         </div>
@@ -109,22 +108,23 @@
     </section>
 
 
+    <!-- 선택 기반 추천 콘텐츠 슬라이드 -->
     <section class="ott-slider-section">
         <div class="ott-slider-wrapper">
-            <h3 class="ott-slider-title">OTT 인기 컨텐츠 추천해요</h3>
+            <h3 class="ott-slider-title">선택한 콘텐츠와 비슷한 콘텐츠 추천해요</h3>
             <div class="ott-slider">
                 <button class="arrow left">◀</button>
                 <div class="ott-slide-track">
-                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠1" /></div>
-                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠2" /></div>
-                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠3" /></div>
-                    <div class="ott-card"><img src="/img/ex-01.webp" alt="콘텐츠4" /></div>
-                    <div class="ott-card"><img src="/img/love.jpg" alt="콘텐츠5" /></div>
+                    <a th:each="item : ${selectedResults}" href="#" class="ott-card">
+                        <img th:src="${item.poster}" th:alt="${item.title}" />
+                    </a>
                 </div>
                 <button class="arrow right">▶</button>
             </div>
         </div>
     </section>
+
+
 
     <section class="ott-banner-box">
         <!-- 광고나 공백 삽입 영역 -->
