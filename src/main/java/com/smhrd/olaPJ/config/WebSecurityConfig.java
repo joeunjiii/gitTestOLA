@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/redirect", true)
+                        .defaultSuccessUrl("/redirect")
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
@@ -54,15 +54,6 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/login?logout") // 로그아웃 후 이동
                         .invalidateHttpSession(true) // 세션 무효화
                         .deleteCookies("JSESSIONID") // 쿠키 제거
-                )
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            if (request.getRequestURI().startsWith("/api")) {
-                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-                            } else {
-                                response.sendRedirect("/login");
-                            }
-                        })
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();

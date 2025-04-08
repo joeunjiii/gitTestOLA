@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -54,14 +55,16 @@ public class UserViewController {
     @Autowired
     private AiServiceClient aiServiceClient;
 
-    //메인 페이지 호출
     @GetMapping("/main")
-    public String showMainPage(Model model) {
-        System.out.println("main.html 반환");
-        List<Map<String, Object>> results = aiServiceClient.getRecommendation();
-        model.addAttribute("results", results);
-        return "main"; //메인페이지 반환
+    public String showMainPage(Model model, Principal principal) {
+        String username = principal.getName(); // 현재 로그인 유저 이름
+        List<Map<String, Object>> recommendations = aiServiceClient.getRecommendation(username);
+
+        model.addAttribute("results", recommendations); // 👈 main.html에서 쓸 데이터
+        return "main"; // templates/main.html
     }
+
+
 
     @GetMapping("/viewport")
     public String viewport() {
