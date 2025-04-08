@@ -23,7 +23,7 @@ public class UsergenreController {
 
         genreService.saveGenre(request, userId);
 
-        return "redirect:/redirect_check";
+        return "saved";
     }
 
 }

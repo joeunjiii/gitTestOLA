@@ -45,7 +45,7 @@ document.getElementById("selectComplete").addEventListener("click", async functi
         });
 
         if (response.ok) {
-            window.location.href = "/main";
+            window.location.href = "/viewport";
         } else {
             alert("장르 저장에 실패했습니다.");
         }
