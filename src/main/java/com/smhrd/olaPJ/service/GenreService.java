@@ -39,7 +39,7 @@ public class GenreService {
                 .drama("Y".equalsIgnoreCase(request.getDrama()) ? 'Y' : 'N')
                 .horror("Y".equals(request.getHorror()) ? 'Y' : 'N')
                 .fantasy("Y".equals(request.getFantasy()) ? 'Y' : 'N')
-                .ottPlatform(request.getOttPlatform())
+                .ottPlatform(request.getOttPlatform().toString())
                 .director(request.getDirector())
                 .characters(request.getCharacters())
                 .latestYear(request.isLatestYear())
@@ -53,6 +53,21 @@ public class GenreService {
         userRepository.save(user);
 
 
+    }
+
+    public void saveOttPlatform(GenreRequest request, String userName) {
+        User user = userRepository.findByUsername(userName)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 정보 없음"));
+
+        Genre genre = genreRepository.findByUserId(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("장르 정보 없음"));
+
+        // 선택된 OTT 플랫폼 리스트를 하나의 문자열로 저장
+        String platformString = String.join(",", request.getOttPlatform());
+        genre.setOttPlatform(platformString);
+
+        // 꼭 저장해줘야 DB에 반영됨!
+        genreRepository.save(genre);
     }
 
     }

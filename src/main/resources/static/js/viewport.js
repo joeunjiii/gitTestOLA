@@ -28,6 +28,13 @@ document.addEventListener("DOMContentLoaded", function () {
             // 선택 완료 클릭 시 /main 이동
             if (anySelected) {
                 goMainBtn.onclick = () => {
+                    const selectedOtt = Array.from(ottRadios)
+                        .filter(r => r.dataset.selected === "true")
+                        .map(r => r.value);
+
+                    localStorage.setItem("selectedOtt", JSON.stringify(selectedOtt));
+
+
                     window.location.href = "/main";
                 };
             }
