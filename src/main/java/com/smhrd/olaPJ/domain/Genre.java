@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+//장르 저장
+
 @Table(name="TB_GENRE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -12,7 +14,6 @@ import lombok.*;
 @Setter
 @Entity
 @Builder
-//장르 저장
 public class Genre {
 
 
@@ -59,6 +60,7 @@ public class Genre {
 
     @Column(name = "LATEST_YEAR", columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean latestYear = false;
+    
 
 
 

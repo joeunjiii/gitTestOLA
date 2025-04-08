@@ -3,6 +3,7 @@ package com.smhrd.olaPJ.controller;
 import com.smhrd.olaPJ.dto.GenreRequest;
 import com.smhrd.olaPJ.service.GenreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,15 @@ public class UsergenreController {
 
         genreService.saveGenre(request, userId);
 
-        return "redirect:/main";
+        return "saved";
+    }
+
+    @PostMapping("/save-ott")
+    public ResponseEntity<?> saveOtt(@RequestBody GenreRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName(); // 현재 로그인된 유저 ID 가져옴
+        genreService.saveOttPlatform(request, userId);
+        return ResponseEntity.ok().build();
     }
 
 }

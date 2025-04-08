@@ -25,20 +25,25 @@ public class UserApiController {
 
     //회원가입 호출
     @PostMapping("/user")
-    public String signUp(AddUserRequest request) {
+    public String signUp(AddUserRequest request, HttpServletRequest httpRequest) {
         userService.save(request); //회원가입 메서드를 호출
 
         UserDetails userDetails = userDetailService.loadUserByUsername(request.getUsername());
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        //세션에 인증정보 직접 저장
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return "redirect:/genre"; //회원가입 완료 -> 로그인 페이지 이동
+        httpRequest.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
+        //회원가입 완료 -> 장르 페이지 이동
+        return "redirect:/genre";
     }
 
     //로그아웃 호출
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/login";
+        return "redirect:/login"; //로그아웃 버튼 -> 로그인 페이지 이동
     }
 
 
