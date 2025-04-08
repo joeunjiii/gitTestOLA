@@ -40,8 +40,6 @@ public class GenreService {
                 .horror("Y".equals(request.getHorror()) ? 'Y' : 'N')
                 .fantasy("Y".equals(request.getFantasy()) ? 'Y' : 'N')
                 .ottPlatform(request.getOttPlatform().toString())
-                .director(request.getDirector())
-                .characters(request.getCharacters())
                 .latestYear(request.isLatestYear())
                 .build();
 
@@ -70,5 +68,4 @@ public class GenreService {
         genreRepository.save(genre);
     }
 
-    }
-
+}

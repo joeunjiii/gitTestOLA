@@ -52,15 +52,9 @@ public class Genre {
     @Column(name = "OTT_PLATFORM",length = 50)
     private String ottPlatform;
 
-    @Column(name = "DIRECTOR",length = 50)
-    private String director;
-
-    @Column(name = "CHARACTERS", length = 50)
-    private String characters;
-
     @Column(name = "LATEST_YEAR", columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean latestYear = false;
-    
+
 
 
 

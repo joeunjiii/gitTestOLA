@@ -22,7 +22,5 @@ public class GenreRequest {
     private String horror;
     private String fantasy;
     private List<String> ottPlatform = new ArrayList<>();;
-    private String director;
-    private String characters;
     private boolean latestYear;
 }
