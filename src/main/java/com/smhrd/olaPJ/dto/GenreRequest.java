@@ -23,6 +23,6 @@ public class GenreRequest {
     private String fantasy;
     private List<String> ottPlatform = new ArrayList<>();
     private boolean latestYear;
-
+    private String selectedTitle;
 }
 

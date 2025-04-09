@@ -47,4 +47,30 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    // 콘텐츠 이미지 클릭 시 선택된 제목 저장
+    const slideItems = document.querySelectorAll(".slide-item");
+    slideItems.forEach(item => {
+        item.addEventListener("click", function (event) {
+            event.preventDefault(); // a 태그 기본 동작 방지
+            const selectedTitle = item.getAttribute("data-title");
+
+            fetch("/genre/save-title", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ selectedTitle: selectedTitle })
+            })
+                .then(res => {
+                    if (res.ok) {
+                        console.log("✅ 콘텐츠 제목 저장 완료:", selectedTitle);
+                        // 선택 후 페이지 새로고침 없이도 하단 추천 등 갱신 가능
+                        // 필요 시 여기에 유사 콘텐츠 요청 트리거 추가 가능
+                    } else {
+                        console.error("❌ 콘텐츠 제목 저장 실패");
+                    }
+                });
+        });
+    });
 });

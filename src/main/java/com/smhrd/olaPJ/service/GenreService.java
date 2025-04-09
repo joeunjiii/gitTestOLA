@@ -70,6 +70,19 @@ public class GenreService {
         genreRepository.save(genre);
     }
 
+    @Transactional
+    public void saveSelectedTitle(String username, String selectedTitle)
+    {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 정보 없음"));
+        String userId = user.getUserId();
+
+        Genre genre = genreRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("장르 정보 없음"));
+
+        genre.setSelectedTitle(selectedTitle);
+        genreRepository.save(genre);
+    }
 
 
 }

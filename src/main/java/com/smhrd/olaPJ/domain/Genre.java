@@ -55,7 +55,8 @@ public class Genre {
     @Column(name = "LATEST_YEAR", columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean latestYear;
 
-
+    @Column(name = "SELECTED_TITLE")
+    private String selectedTitle;
 
 
 

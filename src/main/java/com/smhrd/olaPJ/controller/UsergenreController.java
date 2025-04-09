@@ -34,6 +34,18 @@ public class UsergenreController {
         genreService.saveOttPlatform(request, userId);
         return ResponseEntity.ok().build();
     }
+    @PostMapping("/save-title")
+    public ResponseEntity<?> saveSelectedTitle(@RequestBody GenreRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName(); // 로그인된 유저 ID
+
+        // 인자 순서 수정: (username, selectedTitle)
+        genreService.saveSelectedTitle(userId, request.getSelectedTitle());
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
 
 
