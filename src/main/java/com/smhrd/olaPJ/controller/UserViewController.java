@@ -1,9 +1,11 @@
 package com.smhrd.olaPJ.controller;
 
 import com.smhrd.olaPJ.domain.Genre;
+import com.smhrd.olaPJ.dto.ContentRequest;
 import com.smhrd.olaPJ.repository.GenreRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import com.smhrd.olaPJ.service.AiServiceClient;
+import com.smhrd.olaPJ.service.ContentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.List;
@@ -27,10 +30,12 @@ public class UserViewController {
 
     private final UserRepository userRepository;
     private final GenreRepository genreRepository;
+    private final ContentService contentService;
 
-    public UserViewController(UserRepository userRepository, GenreRepository genreRepository) {
+    public UserViewController(UserRepository userRepository, GenreRepository genreRepository,ContentService contentService) {
         this.userRepository = userRepository;
         this.genreRepository = genreRepository;
+        this.contentService = contentService;
     }
 
     //회원가입 호출
@@ -89,12 +94,26 @@ public class UserViewController {
         return "main"; // templates/main.html
     }
 
+    @GetMapping("/ai/selected")
+    @ResponseBody
+    public List<Map<String, Object>> getSelectedRecommendationAjax(@RequestParam("title") String title, Principal principal) {
+        String username = principal.getName();
+        return aiServiceClient.getSelectedRecommendation(username, title);
+    }
+
 
     @GetMapping("/viewport")
     public String viewport() {
         return "viewport"; // viewport.html
     }
 
+    @GetMapping("/search")
+    public String showSearchResult(@RequestParam("keyword") String keyword, Model model) {
+        List<ContentRequest> searchResults = contentService.searchByTitle(keyword);
+        model.addAttribute("results", searchResults);
+        model.addAttribute("keyword", keyword);
+        return "searchResult"; // templates/searchResult.html
+    }
 
 
     @GetMapping("/redirect")
