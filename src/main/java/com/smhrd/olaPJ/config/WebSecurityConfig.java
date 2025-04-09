@@ -36,13 +36,26 @@ public class WebSecurityConfig {
     public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll() // 정적 리소스 허용
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
                         .requestMatchers("/", "/login", "/signup", "/user", "/genre", "/genre/save", "/main", "/redirect").permitAll()
-                        .requestMatchers("/api/user/current").authenticated() // API도 허용 (또는 authenticated()로 바꿔도 OK)
+                        .requestMatchers("/api/user/current").authenticated()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            // AJAX 또는 REST 요청에 대해 401로 JSON 반환
+                            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With")) ||
+                                    request.getHeader("Accept").contains("application/json")) {
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                                response.setContentType("application/json;charset=UTF-8");
+                                response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                            } else {
+                                response.sendRedirect("/login");
+                            }
+                        })
+                )
                 .sessionManagement(session -> session
-                        .sessionFixation().newSession() //로그인 시 새로운 세션 생성
+                        .sessionFixation().newSession()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -54,13 +67,14 @@ public class WebSecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout") // 로그아웃 후 이동
-                        .invalidateHttpSession(true) // 세션 무효화
-                        .deleteCookies("JSESSIONID") // 쿠키 제거
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http,

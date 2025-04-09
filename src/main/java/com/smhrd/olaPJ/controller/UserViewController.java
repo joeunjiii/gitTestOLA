@@ -106,5 +106,15 @@ public class UserViewController {
         return "review";
     }
 
+    @GetMapping("/review_contents")
+    public String reviewContents() {
+        return "review_contents";
+    }
+
+    @GetMapping("/review_photo")
+    public String reviewPhoto() {
+        return "review_photo";
+    }
+
 
 }

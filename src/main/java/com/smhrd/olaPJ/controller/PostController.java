@@ -1,8 +1,10 @@
 package com.smhrd.olaPJ.controller;
 
 import com.smhrd.olaPJ.domain.Post;
+import com.smhrd.olaPJ.dto.ContentRequest;
 import com.smhrd.olaPJ.dto.PostResponse;
 import com.smhrd.olaPJ.repository.PostRepository;
+import com.smhrd.olaPJ.service.ContentService;
 import com.smhrd.olaPJ.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ public class PostController {
 
     private final PostRepository postRepository;
     private final PostService postService;
+    private final ContentService contentService;
 
     // ✅ 전체 게시글 조회
     @GetMapping
@@ -40,4 +43,14 @@ public class PostController {
 
         return postRepository.save(newPost);
     }
+
+    //컨텐츠 키워드 검색
+    @GetMapping("/search")
+    @ResponseBody
+    public List<ContentRequest> searchContent(@RequestParam("keyword") String keyword) {
+        return contentService.searchByTitle(keyword);
+    }
+
+
+
 }

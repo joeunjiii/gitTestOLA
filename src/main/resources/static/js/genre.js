@@ -2,15 +2,24 @@ document.getElementById("selectComplete").addEventListener("click", async functi
     try {
         // 현재 로그인된 사용자 정보 요청
         const userResponse = await fetch("/api/user/current", {
-            credentials: "include"
+            credentials: "include",
+            headers: {
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            }
         });
+
+        if (userResponse.status === 401) {
+            alert("로그인이 필요합니다.");
+            window.location.href = "/login";
+            return;
+        }
 
         const contentType = userResponse.headers.get("Content-Type");
         if (!userResponse.ok || !contentType.includes("application/json")) {
-            return new Error("인증된 사용자만 접근할 수 있습니다.");
+            alert("인증된 사용자만 접근할 수 있습니다.");
+            return;
         }
-
-        //const userData = await userResponse.json();
 
         // 선택된 장르 체크박스 추출
         const selectedGenres = Array.from(document.querySelectorAll("input[name='genre']:checked"))
