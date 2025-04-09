@@ -3,6 +3,7 @@ package com.smhrd.olaPJ.controller;
 import com.smhrd.olaPJ.repository.UserRepository;
 import com.smhrd.olaPJ.service.AiServiceClient;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,14 +37,15 @@ public class UserViewController {
 
     //로그인 호출
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().invalidate(); //세션 강제 종료!
         return "login";
     }
 
     @GetMapping("/")
     public String FirstPage() {
         System.out.println("main page 반환 : login.html");
-        return "login";  // http://localhost:8083/ 으로 실행 시 login 화면이 출력됨
+        return "main";  // http://localhost:8083/ 으로 실행 시 login 화면이 출력됨
     }
 
     //장르 페이지 호출
@@ -98,5 +100,11 @@ public class UserViewController {
 
         return "redirect:/login"; // 사용자 없으면 로그인으로
     }
+
+    @GetMapping("/review")
+    public String reviewPage() {
+        return "review";
+    }
+
 
 }

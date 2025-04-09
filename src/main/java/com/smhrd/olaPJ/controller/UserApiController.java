@@ -33,7 +33,7 @@ public class UserApiController {
 
         //세션에 인증정보 직접 저장
         SecurityContextHolder.getContext().setAuthentication(auth);
-        httpRequest.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+        //httpRequest.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
         //회원가입 완료 -> 장르 페이지 이동
         return "redirect:/genre";

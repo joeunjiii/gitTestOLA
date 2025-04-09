@@ -41,6 +41,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/user/current").authenticated() // API도 허용 (또는 authenticated()로 바꿔도 OK)
                         .anyRequest().authenticated()
                 )
+                .sessionManagement(session -> session
+                        .sessionFixation().newSession() //로그인 시 새로운 세션 생성
+                )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .usernameParameter("username")

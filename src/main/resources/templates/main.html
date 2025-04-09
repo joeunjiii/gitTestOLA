@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" />
     <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" />
 
 </head>
 <body>
 <div class="container">
     <!-- 상단 로고 -->
     <header class="top-header">
-        <img src="/img/OLA.png" alt="로고" class="logo" />
+        <img src="/images/Logo_1.png" alt="로고" class="logo" />
 
 
         <div class="search-box">
@@ -22,10 +21,24 @@
             <input type="text" placeholder="# OTT 검색" />
         </div>
 
-        <button class="login-btn">
-            <i data-feather="log-in"></i>로그인</button>
-    </header>
+<!--        <button class="login-btn" onclick="location.href='/login'">-->
+<!--            <i data-feather="log-in"></i>로그인</button>-->
 
+                <!-- 로그인 상태가 아닌 경우: 로그인 버튼 -->
+                <div sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="login-btn">
+                        <i data-feather="log-in"></i>로그인
+                    </a>
+                </div>
+
+                <!-- 로그인 상태인 경우: 로그아웃 버튼 -->
+                <div sec:authorize="isAuthenticated()">
+                    <a href="/logout" class="login-btn">
+                        <i data-feather="log-out"></i>로그아웃
+                    </a>
+                </div>
+
+    </header>
 
     <!-- 추천 콘텐츠 슬라이드 -->
     <section class="slide-section">
@@ -41,17 +54,17 @@
     <section class="review-preview">
         <!-- 유저 정보 -->
         <div class="review-header">
-            <img src="/img/pjg.png" class="profile-img" alt="프로필 이미지" />
+            <img src="/images/Logo_1.png" class="profile-img" alt="프로필 이미지" />
             <div class="user-info">
                 <strong>OO</strong>
-                <p class="sub">소음없이 거짓말 (OTT 제목)</p>
+                <p class="sub">소용없이 거짓말 (OTT 제목)</p>
             </div>
             <button class="follow-btn">팔로우</button>
         </div>
 
         <!-- 콘텐츠 이미지 -->
         <div class="review-thumbnail">
-            <img src="/img/ch.webp" alt="콘텐츠 이미지" />
+            <img src="/images/Logo_1.png" alt="콘텐츠 이미지" />
         </div>
 
         <!-- 좋아요, 댓글 -->
@@ -185,13 +198,13 @@
         </li>
 
         <li class="nav-item">
-            <a href="#" class="icon-box"></a>
-            <!--  -->
+            <a href="/review" class="icon-box">
             <div class="icon-box">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
             </div>
+            </a>
         </li>
 
         <li class="nav-item">
