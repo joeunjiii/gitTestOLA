@@ -5,34 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OTT 선택 페이지</title>
   <link rel="stylesheet" href="/css/viewport.css">
+  <style>
+    .latest-year-options {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .latest-year-options input {
+      display: none;
+    }
+
+    .latest-year-options label {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+
+    .latest-year-options input:checked + label {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
   <h1>구독중인 서비스를 선택해주세요</h1>
   <div class="ott-options">
     <label class="ott">
-      <input type="radio"  value="왓챠" data-selected ="false">
+      <input type="radio" name="ott" value="왓챠" data-selected="false">
       <div class="circle watcha"></div>
     </label>
     <label class="ott">
-      <input type="radio"  value="쿠팡플레이" data-selected ="false">
+      <input type="radio" name="ott" value="쿠팡플레이" data-selected="false">
       <div class="circle coupangplay"></div>
     </label>
     <label class="ott">
-      <input type="radio"  value="티빙" data-selected ="false">
+      <input type="radio" name="ott" value="티빙" data-selected="false">
       <div class="circle tving"></div>
     </label>
     <label class="ott">
-      <input type="radio"  value="넷플릭스" data-selected ="false">
+      <input type="radio" name="ott" value="넷플릭스" data-selected="false">
       <div class="circle netflix"></div>
     </label>
   </div>
-  <button id = "goMainBtn" class="select-btn" disabled>선택완료</button>
+
+  <!-- ✅ 최신년도 선택 영역 추가 -->
+  <div class="latest-year-options">
+    <h2>최신년도 콘텐츠를 원하시나요?</h2>
+    <div class="latest-year-buttons">
+    <input type="radio" name="latestYear" id="latestYes" value="1">
+    <label for="latestYes">Yes</label>
+
+    <input type="radio" name="latestYear" id="latestNo" value="0" checked>
+    <label for="latestNo">No</label>
+    </div>
+  </div>
+
+  <button id="goMainBtn" class="select-btn" disabled>선택완료</button>
 </div>
 
-<!-- 기존 JS -->
+<!-- JS 코드 연결 -->
 <script src="/js/viewport.js" defer></script>
-<!-- 추가된 애니메이션 JS -->
-<!--<script src="/js/ottHoverEffect.js" defer></script> -->
+
 </body>
 </html>

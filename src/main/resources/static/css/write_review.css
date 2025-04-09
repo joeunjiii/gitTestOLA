@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+/* 리뷰 컨테이너 */
+.review-container {
+    width: 90%;
+    max-width: 500px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 리뷰 제목 */
+h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* 리뷰 작성 */
+.review-label {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-box {
+    width: 95%;
+    height: 120px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+}
+
+/* 별점 스타일 */
+.rating {
+    display: flex;
+    gap: 5px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.star {
+    color: #ccc;
+    transition: color 0.3s;
+    cursor: default; /* 커서 표시 제거 */
+    user-select: none; /* 텍스트 선택 방지 */
+}
+
+.star:hover,
+.star.active {
+    color: gold;
+}
+
+/* 네비게이션 버튼 */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.nav-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.previous {
+    background-color: #888;
+    color: white;
+}
+
+.save {
+    background-color: #007bff;
+    color: white;
+}
+
+textarea, input {
+    caret-color: transparent;
+}

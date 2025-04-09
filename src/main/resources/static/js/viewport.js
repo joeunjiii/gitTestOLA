@@ -2,42 +2,61 @@ document.addEventListener("DOMContentLoaded", function () {
     const ottRadios = document.querySelectorAll('.ott input[type="radio"]');
     const goMainBtn = document.getElementById("goMainBtn");
 
-    // 버튼 기본 비활성화
     goMainBtn.disabled = true;
 
     ottRadios.forEach(radio => {
         radio.addEventListener('click', function () {
-            if (this.checked) {
-                if (this.dataset.selected === "true") {
-                    this.checked = false; // 다시 클릭 시 해제
-                    this.setAttribute("name", "ott");
-                    this.dataset.selected = "false";
-                } else {
-                    this.removeAttribute("name"); // 그룹 해제해서 중복 허용
-                    this.dataset.selected = "true";
-                }
-            } else {
-                this.setAttribute("name", "ott");
+            if (this.dataset.selected === "true") {
                 this.dataset.selected = "false";
+                this.setAttribute("name", "ott");
+                this.checked = false;
+            } else {
+                this.dataset.selected = "true";
+                this.removeAttribute("name"); // 다중 선택 허용
             }
 
-            // 하나라도 선택되어 있으면 버튼 활성화
             const anySelected = Array.from(ottRadios).some(r => r.dataset.selected === "true");
             goMainBtn.disabled = !anySelected;
-
-            // 선택 완료 클릭 시 /main 이동
-            if (anySelected) {
-                goMainBtn.onclick = () => {
-                    const selectedOtt = Array.from(ottRadios)
-                        .filter(r => r.dataset.selected === "true")
-                        .map(r => r.value);
-
-                    localStorage.setItem("selectedOtt", JSON.stringify(selectedOtt));
-
-
-                    window.location.href = "/main";
-                };
-            }
         });
+    });
+
+    goMainBtn.addEventListener("click", function () {
+        const selectedOtt = Array.from(ottRadios)
+            .filter(r => r.dataset.selected === "true")
+            .map(r => r.value);
+
+        const selectedYear = document.querySelector('input[name="latestYear"]:checked');
+
+        if (!selectedOtt.length || !selectedYear) {
+            alert("OTT와 최신년도 선택을 모두 완료해주세요.");
+            return;
+        }
+
+        const requestData = {
+            ottPlatform: selectedOtt, // 배열 그대로 보냄
+            latestYear: selectedYear.value === "1" // 문자열 "1" → boolean true
+        };
+
+        console.log("서버로 전송될 데이터:", requestData);
+
+        fetch("/genre/save-ott", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify(requestData)
+        })
+            .then(res => {
+                if (res.ok) {
+                    window.location.href = "/main";
+                } else {
+                    alert("저장 실패! 다시 시도해주세요.");
+                }
+            })
+            .catch(err => {
+                console.error("요청 중 에러:", err);
+                alert("네트워크 오류가 발생했습니다.");
+            });
     });
 });

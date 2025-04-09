@@ -72,10 +72,6 @@ public class UserViewController {
         return "main"; // templates/main.html
     }
 
-
-
-
-
     @GetMapping("/viewport")
     public String viewport() {
         return "viewport"; // viewport.html

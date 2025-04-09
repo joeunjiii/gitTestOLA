@@ -5,6 +5,11 @@ spring:
     password: smhrd2
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
@@ -14,6 +19,7 @@ spring:
 server:
   port: 8083
 
-
+file:
+  upload-dir: uploads/
 
 

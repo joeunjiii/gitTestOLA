@@ -7,6 +7,7 @@ import com.smhrd.olaPJ.repository.GenreRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -63,9 +64,12 @@ public class GenreService {
         // 선택된 OTT 플랫폼 리스트를 하나의 문자열로 저장
         String platformString = String.join(",", request.getOttPlatform());
         genre.setOttPlatform(platformString);
+        genre.setLatestYear(request.isLatestYear());
 
         // 꼭 저장해줘야 DB에 반영됨!
         genreRepository.save(genre);
     }
+
+
 
 }
