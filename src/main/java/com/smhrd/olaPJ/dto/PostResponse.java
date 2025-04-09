@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Builder
 public class PostResponse {
 
+
+
     private Long postSeq;
     private String userId;
     private String postTitle;

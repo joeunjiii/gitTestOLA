@@ -23,7 +23,7 @@ public class UserDetailService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
-                    log.error(" 사용자 없음: {}", username); // 오류 로그
+                    log.error(" 사용자 없음: {}", username);
                     return new UsernameNotFoundException("User not found with ID: " + username);
                 });
 

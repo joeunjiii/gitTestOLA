@@ -12,22 +12,21 @@
     <h2>리뷰 작성 - 사진 추가</h2>
 
     <!-- 사진 추가 영역 -->
-    <div class="photo-upload">
-        <div class="photo-slot"><span class="plus-icon">+</span></div>
-        <div class="photo-slot"><span class="plus-icon">+</span></div>
-        <div class="photo-slot"><span class="plus-icon">+</span></div>
-    </div>
+    <form id="uploadForm" action="/posts/uploadReview" method="post" enctype="multipart/form-data">
+        <!-- ✅ 여기에 제목을 전달 -->
+        <input type="hidden" id="postTitle" name="postTitle" />
 
+        <input type="file" name="file1" />
+        <input type="file" name="file2" />
+        <input type="file" name="file3" />
+    </form>
     <!-- 네비게이션 버튼 -->
     <div class="button-container">
         <button class="nav-button previous">
             <a href="/review_contents">이전</a>
         </button>
-        <button class="nav-button next">
-            <a href="/review">다음</a>
-        </button>
+        <button type="button" class="nav-button next" id="nextBtn">다음</button>
     </div>
 </div>
-
 </body>
 </html>
