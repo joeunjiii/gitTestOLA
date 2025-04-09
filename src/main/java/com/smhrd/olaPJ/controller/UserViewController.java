@@ -1,5 +1,7 @@
 package com.smhrd.olaPJ.controller;
 
+import com.smhrd.olaPJ.domain.Genre;
+import com.smhrd.olaPJ.repository.GenreRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import com.smhrd.olaPJ.service.AiServiceClient;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Controller
@@ -23,9 +26,11 @@ public class UserViewController {
 
 
     private final UserRepository userRepository;
+    private final GenreRepository genreRepository;
 
-    public UserViewController(UserRepository userRepository) {
+    public UserViewController(UserRepository userRepository, GenreRepository genreRepository) {
         this.userRepository = userRepository;
+        this.genreRepository = genreRepository;
     }
 
     //회원가입 호출
@@ -66,13 +71,24 @@ public class UserViewController {
         List<Map<String, Object>> basicRecommendations = aiServiceClient.getBasicRecommendation(username);
         model.addAttribute("basicResults", basicRecommendations);
 
-        // ✅ 선택 콘텐츠 하드코딩 테스트 ("더 글로리" 기준)
-        String selectedTitle = "폭싹 속았수다";
-        List<Map<String, Object>> selectedRecommendations = aiServiceClient.getSelectedRecommendation(username, selectedTitle);
-        model.addAttribute("selectedResults", selectedRecommendations);
+        // ✅ DB에 저장된 selectedTitle 기반 추천
+        Optional<Genre> genreOpt = genreRepository.findByUserId(
+                userRepository.findByUsername(username)
+                        .orElseThrow(() -> new IllegalArgumentException("유저 없음"))
+                        .getUserId()
+        );
+
+        if (genreOpt.isPresent()) {
+            String selectedTitle = genreOpt.get().getSelectedTitle();
+            if (selectedTitle != null && !selectedTitle.isBlank()) {
+                List<Map<String, Object>> selectedRecommendations = aiServiceClient.getSelectedRecommendation(username, selectedTitle);
+                model.addAttribute("selectedResults", selectedRecommendations);
+            }
+        }
 
         return "main"; // templates/main.html
     }
+
 
     @GetMapping("/viewport")
     public String viewport() {
