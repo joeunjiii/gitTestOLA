@@ -1,11 +1,13 @@
 package com.smhrd.olaPJ.controller;
 
 import com.smhrd.olaPJ.domain.Genre;
+import com.smhrd.olaPJ.domain.Post;
 import com.smhrd.olaPJ.dto.ContentRequest;
 import com.smhrd.olaPJ.repository.GenreRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import com.smhrd.olaPJ.service.AiServiceClient;
 import com.smhrd.olaPJ.service.ContentService;
+import com.smhrd.olaPJ.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class UserViewController {
     private final UserRepository userRepository;
     private final GenreRepository genreRepository;
     private final ContentService contentService;
+    @Autowired
+    private PostService postService;
 
     public UserViewController(UserRepository userRepository, GenreRepository genreRepository,ContentService contentService) {
         this.userRepository = userRepository;
@@ -136,7 +140,10 @@ public class UserViewController {
     }
 
     @GetMapping("/review")
-    public String reviewPage() {
+    public String reviewPage(@RequestParam("postSeq") Long postSeq, Model model) {
+        Optional<Post> optionalPost = postService.findPostBySeq(postSeq);
+        optionalPost.ifPresent(post -> model.addAttribute("postTitle", post.getPostTitle()));
+        model.addAttribute("postSeq", postSeq);
         return "review";
     }
 

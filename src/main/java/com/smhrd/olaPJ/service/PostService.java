@@ -33,7 +33,7 @@ public class PostService{
     }
 
     // PostService 내부
-    public void uploadReview(String postTitle, MultipartFile file1, MultipartFile file2, MultipartFile file3, String username) throws IOException {
+    public Long uploadReview(String postTitle, MultipartFile file1, MultipartFile file2, MultipartFile file3, String username) throws IOException {
         // 1. 실제 유저 찾기
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isEmpty()) {
@@ -47,15 +47,6 @@ public class PostService{
         String path2 = saveFile(file2, uploadDir);
         String path3 = saveFile(file3, uploadDir);
 
-        Optional<Post> optionalPost = postRepository.findByPostTitle(postTitle);
-        if (optionalPost.isPresent()) {
-            Post post = optionalPost.get();
-            post.setPostFile1(path1);
-            post.setPostFile2(path2);
-            post.setPostFile3(path3);
-            post.setUpdatedAt(LocalDateTime.now());
-            postRepository.save(post);
-        } else {
             Post newPost = Post.builder()
                     .userId(userId) // 실제 UUID userId
                     .postTitle(postTitle)
@@ -66,7 +57,10 @@ public class PostService{
                     .updatedAt(LocalDateTime.now())
                     .build();
             postRepository.save(newPost);
-        }
+
+            Post savedPost = postRepository.save(newPost);
+            return savedPost.getPostSeq();
+
     }
 
 
@@ -88,22 +82,23 @@ public class PostService{
         return "/" + filePath;
     }
 
-    public void saveReview(String postTitle, String postContent, int postRating, String username) {
 
-        //userID 찾기
-        String userId = userRepository.findByUsername(username)
-                .orElseThrow().getUserId();
+        public void updateReviewBySeq(Long postSeq, String content, int rating) {
+            Optional<Post> optionalPost = postRepository.findById(postSeq);
 
-        Post post = Post.builder()
-                .userId(userId)
-                .postTitle(postTitle)
-                .postContent(postContent)
-                .postRating(postRating)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
+            if (optionalPost.isPresent()) {
+                Post post = optionalPost.get();
+                post.setPostContent(content);
+                post.setPostRating(rating);
+                post.setUpdatedAt(LocalDateTime.now());
+                postRepository.save(post);
+            } else {
+                throw new RuntimeException("postSeq " + postSeq + "에 해당하는 게시글이 없습니다.");
+            }
+        }
 
-        postRepository.save(post);
-
+    public Optional<Post> findPostBySeq(Long postSeq) {
+        return postRepository.findById(postSeq);
     }
 }
+

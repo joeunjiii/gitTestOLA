@@ -14,7 +14,9 @@
 
 <!-- 리뷰 입력란 -->
     <label for="review-text" class="review-label"># 글 작성</label>
-    <textarea id="review-text" name = "postTitle" class="review-box" placeholder="리뷰를 입력하세요..."></textarea>
+    <textarea id="review-text" name = "postContent" class="review-box" placeholder="리뷰를 입력하세요..."></textarea>
+    <input type ="hidden" id="hiddenPostTitle" name = "postTitle">
+    <input type = "hidden" name = "postSeq" th:value="${param.postSeq}">
 
     <!-- 작품 평점 -->
     <label class="review-label"># 작품 평점</label>
@@ -26,7 +28,7 @@
         <span class="star" data-value="5">★</span>
     </div>
         <!-- 평점 넘김 -->
-    <input type="hidden" id = "postRating" name = "rating-value">
+    <input type="hidden" id = "postRating" name = "postRating">
 
     <!-- 네비게이션 버튼 -->
     <div class="button-container">
