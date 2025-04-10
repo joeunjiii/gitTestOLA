@@ -321,7 +321,7 @@ function updateReviewSection(post) {
                 if (res.ok) {
                     commentInput.value = "";
                     // 댓글 목록 새로고침
-                     loadComments(postSeq);
+                    loadComments(postSeq);
                 } else {
                     alert("댓글 등록에 실패했습니다.");
                 }
@@ -365,8 +365,12 @@ function loadComments(postSeq) {
                     </button>
                     <div class="comment-meta">
                         <span>${comment.createdAt}</span>
-                        <span>❤️ ${comment.likes}</span>
-                    </div>
+                        <span onclick="likeComment(${comment.id})"
+                              style = "cursor: pointer; user-select: none;"
+                              onmouseover="this.style.opacity='0.7"
+                              onmouseout="this.style.opacity='1'">
+                            ❤️<span id="like-count-${comment.id}">${comment.likes}</span>
+                        </span>
                 `;
                 commentList.appendChild(div);
             });
@@ -393,6 +397,27 @@ function deleteComment(id, postSeq) {
         })
         .catch(()=> {
             alert('서버 오류');
+        });
+}
+
+function likeComment(commentId) {
+    fetch(`api/comments/comment/${commentId}/like`, {
+        method: 'POST'
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(msg => {
+                    alert("❌ " + msg);
+                    throw new Error(msg);
+                });
+            }
+            return response.json();
+        })
+        .then(newCount => {
+            document.getElementById(`like-count-${commentId}`).innerText = newCount;
+        })
+        .catch(error => {
+            console.error("좋아요 오류:", error.message);
         });
 }
 

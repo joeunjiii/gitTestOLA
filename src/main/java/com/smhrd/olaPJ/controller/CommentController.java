@@ -5,6 +5,7 @@ import com.smhrd.olaPJ.dto.CommentRequest;
 import com.smhrd.olaPJ.dto.CommentResponse;
 import com.smhrd.olaPJ.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,8 +44,14 @@ public class CommentController {
     }
 
     // 댓글 좋아요
-    @PostMapping("/{id}/like")
-    public void likeComment(@PathVariable Long id) {
-        commentService.likeComment(id);
+    @PostMapping("/comment/{id}/like")
+    public ResponseEntity<?> likeComment(@PathVariable Long id,
+                                               @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            int updateLikes = commentService.likeComment(id, userDetails.getUsername());
+            return ResponseEntity.ok(updateLikes);
+            } catch(IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
     }
 }

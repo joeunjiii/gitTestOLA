@@ -1,9 +1,11 @@
 package com.smhrd.olaPJ.service;
 
 import com.smhrd.olaPJ.domain.Comment;
+import com.smhrd.olaPJ.domain.CommentLike;
 import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.CommentRequest;
 import com.smhrd.olaPJ.dto.CommentResponse;
+import com.smhrd.olaPJ.repository.CommentLikeRepository;
 import com.smhrd.olaPJ.repository.CommentRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final CommentLikeRepository commentLikeRepository;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public List<CommentResponse> getCommentByPostSeq(Long postSeq) {
@@ -83,10 +86,35 @@ public class CommentService {
         System.out.println("삭제 완료");
     }
 
+
     @Transactional
-    public void likeComment(Long id) {
-        Comment comment = commentRepository.findById(id)
+    public int likeComment(Long commentId, String userName) {
+
+        // userName → userId(UUID) 조회
+        User user = userRepository.findByUsername(userName)
+                .orElseThrow(() -> new RuntimeException("유저 없음"));
+        String userId = user.getUserId();
+
+        Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
-        comment.setLikes(comment.getLikes() + 1);
+
+        if(comment.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("본인 댓글에는 좋아요를 누를 수 없습니다");
+        }
+
+        Optional<CommentLike> existingLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
+
+        if(existingLike.isPresent()) {
+            commentLikeRepository.delete(existingLike.get());
+            comment.setLikes(comment.getLikes() - 1);
+        } else {
+            commentLikeRepository.save(new CommentLike(commentId, userId));
+            comment.setLikes(comment.getLikes() + 1);
+        }
+
+        commentRepository.save(comment);
+        return comment.getLikes();
     }
+
+
 }
