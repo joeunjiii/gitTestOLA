@@ -247,6 +247,8 @@ function updateReviewSection(post) {
             <div class="review-thumbnail">
                 ${imagesHtml} <!-- 이미지 렌더링 -->
             </div>
+            
+            
 
             <div class="review-stats">
                 <span>❤️ ${post.postRating}</span>
@@ -281,7 +283,7 @@ function updateReviewSection(post) {
             fetch("/api/comments", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json" // ✅ C 대문자!
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     postSeq: postSeq,
@@ -291,8 +293,7 @@ function updateReviewSection(post) {
             }).then((res) => {
                 if (res.ok) {
                     commentInput.value = "";
-                    alert("댓글이 등록되었습니다.");
-                    // ✅댓글 목록 새로고침 함수 작성 시 여기에 호출
+                    // 댓글 목록 새로고침
                      loadComments(postSeq);
                 } else {
                     alert("댓글 등록에 실패했습니다.");
@@ -332,6 +333,9 @@ function loadComments(postSeq) {
                         <strong>${comment.username || '익명'}</strong>
                      </div>                    
                     <p class="comment-content">${comment.content}</p>
+                    <button type="button" onclick="deleteComment(${comment.id}, ${postSeq});" class ="d_btns">
+                    <span class="icons icon_del">삭제</span>
+                    </button>
                     <div class="comment-meta">
                         <span>${comment.createdAt}</span>
                         <span>❤️ ${comment.likes}</span>
@@ -342,6 +346,26 @@ function loadComments(postSeq) {
         })
         .catch(() => {
             commentList.innerHTML = "<p>댓글을 불러오지 못했습니다.</p>";
+        });
+}
+
+function deleteComment(id, postSeq) {
+    if(!confirm('해당 댓글을 삭제할까요?')){
+        return;
+    }
+
+    fetch(`/api/comments/${id}`,{
+        method: 'DELETE'
+    })
+        .then(res => {
+            if(res.ok){
+                loadComments(postSeq);
+            }else{
+                alert('댓글 삭제 초☆실★패');
+            }
+        })
+        .catch(()=> {
+            alert('서버 오류');
         });
 }
 

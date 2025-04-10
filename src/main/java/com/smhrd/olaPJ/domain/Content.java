@@ -22,13 +22,4 @@ public class Content {
 
     @Column(name = "POSTER_IMG")
     private String posterImg;
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPosterImg() {
-        return posterImg;
-    }
 }
