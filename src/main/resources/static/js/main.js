@@ -208,6 +208,33 @@ document.addEventListener("DOMContentLoaded", function () {
             contentSelection.style.display = "none";
         }
     });
+
+
+    fetch("/ranking/review-top3")
+        .then(res => res.json())
+        .then(data => {
+            const box = document.getElementById("review-ranking-box");
+
+            data.forEach((item, idx) => {
+                const rankingItem = document.createElement("div");
+                rankingItem.className = "ranking-item";
+
+                rankingItem.innerHTML = `
+                    <img src="${item.posterImg || '/img/no-image.png'}" alt="${idx + 1}위 콘텐츠" class="ranking-thumb" />
+                    <div class="ranking-text">
+                        <p class="ranking-title">${idx + 1}. ${item.title}</p>
+                        <span class="ranking-info">${item.releaseYear}년 · ${item.genre}</span>
+                    </div>
+                `;
+
+                box.appendChild(rankingItem);
+            });
+        })
+        .catch(error => {
+            console.error("리뷰 랭킹 불러오기 실패:", error);
+            document.getElementById("review-ranking-box").innerHTML += `<p>랭킹 정보를 불러올 수 없습니다.</p>`;
+        });
+
 });
 
 function updateReviewSection(post) {
