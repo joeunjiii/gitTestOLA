@@ -24,22 +24,22 @@
             <div class="content-selection"></div>
         </div>
 
-<!--        <button class="login-btn" onclick="location.href='/login'">-->
-<!--            <i data-feather="log-in"></i>로그인</button>-->
+        <!--        <button class="login-btn" onclick="location.href='/login'">-->
+        <!--            <i data-feather="log-in"></i>로그인</button>-->
 
-                <!-- 로그인 상태가 아닌 경우: 로그인 버튼 -->
-                <div sec:authorize="!isAuthenticated()">
-                    <a href="/login" class="login-btn">
-                        <i data-feather="log-in"></i>로그인
-                    </a>
-                </div>
+        <!-- 로그인 상태가 아닌 경우: 로그인 버튼 -->
+        <div sec:authorize="!isAuthenticated()">
+            <a href="/login" class="login-btn">
+                <i data-feather="log-in"></i>로그인
+            </a>
+        </div>
 
-                <!-- 로그인 상태인 경우: 로그아웃 버튼 -->
-                <div sec:authorize="isAuthenticated()">
-                    <a href="/logout" class="login-btn">
-                        <i data-feather="log-out"></i>로그아웃
-                    </a>
-                </div>
+        <!-- 로그인 상태인 경우: 로그아웃 버튼 -->
+        <div sec:authorize="isAuthenticated()">
+            <a href="/logout" class="login-btn">
+                <i data-feather="log-out"></i>로그아웃
+            </a>
+        </div>
 
     </header>
 
@@ -56,42 +56,20 @@
     </section>
 
     <!-- 게시물 카드 -->
-    <section class="review-preview">
-        <!-- 유저 정보 -->
-        <div class="review-header">
-            <img src="/img/pjg.png" class="profile-img" alt="프로필 이미지" />
-            <div class="user-info">
-                <strong>OO</strong>
-                <p class="sub">소음없이 거짓말 (OTT 제목)</p>
+    <div class="review-wrapper">
+        <button class="post-arrow left">◀</button>
+
+        <section class="review-preview">
+            <div class="review-placeholder">
+                <img src="/img/empty-box.png" alt="empty" class="empty-img" />
+                <p class="empty-text">🎬 추천 콘텐츠를 선택해보세요!</p>
+                <p class="empty-sub">마음에 드는 콘텐츠를 클릭하면 리뷰가 여기에 표시돼요.</p>
             </div>
-            <button class="follow-btn">팔로우</button>
-        </div>
+        </section>
 
-        <!-- 콘텐츠 이미지 -->
-        <div class="review-thumbnail">
-            <img src="/img/ch.webp" alt="콘텐츠 이미지" />
-        </div>
+        <button class="post-arrow right">▶</button>
+    </div>
 
-        <!-- 좋아요, 댓글 -->
-        <div class="review-stats">
-            <span>❤️ 150</span>
-            <span>💬 댓글</span>
-        </div>
-
-        <!-- 본문 -->
-        <div class="review-text">
-            <p>팝콘 진짜 개맛있다. CGV에서는 무조건 반반콤보를 시켜야함</p>
-            <p>그리고 달콤한 맛이랑 이낀딴 또는 더블치즈 두개 중 하나는 골라야 단짠의 정수</p>
-            <p>CU에 가면 콘소메맛 팝콘 있음 그게 진짜 개맛도리임</p>
-            <p>금날은 최고의 맛집 CGV! 다음에 또 방문하겠습니다.</p>
-        </div>
-
-        <!-- 댓글창 -->
-        <div class="review-comment">
-            <input type="text" placeholder="댓글을 입력하세요..." />
-            <button class="comment-btn">💬 댓글</button>
-        </div>
-    </section>
 
     <!-- 컬렉션 박스 -->
     <section class="ott-ranking">
@@ -204,11 +182,11 @@
 
         <li class="nav-item">
             <a href="/review_contents" class="icon-box">
-            <div class="icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-            </div>
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </div>
             </a>
         </li>
 

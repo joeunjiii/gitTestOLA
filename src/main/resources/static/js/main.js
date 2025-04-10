@@ -25,8 +25,13 @@ rightBtn.addEventListener("click", () => {
         behavior: "smooth"
     });
 });
+
+let currentPostIndex = 0;
+let postList = [];
+
 document.addEventListener("DOMContentLoaded", function () {
     const ottList = JSON.parse(localStorage.getItem("selectedOtt")) || [];
+
 
     if (ottList.length > 0) {
         fetch("/genre/save-ott", {
@@ -72,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 const track = document.querySelector(".ott-slide-track");
                                 track.innerHTML = ""; // 기존 슬라이드 비움
 
-                                if (data.length === 0) {
+                                if (!data || data.length === 0) {
                                     track.innerHTML = "<p>추천 결과가 없습니다.</p>";
                                     return;
                                 }
@@ -90,6 +95,23 @@ document.addEventListener("DOMContentLoaded", function () {
                                     track.appendChild(a);
                                 });
 
+
+                                // 🔥 여기에 게시글 여러 개 불러오기 추가
+                                fetch(`/api/posts/by-title?title=${encodeURIComponent(selectedTitle)}`)
+                                    .then(res => res.json())
+                                    .then(posts => {
+                                        postList = posts;
+                                        currentPostIndex = 0;
+
+                                        if (postList.length > 0) {
+                                            updateReviewSection(postList[currentPostIndex]);
+                                            updateArrowButtons();
+                                        } else {
+                                            showNoPostMessage();
+                                        }
+                                    });
+
+
                                 console.log("✅ 추천 결과 동적 반영 완료");
                             });
                     } else {
@@ -98,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         });
     });
+
 
 });
 document.addEventListener("DOMContentLoaded", function () {
@@ -168,3 +191,76 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+function updateReviewSection(post) {
+    const section = document.querySelector(".review-preview");
+
+    // 초기 슬라이드 효과 (투명 + 오른쪽에서 들어오는 느낌)
+    section.style.opacity = 0;
+    section.style.transform = "translateX(30px)";
+
+    setTimeout(() => {
+        section.innerHTML = `
+            <div class="review-header">
+                <img src="/img/pjg.png" class="profile-img" alt="프로필 이미지" />
+                <div class="user-info">
+                    <strong>${post.userId}</strong>
+                    <p class="sub">${post.postTitle}</p>
+                </div>
+                <button class="follow-btn">팔로우</button>
+            </div>
+
+            <div class="review-thumbnail">
+                <img src="${post.postFile1 || '/images/no-image.png'}" alt="콘텐츠 이미지" />
+            </div>
+
+            <div class="review-stats">
+                <span>❤️ ${post.postRating}</span>
+                <span>💬 댓글</span>
+            </div>
+
+            <div class="review-text">
+                <p>${(post.postContent || '').replace(/\n/g, '<br>')}</p>
+            </div>
+
+            <div class="review-comment">
+                <input type="text" placeholder="댓글을 입력하세요..." />
+                <button class="comment-btn">💬 댓글</button>
+            </div>
+        `;
+
+        // 복원 효과
+        section.style.opacity = 1;
+        section.style.transform = "translateX(0)";
+    }, 100);
+}
+
+
+document.querySelector(".post-arrow.left").addEventListener("click", () => {
+    if (currentPostIndex > 0) {
+        currentPostIndex--;
+        updateReviewSection(postList[currentPostIndex]);
+        updateArrowButtons();
+    }
+});
+
+document.querySelector(".post-arrow.right").addEventListener("click", () => {
+    if (currentPostIndex < postList.length - 1) {
+        currentPostIndex++;
+        updateReviewSection(postList[currentPostIndex]);
+        updateArrowButtons();
+    }
+});
+
+function updateArrowButtons() {
+    document.querySelector(".post-arrow.left").disabled = currentPostIndex === 0;
+    document.querySelector(".post-arrow.right").disabled = currentPostIndex === postList.length - 1;
+}
+
+function showNoPostMessage() {
+    document.querySelector(".review-preview").innerHTML = `
+        <div class="review-text">
+            <p>📭 해당 콘텐츠에 대한 게시글이 아직 없습니다.</p>
+        </div>
+    `;
+}

@@ -1,15 +1,19 @@
 package com.smhrd.olaPJ.controller;
 
 import com.smhrd.olaPJ.domain.Post;
+import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Request;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,6 +22,7 @@ import java.util.Optional;
 public class PostViewController {
 
     private final PostService postService;
+    private final PostRepository postRepository;
 
     // ✅ 리뷰 업로드 + redirect
     @PostMapping("/uploadReview")
@@ -61,6 +66,18 @@ public class PostViewController {
         System.out.println("평점: " + postRating);
         System.out.println("작성자: " + username);
         return ("redirect:/main");
+    }
+
+    @GetMapping("/by-title")
+    public ResponseEntity<?> getPostsByTitle(@RequestParam String title) {
+        List<Post> posts = postRepository.findByPostTitleContaining(title);
+
+        if (posts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("해당 제목의 게시글이 없습니다.");
+        }
+
+        return ResponseEntity.ok(posts);
     }
 }
 
