@@ -119,9 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                         postList = posts;
                                         currentPostIndex = 0;
 
-                                        // ✅ 콘솔에 받아온 게시글 확인
-                                        console.log("📦 서버에서 받은 게시글 리스트:", postList);
-                                        console.log("📦 첫 번째 게시글 내용:", postList[0]); // 👉 여기서 nickname 확인 가능
 
                                         // 🔥 새 게시글 출력
                                         if (postList.length > 0) {
@@ -220,6 +217,22 @@ function updateReviewSection(post) {
     section.style.opacity = 0;
     section.style.transform = "translateX(30px)";
 
+    // 이미지 처리
+    const fileFields = ['postFile1', 'postFile2', 'postFile3'];
+    let imagesHtml = '';
+
+    fileFields.forEach(field => {
+        const rawPath = post[field];
+        if (rawPath) {
+            // 윈도우 경로에서 파일명만 추출
+            const fileName = rawPath.split("\\").pop().split("/").pop(); // 둘 다 고려
+            const imgSrc = `/uploads/${fileName}`; // uploads로 맵핑
+
+            imagesHtml += `<img src="${imgSrc}" alt="콘텐츠 이미지" style="max-width: 100%; margin-bottom: 10px;" />`;
+        }
+    });
+
+
     setTimeout(() => {
         section.innerHTML = `
             <div class="review-header">
@@ -232,7 +245,7 @@ function updateReviewSection(post) {
             </div>
 
             <div class="review-thumbnail">
-                <img src="${post.postFile1 || '/images/no-image.png'}" alt="콘텐츠 이미지" />
+                ${imagesHtml} <!-- 이미지 렌더링 -->
             </div>
 
             <div class="review-stats">
@@ -331,6 +344,9 @@ function loadComments(postSeq) {
             commentList.innerHTML = "<p>댓글을 불러오지 못했습니다.</p>";
         });
 }
+
+
+
 
 
 

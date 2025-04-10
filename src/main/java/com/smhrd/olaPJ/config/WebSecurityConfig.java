@@ -36,7 +36,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**","/uploads/**").permitAll()
                         .requestMatchers("/", "/login", "/signup", "/user", "/genre", "/genre/save", "/main", "/redirect").permitAll()
                         .requestMatchers("/api/user/current").authenticated()
                         .anyRequest().authenticated()
@@ -90,4 +90,6 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }
