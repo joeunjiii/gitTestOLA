@@ -1,8 +1,12 @@
 package com.smhrd.olaPJ.controller;
 
 import com.smhrd.olaPJ.domain.Post;
+import com.smhrd.olaPJ.domain.User;
+import com.smhrd.olaPJ.dto.PostResponse;
 import com.smhrd.olaPJ.repository.PostRepository;
+import com.smhrd.olaPJ.repository.UserRepository;
 import com.smhrd.olaPJ.service.PostService;
+import com.smhrd.olaPJ.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Request;
 import org.springframework.http.HttpStatus;
@@ -22,7 +26,7 @@ import java.util.Optional;
 public class PostViewController {
 
     private final PostService postService;
-    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     // ✅ 리뷰 업로드 + redirect
     @PostMapping("/uploadReview")
@@ -68,6 +72,7 @@ public class PostViewController {
         return ("redirect:/main");
     }
 
+    private final PostRepository postRepository;
     @GetMapping("/by-title")
     public ResponseEntity<?> getPostsByTitle(@RequestParam String title) {
         List<Post> posts = postRepository.findByPostTitleContaining(title);
@@ -77,7 +82,17 @@ public class PostViewController {
                     .body("해당 제목의 게시글이 없습니다.");
         }
 
-        return ResponseEntity.ok(posts);
+        // DTO로 변환하면서 닉네임 주입
+        List<PostResponse> result = posts.stream()
+                .map(post -> {
+                    String nickname = userRepository.findByUserId(post.getUserId())
+                            .map(User::getNickname)
+                            .orElse("알 수 없음");
+                    return PostResponse.fromWithNickname(post, nickname);
+                })
+                .toList();
+
+        return ResponseEntity.ok(result); // ✅ 이 줄이 핵심!
     }
 }
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class PostResponse {
 
 
-
+    private String nickname;
     private Long postSeq;
     private String userId;
     private String postTitle;
@@ -26,6 +26,20 @@ public class PostResponse {
 
     public static PostResponse from(Post post) {
         return PostResponse.builder()
+                .postSeq(post.getPostSeq())
+                .userId(post.getUserId())
+                .postTitle(post.getPostTitle())
+                .postContent(post.getPostContent())
+                .postFile1(post.getPostFile1())
+                .postFile2(post.getPostFile2())
+                .postFile3(post.getPostFile3())
+                .createdAt(post.getCreatedAt())
+                .build();
+    }
+
+    public static PostResponse fromWithNickname(Post post, String nickname) {
+        return PostResponse.builder()
+                .nickname(nickname)
                 .postSeq(post.getPostSeq())
                 .userId(post.getUserId())
                 .postTitle(post.getPostTitle())

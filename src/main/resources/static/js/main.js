@@ -96,13 +96,34 @@ document.addEventListener("DOMContentLoaded", function () {
                                 });
 
 
-                                // 🔥 여기에 게시글 여러 개 불러오기 추가
-                                fetch(`/api/posts/by-title?title=${encodeURIComponent(selectedTitle)}`)
-                                    .then(res => res.json())
+                                fetch(`/posts/by-title?title=${encodeURIComponent(selectedTitle)}`)
+                                    .then(res => {
+                                        if (!res.ok) {
+                                            postList = []; // 🔥 이전 게시글 리스트 초기화
+                                            currentPostIndex = 0;
+
+                                            // 🔥 화면 초기화
+                                            document.querySelector(".review-preview").innerHTML = `
+                                                <div class="review-text">
+                                                    <p>📭 해당 콘텐츠에 대한 게시글이 없습니다.</p>
+                                                </div>
+                                            `;
+                                            updateArrowButtons();
+                                            return;
+                                        }
+                                        return res.json();
+                                    })
                                     .then(posts => {
+                                        if (!posts) return;
+
                                         postList = posts;
                                         currentPostIndex = 0;
 
+                                        // ✅ 콘솔에 받아온 게시글 확인
+                                        console.log("📦 서버에서 받은 게시글 리스트:", postList);
+                                        console.log("📦 첫 번째 게시글 내용:", postList[0]); // 👉 여기서 nickname 확인 가능
+
+                                        // 🔥 새 게시글 출력
                                         if (postList.length > 0) {
                                             updateReviewSection(postList[currentPostIndex]);
                                             updateArrowButtons();
@@ -204,7 +225,7 @@ function updateReviewSection(post) {
             <div class="review-header">
                 <img src="/img/pjg.png" class="profile-img" alt="프로필 이미지" />
                 <div class="user-info">
-                    <strong>${post.userId}</strong>
+                    <strong>${post.nickname}</strong>
                     <p class="sub">${post.postTitle}</p>
                 </div>
                 <button class="follow-btn">팔로우</button>
