@@ -247,14 +247,91 @@ function updateReviewSection(post) {
             <div class="review-comment">
                 <input type="text" placeholder="댓글을 입력하세요..." />
                 <button class="comment-btn">💬 댓글</button>
-            </div>
+            </div>          
+            
+            <div class ="comment-list"></div>
         `;
+
+        // 댓글 등록 이벤트 바인딩
+        const commentBtn = section.querySelector(".comment-btn");
+        const commentInput = section.querySelector(".review-comment input");
+
+        commentBtn.addEventListener("click", () => {
+            const content = commentInput.value.trim();
+            if (!content) {
+                alert("댓글 내용을 입력해주세요.");
+                return;
+            }
+
+            const postSeq = post.postSeq;
+
+            fetch("/api/comments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json" // ✅ C 대문자!
+                },
+                body: JSON.stringify({
+                    postSeq: postSeq,
+                    content: content,
+                    superSeq: 0
+                })
+            }).then((res) => {
+                if (res.ok) {
+                    commentInput.value = "";
+                    alert("댓글이 등록되었습니다.");
+                    // ✅댓글 목록 새로고침 함수 작성 시 여기에 호출
+                     loadComments(postSeq);
+                } else {
+                    alert("댓글 등록에 실패했습니다.");
+                }
+            });
+        });
+
+        //댓글 새로고침 함수 호출
+        loadComments(post.postSeq);
 
         // 복원 효과
         section.style.opacity = 1;
         section.style.transform = "translateX(0)";
     }, 100);
+
+
 }
+
+function loadComments(postSeq) {
+    const commentList = document.querySelector(".comment-list");
+    commentList.innerHTML = "<p>댓글 불러오는 중...</p>";
+
+    fetch(`/api/comments/${postSeq}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                commentList.innerHTML = "<p>아직 댓글이 없습니다.</p>";
+                return;
+            }
+
+            commentList.innerHTML = "";
+            data.forEach(comment => {
+                const div = document.createElement("div");
+                div.className = "single-comment";
+                div.innerHTML = `
+                     <div class = "comment-top">
+                        <strong>${comment.username || '익명'}</strong>
+                     </div>                    
+                    <p class="comment-content">${comment.content}</p>
+                    <div class="comment-meta">
+                        <span>${comment.createdAt}</span>
+                        <span>❤️ ${comment.likes}</span>
+                    </div>
+                `;
+                commentList.appendChild(div);
+            });
+        })
+        .catch(() => {
+            commentList.innerHTML = "<p>댓글을 불러오지 못했습니다.</p>";
+        });
+}
+
 
 
 document.querySelector(".post-arrow.left").addEventListener("click", () => {
