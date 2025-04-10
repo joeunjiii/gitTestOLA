@@ -88,4 +88,22 @@ public class PostService{
         return "/" + filePath;
     }
 
+    public void saveReview(String postTitle, String postContent, int postRating, String username) {
+
+        //userID 찾기
+        String userId = userRepository.findByUsername(username)
+                .orElseThrow().getUserId();
+
+        Post post = Post.builder()
+                .userId(userId)
+                .postTitle(postTitle)
+                .postContent(postContent)
+                .postRating(postRating)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        postRepository.save(post);
+
+    }
 }

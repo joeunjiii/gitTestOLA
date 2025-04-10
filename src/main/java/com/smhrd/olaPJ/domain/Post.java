@@ -44,4 +44,7 @@ public class Post {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
+    @Column(name = "POST_RATING")
+    private int postRating;
+
 }

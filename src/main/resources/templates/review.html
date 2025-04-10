@@ -8,11 +8,13 @@
 </head>
 <body>
 <div class="review-container">
-    <h2>리뷰 작성 - 글 작성</h2>
 
-    <!-- 리뷰 입력란 -->
+    <form id="review-form" action="/posts/writeReview" method="post" >
+
+
+<!-- 리뷰 입력란 -->
     <label for="review-text" class="review-label"># 글 작성</label>
-    <textarea id="review-text" class="review-box" placeholder="리뷰를 입력하세요..."></textarea>
+    <textarea id="review-text" name = "postTitle" class="review-box" placeholder="리뷰를 입력하세요..."></textarea>
 
     <!-- 작품 평점 -->
     <label class="review-label"># 작품 평점</label>
@@ -23,15 +25,19 @@
         <span class="star" data-value="4">★</span>
         <span class="star" data-value="5">★</span>
     </div>
+        <!-- 평점 넘김 -->
+    <input type="hidden" id = "postRating" name = "rating-value">
 
     <!-- 네비게이션 버튼 -->
     <div class="button-container">
         <button class="nav-button previous">
             <a href="/review_photo">이전</a>
         </button>
-        <button class="nav-button save">저장</button>
+        <button type = "submit" class="nav-button save" onclick="saveReviewAndMove()">저장</button>
     </div>
+    </form>
 </div>
+
 
 <script src="/js/write_review.js"></script>
 </body>
