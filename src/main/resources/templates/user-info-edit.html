@@ -1,0 +1,37 @@
+<!-- HTML/ edit-profile.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/user-info.css" />
+
+    <title>Edit Profile | OLA</title>
+</head>
+<body>
+<div class="edit-profile-container">
+    <h1>개인정보 수정</h1>
+
+    <!-- 로그인 정보 수정 -->
+    <section class="card">
+        <h2>ID 수정</h2>
+        <div class="form-group">
+            <input type="text" id="new-id" placeholder="새로운 ID 입력" />
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>비밀번호 수정</h2>
+        <div class="form-group">
+            <input type="password" id="new-password" placeholder="새 비밀번호 입력" />
+        </div>
+    </section>
+
+    <div class="submit-wrapper">
+        <button id="nextBtn" class="submit-btn">다음</button>
+    </div>
+</div>
+
+<script defer src="../static/js/user-info.js"></script>
+</body>
+</html>

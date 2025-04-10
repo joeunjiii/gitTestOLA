@@ -1,0 +1,193 @@
+/* 전체 페이지 레이아웃 */
+body {
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f6fa;
+}
+
+.edit-profile-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #003366;
+}
+
+/* 공통 카드 스타일 */
+.card {
+    background-color: #f0f2f5;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #222;
+    user-select: none;
+}
+
+/* 입력 폼 스타일 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 20px;
+    color: #444;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group textarea {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border: 2px solid #003366;
+    box-shadow: 0 0 8px rgba(0, 51, 102, 0.2);
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+/* 프로필 버튼 */
+#changePhotoBtn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #003366;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#changePhotoBtn:hover {
+    background-color: #002244;
+    transform: scale(1.05);
+}
+
+/* 장르 선택 - 그리드형 */
+.genre-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.genre-grid label {
+    background-color: #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 30px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    user-select: none;
+}
+
+.genre-grid input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+}
+
+.genre-grid label:hover {
+    background-color: #ccc;
+    transform: scale(1.03);
+}
+
+/* 제출 버튼 */
+.submit-wrapper {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #001f3f;
+    transform: scale(1.05);
+}
+
+.submit-btn:active {
+    background-color: #001122;
+}
+.profile-edit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d6dbe5;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.profile-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.profile-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ccc;
+    cursor: pointer; /* 마우스 올리면 손 모양 */
+}
+
+.nickname-input {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    background-color: white;
+}
+
+.edit-icon {
+    font-size: 18px;
+    margin-left: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+.edit-btn {
+    padding: 6px 20px; /* 기존보다 약간 작게 */
+    font-size: 14px;
+    margin-left: 8px;
+}

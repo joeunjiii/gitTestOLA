@@ -1,0 +1,334 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    background-color: #f4f4f4;
+    background: #7b7a7a;
+}
+.profile-container {
+    width: 700px;
+    height: 1250px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: relative;
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+}
+
+
+.top-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    position: relative;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #bbb;
+    position: relative;
+    top: 0px; /* 원하는 만큼 위로 올림 */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 왼쪽 정렬로 바꿈 */
+    text-align: left; /* 텍스트도 왼쪽 정렬 */
+    position: relative;
+}
+/* 닉네임 + 버튼 한 줄 정렬을 위한 flex */
+.nickname {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    user-select: none;
+    caret-color: transparent;
+    position: relative;
+    padding-right: 30px; /* 버튼 공간 확보 */
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    text-align: center;
+    user-select: none;
+    caret-color: transparent;
+}
+
+/* 팔로워, 팔로잉 글자를 개별 블록으로 설정 */
+.stats div {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* 숫자를 글자 아래로 배치 */
+.stats div span:nth-child(2) {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 4px; /* 글자와 숫자 사이 간격 조정 */
+}
+
+
+/* 숫자를 글자 아래로 배치 */
+.stats div span:nth-child(2) {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 4px; /* 글자와 숫자 사이 간격 조정 */
+}
+
+/* 프로필 변경 버튼을 닉네임 오른쪽에 붙이기 위한 위치 조정 */
+.edit-button {
+    position: absolute;
+    top: 0;
+    right: calc(50% - 220px); /* 위치는 필요시 조정 가능 */
+    transform: translateY(1px); /* 닉네임 높이에 맞춰 버튼 내림 */
+    background-color: #003366;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    caret-color: transparent;
+    font-size: 14px;
+}
+
+/* 버튼을 눌렀을 때 (active 상태일 때) 색상 변경 */
+.edit-button:active {
+    background-color: #001f4d; /* 더 진한 남색 */
+}
+
+.selected-ott {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+    user-select: none;
+    caret-color: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 190px; /* '여' 위치 기준 정렬 맞추기 위한 여백 */
+}
+
+.selected-ott img {
+    height: 24px;   /* 이전보다 작게 */
+    margin: 0 4px;
+    vertical-align: middle;
+    object-fit: contain;
+    border-radius: 50%;   /* 동그랗게 */
+    object-fit: cover;    /* 이미지 꽉 채우기 */
+}
+
+.post-text {
+    margin-top: 10px; /* 프로필 정보 바로 아래에 배치 */
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    padding-left: 200px; /* ← 살짝 들여쓰기 */
+    user-select: none;         /* 텍스트 드래그 방지 */
+    caret-color: transparent;  /* 커서 안 보이게 */
+}
+
+.divider-container {
+    width: 90%;
+    margin: 30px auto 10px auto;
+    text-align: center;
+    position: relative;
+}
+
+.divider {
+    border: none;
+    height: 3px;
+    background-color: #ccc;
+    position: relative;
+}
+
+.divider-bold-center {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;       /* 굵은 부분 너비 */
+    height: 3px;       /* 굵기 */
+    background-color: #888;
+    border-radius: 2px;
+}
+
+.divider-label {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #666;
+    user-select: none;
+}
+
+.favorites-container {
+    width: 80%;
+    max-width: 700px;
+    margin: 80px auto; /* 기존보다 조금 더 아래로 이동 */
+    padding: 10px;
+    background-color: #f0f0f0;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.more-button {
+    font-size: 14px;
+    color: blue;
+    cursor: pointer;
+}
+
+.favorites-container {
+    width: 80%;
+    max-width: 700px;
+    margin: 40px auto; /* 기존보다 조금 더 아래로 이동 */
+    padding: 10px;
+    background-color: #9e9e9e;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.more-button {
+    font-size: 14px;
+    color: blue;
+    cursor: pointer;
+}
+.scroll-container {
+    width: 100%;
+    overflow-x: auto; /* 가로 스크롤 활성화 */
+    white-space: nowrap;
+    padding: 10px 0;
+    position: relative;
+}
+.scroll-list {
+    display: flex;
+    gap: 10px;
+    width: max-content; /* 내부 콘텐츠가 넘치면 스크롤 가능 */
+}
+.scroll-item {
+    width: 150px;
+    height: 220px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.scroll-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 박스 크기에 맞게 조정됨 */
+}
+
+.review-box {
+    padding: 20px;
+    background-color: #ffffff; /* 배경을 흰색으로 변경 */
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin-top: 20px; /* "내가 찜한 작품" 아래로 이동 */
+}
+
+/* 리뷰 헤더 스타일 */
+.review-header {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* 가로 스크롤 디자인 */
+.review-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 0;
+}
+
+.review-list {
+    display: flex;
+    gap: 15px;
+}
+
+/* 리뷰 이미지 */
+.review-item img {
+    width: 160px;
+    height: 230px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.review-item {
+    cursor: pointer; /* 손모양 커서로 */
+}
+
+/* 리뷰 제목 스타일 */
+.review-item p {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.liked-review-box {
+    padding: 20px;
+    background-color: #f0f0f0; /* 회색 배경 적용 */
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin-top: 20px; /* "내가 작성한 리뷰" 아래로 이동 */
+}
+
+/* 좋아요한 리뷰 헤더 스타일 */
+.liked-review-header {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* 좋아요한 리뷰 컨테이너 */
+.liked-review-container {
+    text-align: center;
+    padding: 15px;
+}
+
+/* 좋아요한 리뷰가 없을 때 표시할 메시지 */
+.no-liked-reviews {
+    font-size: 16px;
+    color: #888;
+}

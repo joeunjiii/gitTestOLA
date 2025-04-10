@@ -1,0 +1,61 @@
+<!-- HTML/ edit-profile-step2.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/user-info.css" />
+    <title>프로필 편집 | OLA</title>
+</head>
+<body>
+<div class="edit-profile-container">
+    <h1>프로필 편집</h1>
+
+    <!-- 닉네임 & 이미지 -->
+    <section class="card">
+        <h2>프로필 편집</h2>
+
+        <div class="profile-edit-row">
+            <div class="profile-left">
+                <!-- 프로필 이미지 클릭 가능하도록 ID 추가 -->
+                <img src="../static/images/default_profile.jpg" alt="기본 프로필 사진" class="profile-img" id="profileImage" />
+                <input type="text" id="nickname" class="nickname-input" placeholder="OLA 닉네임" />
+                <button class="submit-btn edit-btn" id="editNicknameBtn">수정</button>
+            </div>
+
+            <!-- 파일 업로드 input (숨김) -->
+            <input type="file" id="photoInput" accept="image/*" style="display: none;" />
+        </div>
+    </section>
+
+
+    <!-- 소개 -->
+    <section class="card">
+        <div class="form-group">
+            <label for="bio">소개</label>
+            <textarea id="bio" placeholder="여기를 작성하면 마이페이지에서 보임"></textarea>
+        </div>
+    </section>
+
+    <!-- 장르 -->
+    <section class="card">
+        <h2>장르 변경</h2>
+        <div class="genre-grid">
+            <label><input type="checkbox" /> 로맨스</label>
+            <label><input type="checkbox" /> 코미디</label>
+            <label><input type="checkbox" /> 스릴러</label>
+            <label><input type="checkbox" /> 애니메이션</label>
+            <label><input type="checkbox" /> 액션</label>
+            <label><input type="checkbox" /> 드라마</label>
+            <label><input type="checkbox" /> 공포</label>
+            <label><input type="checkbox" /> 판타지</label>
+        </div>
+    </section>
+
+    <div class="submit-wrapper">
+        <button class="submit-btn">이전</button>
+        <button class="submit-btn">저장</button>
+    </div>
+</div>
+</body>
+</html>

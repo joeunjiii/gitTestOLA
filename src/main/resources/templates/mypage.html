@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/css/mypage.css">
+  <title>OLA 프로필</title>
+  <style>
+  </style>
+</head>
+<body>
+<div class="profile-container">
+  <img class="logo" src="../static/images/Logo_1.png" alt="OLA 로고">
+  <div class="top-section">
+    <img class="profile-pic" src="../static/images/default_profile.jpg" alt="프로필 사진">
+
+    <div class="user-info">
+      <div class="nickname">OLA 닉네임</div>
+      <div class="stats">
+        <div>
+          <span>팔로워</span>
+          <span id="follower-count">10</span>
+        </div>
+        <div>
+          <span>팔로잉</span>
+          <span id="following-count">10</span>
+        </div>
+      </div>
+    </div>
+    <button class="edit-button">프로필 변경</button>
+  </div>
+
+  <!-- 소개글 영역 -->
+  <div class="post-text">안녕하세요</div>
+
+  <!-- OTT 선택 결과 표시 영역 (아래로 이동) -->
+  <!-- 선택한 OTT 로고 이미지들 -->
+  <div class="selected-ott">
+    <img src="/LOA/public/images/WATCHAlogo.jpg" alt="watcha" data-selected="true" />
+    <img src="/LOA/public/images/NETFLIXlogo.jpg" alt="netflix" data-selected="false" />
+    <img src="/LOA/public/images/TVINGlogo.jpg" alt="tving" data-selected="true" />
+    <img src="/LOA/public/images/coupangplay.jpg" alt="coupangp" data-selected="false" />
+  </div>
+
+  <div class="divider-container">
+    <hr class="divider" />
+    <div class="divider-bold-center"></div>
+    <div class="divider-label">게시물</div>
+  </div>
+
+  <div class="favorites-container">
+    <div class="favorites-header">
+      <div>내가 찜한 작품</div>
+      <div class="more-button">+ 더보기</div>
+    </div>
+    <div class="scroll-container">
+      <div class="scroll-list">
+        <div class="scroll-item"><img src="/LOA/public/images/exorcism_book.jpg" alt="퇴마록"></div>
+        <div class="scroll-item"><img src="/LOA/public/images/yadang.jpg" alt="야당"></div>
+        <div class="scroll-item"><img src="/LOA/public/images/victory.jpg" alt="승부"></div>
+        <div class="scroll-item"><img src="/LOA/public/images/secret.jpg" alt="말할 수 없는 비밀"></div>
+        <div class="scroll-item"><img src="/LOA/public/images/prophet.jpg" alt="전지적 독자 시점"></div>
+      </div>
+    </div>
+
+    <div class="review-box">
+      <div class="review-header">
+        <div>내가 작성한 리뷰</div>
+      </div>
+      <div class="review-container">
+        <div class="review-list">
+          <div class="review-item">
+            <img src="/LOA/public/images/hitman.jpg" alt="히트맨">
+            <p>히트맨</p>
+          </div>
+          <div class="review-item">
+            <img src="/LOA/public/images/prophet.jpg" alt="전지적 독자 시점">
+            <p>전지적 독자 시점</p>
+          </div>
+          <div class="review-item">
+            <img src="/LOA/public/images/secret.jpg" alt="말할 수 없는 비밀">
+            <p>말할 수 없는 비밀</p>
+          </div>
+          <div class="review-item">
+            <img src="/LOA/public/images/exorcism_book.jpg" alt="퇴마록">
+            <p>퇴마록</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="liked-review-box">
+      <div class="liked-review-header">
+        <div>내가 좋아요한 리뷰</div>
+      </div>
+      <div class="liked-review-container">
+        <p class="no-liked-reviews">좋아요한 리뷰가 없어요...ㅜ</p>
+      </div>
+    </div>
+
+
+    <script src="../static/js/mypage.js"></script>
+
+  </div>
+
+</body>
+</html>
