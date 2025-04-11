@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -88,25 +89,28 @@ public class GenreService {
     }
 
     @Transactional
-    public void updateGenres(String userId, List<String> selectedGenres) {
+    public void updateGenres(String userId, Map<String, String> genresMap) {
         Genre genre = genreRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("장르 정보 없음"));
 
-        for (String g : selectedGenres) {
-            switch (g) {
-                case "romance" -> genre.setRomance('Y');
-                case "comedy" -> genre.setComedy('Y');
-                case "thriller" -> genre.setThriller('Y');
-                case "animation" -> genre.setAnimation('Y');
-                case "action" -> genre.setAction('Y');
-                case "drama" -> genre.setDrama('Y');
-                case "horror" -> genre.setHorror('Y');
-                case "fantasy" -> genre.setFantasy('Y');
-            }
-        }
+        // 모든 장르에 대해 Y/N 세팅
+        genre.setRomance(getYnValue(genresMap.get("romance")));
+        genre.setComedy(getYnValue(genresMap.get("comedy")));
+        genre.setThriller(getYnValue(genresMap.get("thriller")));
+        genre.setAnimation(getYnValue(genresMap.get("animation")));
+        genre.setAction(getYnValue(genresMap.get("action")));
+        genre.setDrama(getYnValue(genresMap.get("drama")));
+        genre.setHorror(getYnValue(genresMap.get("horror")));
+        genre.setFantasy(getYnValue(genresMap.get("fantasy")));
 
         genreRepository.save(genre);
     }
+
+    // 유틸 메서드: null이면 'N', 'Y'/'N'이면 그대로 char로 변환
+    private char getYnValue(String value) {
+        return (value != null && value.equalsIgnoreCase("Y")) ? 'Y' : 'N';
+    }
+
 
 
     public List<String> getGenresByUserId(String userId) {

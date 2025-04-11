@@ -26,15 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const nickname = nicknameInput.value;
         const introduce = bioInput.value;
 
-        const genres = [];
-        genreCheckboxes.forEach(cb => {
-            if (cb.checked) genres.push(cb.value);
-        });
-
+        const allGenres = ['romance', 'comedy', 'thriller', 'animation', 'action', 'drama', 'horror', 'fantasy'];
         const formData = new FormData();
+
         formData.append("nickname", nickname);
         formData.append("introduce", introduce);
-        genres.forEach(g => formData.append("genres", g));
+
+        // 모든 장르에 대해 Y/N 체크 후 formData에 추가
+        allGenres.forEach(g => {
+            const checkbox = document.querySelector(`input[name="genres"][value="${g}"]`);
+            formData.append(`genres[${g}]`, checkbox.checked ? 'Y' : 'N');
+        });
+
         if (photoInput.files[0]) {
             formData.append("profileImg", photoInput.files[0]);
         }

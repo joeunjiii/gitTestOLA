@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,17 +73,28 @@ public class MypageController {
     @PostMapping("/mypage/update")
     public String updateProfile(@RequestParam String nickname,
                                 @RequestParam String introduce,
-                                @RequestParam(value = "genres", required = false) List<String> genres,
+                                @RequestParam Map<String, String> genres,
                                 @RequestParam(value = "profileImg", required = false) MultipartFile profileImg,
                                 Principal principal) {
 
         String userName = principal.getName();
+        String userId = userService.findUserIdByUsername(userName);
 
         userService.updateProfile(userName, nickname, introduce, profileImg);
-        String userId = userService.findUserIdByUsername(userName);
-        genreService.updateGenres(userId, genres);
+
+        // genres map: "genres[romance]" → "Y"
+        Map<String, String> parsedGenres = new HashMap<>();
+        genres.forEach((key, value) -> {
+            if (key.startsWith("genres[")) {
+                String genreKey = key.substring(7, key.length() - 1); // "genres[romance]" → "romance"
+                parsedGenres.put(genreKey, value); // → "romance" → "Y"
+            }
+        });
+
+        genreService.updateGenres(userId, parsedGenres);
 
         return "redirect:/mypage";
     }
+
 
 }

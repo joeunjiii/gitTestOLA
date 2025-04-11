@@ -52,7 +52,7 @@ public class User implements UserDetails {
     private int genreSelected;
 
     @Getter
-    @Column(name = "INTRODUCE", length = 100, nullable = false)
+    @Column(name = "INTRODUCE", length = 100)
     private String introduce;
 
 
