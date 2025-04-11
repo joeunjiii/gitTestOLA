@@ -1,23 +1,13 @@
-// 다음 버튼 눌렀을 때 다음 페이지로 이동
 document.addEventListener('DOMContentLoaded', () => {
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            window.location.href = 'logins2.html';
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('profileForm');
     const profileImage = document.getElementById('profileImage');
     const photoInput = document.getElementById('photoInput');
+    const nicknameInput = document.getElementById('nickname');
+    const bioInput = document.getElementById('bio');
+    const genreCheckboxes = document.querySelectorAll('.genre-grid input[type="checkbox"]');
+    const saveBtn = document.getElementById('saveBtn');
 
-    // 프로필 이미지를 클릭하면 → 파일 선택창 열림
-    profileImage.addEventListener('click', () => {
-        photoInput.click();
-    });
-
-    // 이미지 선택 → 즉시 프로필에 반영
+    profileImage.addEventListener('click', () => photoInput.click());
     photoInput.addEventListener('change', () => {
         const file = photoInput.files[0];
         if (file) {
@@ -28,22 +18,42 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsDataURL(file);
         }
     });
-});
-document.addEventListener('DOMContentLoaded', () => {
-    const nicknameInput = document.getElementById('nickname');
-    const editBtn = document.getElementById('editNicknameBtn');
 
-    let isEditable = true; // 처음엔 입력 가능하게 시작
+    // 🔥 form 기본 제출 막고 fetch로 전송
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    editBtn.addEventListener('click', () => {
-        isEditable = !isEditable;
+        const nickname = nicknameInput.value;
+        const introduce = bioInput.value;
 
-        if (isEditable) {
-            nicknameInput.removeAttribute('readonly');
-            nicknameInput.focus(); // 커서 자동 포커스
-        } else {
-            nicknameInput.setAttribute('readonly', true); // 편집 잠금
+        const genres = [];
+        genreCheckboxes.forEach(cb => {
+            if (cb.checked) genres.push(cb.value);
+        });
+
+        const formData = new FormData();
+        formData.append("nickname", nickname);
+        formData.append("introduce", introduce);
+        genres.forEach(g => formData.append("genres", g));
+        if (photoInput.files[0]) {
+            formData.append("profileImg", photoInput.files[0]);
+        }
+
+        try {
+            const response = await fetch("/mypage/update", {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                alert("프로필이 성공적으로 수정되었습니다!");
+                location.href = "/mypage";
+            } else {
+                alert("저장에 실패했습니다.");
+            }
+        } catch (err) {
+            console.error("서버 오류 발생:", err);
+            alert("서버 오류가 발생했습니다.");
         }
     });
 });
-

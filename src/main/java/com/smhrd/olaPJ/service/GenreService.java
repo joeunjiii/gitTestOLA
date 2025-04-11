@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class GenreService {
@@ -84,5 +87,29 @@ public class GenreService {
         genreRepository.save(genre);
     }
 
+    @Transactional
+    public void updateGenres(String userId, List<String> selectedGenres) {
+        Genre genre = genreRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("장르 정보 없음"));
 
+        for (String g : selectedGenres) {
+            switch (g) {
+                case "romance" -> genre.setRomance('Y');
+                case "comedy" -> genre.setComedy('Y');
+                case "thriller" -> genre.setThriller('Y');
+                case "animation" -> genre.setAnimation('Y');
+                case "action" -> genre.setAction('Y');
+                case "drama" -> genre.setDrama('Y');
+                case "horror" -> genre.setHorror('Y');
+                case "fantasy" -> genre.setFantasy('Y');
+            }
+        }
+
+        genreRepository.save(genre);
+    }
+
+
+    public List<String> getGenresByUserId(String userId) {
+        return genreRepository.findGenreNamesByUserId(userId);
+    }
 }

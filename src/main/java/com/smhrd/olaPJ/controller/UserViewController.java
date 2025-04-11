@@ -164,6 +164,11 @@ public class UserViewController {
         return "review_photo_upload";
     }
 
+    @GetMapping("/user-info")
+    public String userInfo(Model model) {
+        return "user-info";
+    }
+
 
 
 

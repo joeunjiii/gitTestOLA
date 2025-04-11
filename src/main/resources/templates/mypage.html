@@ -34,11 +34,14 @@
     </div>
 
     <!-- 프로필 변경 버튼 -->
-    <button class="edit-button">프로필 변경</button>
+    <form action="/user-info" method="get">
+      <button type="submit" class="edit-button">프로필 변경</button>
+    </form>
+
   </div>
 
   <!-- 사용자 소개글 -->
-  <div class="post-text">안녕하세요</div>
+  <div class="post-text" th:text="${user.introduce}"></div>
 
   <!-- 구분선 -->
   <div class="divider-container">
@@ -86,26 +89,24 @@
         <p class="no-liked-reviews">좋아요한 리뷰가 없어요...ㅜ</p>
       </th:block>
       <!-- 좋아요한 리뷰 목록 출력 -->
-      <th:block th:each="post : ${likedReviews}">
-        <div class="liked-review-item">
-          <!-- 외부 URL인 경우 -->
-          <img th:if="${post.content != null and post.content.posterImg != null and #strings.startsWith(post.content.posterImg.toLowerCase(), 'http')}"
-               th:src="${post.content.posterImg}"
-               alt="포스터 이미지" />
-          <!-- 로컬 파일인 경우 -->
-          <img th:if="${post.content != null and post.content.posterImg != null and !#strings.startsWith(post.content.posterImg.toLowerCase(), 'http')}"
-               th:src="@{'/uploads/' + ${post.content.posterImg}}"
-               alt="포스터 이미지" />
-          <!-- 기본 이미지 -->
-          <img th:if="${post.content == null or post.content.posterImg == null}"
-               src="/images/default_poster.jpg"
-               alt="기본 포스터" />
-          <p th:text="${post.postTitle}">제목</p>
-        </div>
-      </th:block>
-    </div>
+      <div class="liked-review-list">
+        <th:block th:each="post : ${likedReviews}">
+          <div class="liked-review-item">
+            <!-- 외부 URL -->
+            <img th:if="${post.content != null and post.content.posterImg != null and #strings.startsWith(post.content.posterImg.toLowerCase(), 'http')}"
+                 th:src="${post.content.posterImg}" alt="포스터 이미지" />
+            <!-- 로컬 -->
+            <img th:if="${post.content != null and post.content.posterImg != null and !#strings.startsWith(post.content.posterImg.toLowerCase(), 'http')}"
+                 th:src="@{'/uploads/' + ${post.content.posterImg}}" alt="포스터 이미지" />
+            <!-- 기본 -->
+            <img th:if="${post.content == null or post.content.posterImg == null}"
+                 src="/images/default_poster.jpg" alt="기본 포스터" />
+            <p th:text="${post.postTitle}">제목</p>
+          </div>
+        </th:block>
+      </div>
   </div>
-
+</div>
 </div>
 </body>
 </html>

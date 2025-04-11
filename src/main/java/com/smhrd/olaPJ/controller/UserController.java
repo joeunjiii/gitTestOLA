@@ -6,14 +6,15 @@ import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.UserResponse;
 import com.smhrd.olaPJ.repository.UserRepository;
 import com.smhrd.olaPJ.service.UserDetailService;
+import com.smhrd.olaPJ.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -24,10 +25,12 @@ public class UserController {
 
     private final UserDetailService userDetailService;
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserDetailService userDetailService, UserRepository userRepository) {
+    public UserController(UserDetailService userDetailService, UserRepository userRepository, UserService userService) {
         this.userDetailService = userDetailService;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/current")
@@ -51,7 +54,5 @@ public class UserController {
 
         return ResponseEntity.ok(new UserResponse(userName, genreSelected));
     }
-
-
 }
 

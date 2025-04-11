@@ -13,8 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String uploadPath = "file:///" + System.getProperty("user.dir").replace("\\", "/") + "/uploads/";
 
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations(uploadPath)
-                .setCachePeriod(3600);
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
     }
 
 }

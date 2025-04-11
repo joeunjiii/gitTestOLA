@@ -1,39 +1,37 @@
-<!-- HTML/ edit-profile-step2.html -->
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/user-info.css" />
+    <link rel="stylesheet" href="/css/user-info.css" />
+    <script src="/js/user-info.js" defer></script>
     <title>프로필 편집 | OLA</title>
+
 </head>
 <body>
 <div class="edit-profile-container">
     <h1>프로필 편집</h1>
 
-    <!-- 닉네임 & 이미지 -->
+    <form id="profileForm" enctype="multipart/form-data">
+    <!-- 프로필 섹션 -->
     <section class="card">
         <h2>프로필 편집</h2>
-
         <div class="profile-edit-row">
             <div class="profile-left">
-                <!-- 프로필 이미지 클릭 가능하도록 ID 추가 -->
-                <img src="../static/images/default_profile.jpg" alt="기본 프로필 사진" class="profile-img" id="profileImage" />
-                <input type="text" id="nickname" class="nickname-input" placeholder="OLA 닉네임" />
-                <button class="submit-btn edit-btn" id="editNicknameBtn">수정</button>
+                <img th:src="@{/images/default_profile.jpg}" alt="기본 프로필 사진" class="profile-img" id="profileImage" />
+                <label for="nickname"><input type="text" id="nickname" class="nickname-input" th:value="${nickname}" /></label>
+                <!--<button class="submit-btn edit-btn" id="editNicknameBtn">수정</button> -->
             </div>
-
-            <!-- 파일 업로드 input (숨김) -->
             <input type="file" id="photoInput" accept="image/*" style="display: none;" />
         </div>
     </section>
-
 
     <!-- 소개 -->
     <section class="card">
         <div class="form-group">
             <label for="bio">소개</label>
-            <textarea id="bio" placeholder="여기를 작성하면 마이페이지에서 보임"></textarea>
+            <textarea id="bio" placeholder="여기를 작성하면 마이페이지에서 보임"
+                      th:text="${introduce}"></textarea>
         </div>
     </section>
 
@@ -41,21 +39,31 @@
     <section class="card">
         <h2>장르 변경</h2>
         <div class="genre-grid">
-            <label><input type="checkbox" /> 로맨스</label>
-            <label><input type="checkbox" /> 코미디</label>
-            <label><input type="checkbox" /> 스릴러</label>
-            <label><input type="checkbox" /> 애니메이션</label>
-            <label><input type="checkbox" /> 액션</label>
-            <label><input type="checkbox" /> 드라마</label>
-            <label><input type="checkbox" /> 공포</label>
-            <label><input type="checkbox" /> 판타지</label>
+            <label><input type="checkbox" name="genres" value="romance"
+                    th:checked="${selectedGenres != null and selectedGenres.contains('romance')}"/> 로맨스</label>
+            <label><input type="checkbox" name="genres" value="comedy"
+                          th:checked="${selectedGenres != null and selectedGenres.contains('comedy')}"/> 코미디</label>
+            <label><input type="checkbox" name="genres" value="thriller"
+                          th:checked="${selectedGenres != null and selectedGenres.contains('thriller')}"/> 스릴러</label>
+            <label><input type="checkbox" name="genres" value="animation"
+                          th:checked="${selectedGenres != null and selectedGenres.contains('animation')}"/> 애니메이션</label>
+            <label><input type="checkbox" name="genres" value="action"
+                          th:checked="${selectedGenres != null and selectedGenres.contains('action')}"/> 액션</label>
+            <label><input type="checkbox" name="genres" value="drama"
+                          th:checked="${selectedGenres != null and selectedGenres.contains('drama')}"/> 드라마</label>
+            <label><input type="checkbox" name="genres" value="horror"
+                          th:checked="${selectedGenres != null and selectedGenres.contains('horror')}"/> 공포</label>
+            <label><input type="checkbox" name="genres" value="fantasy"
+                          th:checked="${selectedGenres != null and selectedGenres.contains('fantasy')}"/> 판타지</label>
         </div>
     </section>
 
     <div class="submit-wrapper">
         <button class="submit-btn">이전</button>
-        <button class="submit-btn">저장</button>
+        <button type = "submit" class="submit-btn" id="saveBtn">저장</button>
     </div>
+    </form>
 </div>
 </body>
+
 </html>

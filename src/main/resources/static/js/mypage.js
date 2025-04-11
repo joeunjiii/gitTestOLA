@@ -29,3 +29,17 @@ document.querySelectorAll('.selected-ott img').forEach(img => {
         img.style.display = 'none';
     }
 });
+
+document.querySelectorAll('.selected-ott img').forEach(img => {
+    if (img.dataset.selected !== 'true') {
+        img.style.display = 'none';
+    }
+});
+
+// 좋아요한 리뷰 클릭 알림
+document.querySelectorAll('.liked-review-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const title = item.querySelector('p')?.innerText || '리뷰';
+        alert(`"${title}" 좋아요한 리뷰를 클릭했습니다!`);
+    });
+});

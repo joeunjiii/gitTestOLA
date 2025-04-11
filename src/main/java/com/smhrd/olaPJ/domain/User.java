@@ -51,6 +51,10 @@ public class User implements UserDetails {
     @Column(name="GENRE_SELECTED", nullable = false)
     private int genreSelected;
 
+    @Getter
+    @Column(name = "INTRODUCE", length = 100, nullable = false)
+    private String introduce;
+
 
 
     @Builder
@@ -62,6 +66,7 @@ public class User implements UserDetails {
         this.profileImg = profileImg; //프로필 이미지
         this.role = role; // 회원구분
         this.joinedAt = LocalDateTime.now(); // 현재 시간 설정
+        this.introduce = introduce;
 
     }
 
@@ -121,4 +126,5 @@ public class User implements UserDetails {
     public String getUserNick() {
         return nickname;
     }
+
 }
