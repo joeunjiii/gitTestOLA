@@ -39,7 +39,7 @@ public class PostService {
         String userId = optionalUser.get().getUserId(); // UUID
 
         // 2. 파일 저장 (루트/uploads 폴더 사용)
-        String uploadDir = System.getProperty("user.dir") + "/uploads/";
+        String uploadDir = new File("src/main/resources/static/uploads/").getAbsolutePath() + "/";
         String fileName1 = saveFile(file1, uploadDir);
         String fileName2 = saveFile(file2, uploadDir);
         String fileName3 = saveFile(file3, uploadDir);

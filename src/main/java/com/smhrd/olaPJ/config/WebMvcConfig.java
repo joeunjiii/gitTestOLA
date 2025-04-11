@@ -1,3 +1,4 @@
+/*
 package com.smhrd.olaPJ.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
     }
-}
-
-
-
+}*/
