@@ -208,6 +208,33 @@ document.addEventListener("DOMContentLoaded", function () {
             contentSelection.style.display = "none";
         }
     });
+
+
+    fetch("/ranking/review-top3")
+        .then(res => res.json())
+        .then(data => {
+            const box = document.getElementById("review-ranking-box");
+
+            data.forEach((item, idx) => {
+                const rankingItem = document.createElement("div");
+                rankingItem.className = "ranking-item";
+
+                rankingItem.innerHTML = `
+                    <img src="${item.posterImg || '/img/no-image.png'}" alt="${idx + 1}위 콘텐츠" class="ranking-thumb" />
+                    <div class="ranking-text">
+                        <p class="ranking-title">${idx + 1}. ${item.title}</p>
+                        <span class="ranking-info">${item.releaseYear}년 · ${item.genre}</span>
+                    </div>
+                `;
+
+                box.appendChild(rankingItem);
+            });
+        })
+        .catch(error => {
+            console.error("리뷰 랭킹 불러오기 실패:", error);
+            document.getElementById("review-ranking-box").innerHTML += `<p>랭킹 정보를 불러올 수 없습니다.</p>`;
+        });
+
 });
 
 function updateReviewSection(post) {
@@ -294,7 +321,7 @@ function updateReviewSection(post) {
                 if (res.ok) {
                     commentInput.value = "";
                     // 댓글 목록 새로고침
-                     loadComments(postSeq);
+                    loadComments(postSeq);
                 } else {
                     alert("댓글 등록에 실패했습니다.");
                 }
@@ -338,8 +365,12 @@ function loadComments(postSeq) {
                     </button>
                     <div class="comment-meta">
                         <span>${comment.createdAt}</span>
-                        <span>❤️ ${comment.likes}</span>
-                    </div>
+                        <span onclick="likeComment(${comment.id})"
+                              style = "cursor: pointer; user-select: none;"
+                              onmouseover="this.style.opacity='0.7"
+                              onmouseout="this.style.opacity='1'">
+                            ❤️<span id="like-count-${comment.id}">${comment.likes}</span>
+                        </span>
                 `;
                 commentList.appendChild(div);
             });
@@ -366,6 +397,27 @@ function deleteComment(id, postSeq) {
         })
         .catch(()=> {
             alert('서버 오류');
+        });
+}
+
+function likeComment(commentId) {
+    fetch(`api/comments/comment/${commentId}/like`, {
+        method: 'POST'
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(msg => {
+                    alert("❌ " + msg);
+                    throw new Error(msg);
+                });
+            }
+            return response.json();
+        })
+        .then(newCount => {
+            document.getElementById(`like-count-${commentId}`).innerText = newCount;
+        })
+        .catch(error => {
+            console.error("좋아요 오류:", error.message);
         });
 }
 

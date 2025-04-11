@@ -22,4 +22,13 @@ public class Content {
 
     @Column(name = "POSTER_IMG")
     private String posterImg;
+
+    @Column(name="RATING")
+    private int rating;
+
+    @Column(name="CONTENTS_GENRE")
+    private String contentsGenre;
+
+    @Column(name="RELEASE_YEAR")
+    private int releaseYear;
 }
