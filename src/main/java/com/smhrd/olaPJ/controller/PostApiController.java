@@ -1,18 +1,15 @@
 package com.smhrd.olaPJ.controller;
 
-import com.smhrd.olaPJ.domain.Post;
 import com.smhrd.olaPJ.dto.ContentRequest;
-import com.smhrd.olaPJ.dto.PostResponse;
 import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.service.ContentService;
 import com.smhrd.olaPJ.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -53,6 +50,18 @@ public class PostApiController {
     public List<ContentRequest> searchContent(@RequestParam("keyword") String keyword) {
         return contentService.searchByTitle(keyword);
     }
+
+//    //리뷰 좋아요
+//    @PostMapping("/posts/{id}/like")
+//    public ResponseEntity<?> likePost(@PathVariable Long postSeq,
+//                                      @AuthenticationPrincipal UserDetails userDetails) {
+//        try {
+//            int updateLikes = postService.likePost(postSeq, userDetails.getUsername());
+//            return ResponseEntity.ok().body("Update like count:" +updateLikes);
+//            } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("에러:" + e.getMessage());
+//        }
+//    }
 
 
 

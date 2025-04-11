@@ -278,9 +278,16 @@ function updateReviewSection(post) {
             
 
             <div class="review-stats">
-                <span>❤️ ${post.postRating}</span>
+                <span onclick="likePost(${post.id})"
+                              style = "cursor: pointer; user-select: none;"
+                              onmouseover="this.style.opacity='0.7"
+                              onmouseout="this.style.opacity='1'">
+                            ❤️<span id="like-count-$post.id}">${post.likes}</span>
+                        </span>
                 <span>💬 댓글</span>
             </div>
+            
+            
 
             <div class="review-text">
                 <p>${(post.postContent || '').replace(/\n/g, '<br>')}</p>
@@ -420,6 +427,31 @@ function likeComment(commentId) {
             console.error("좋아요 오류:", error.message);
         });
 }
+
+// function likePost(postId) {
+//     fetch(`/post/${postId}/like`,{
+//         method : 'POST',
+//         headers: {
+//             'content-Type' : 'application/json'
+//         }
+//     })
+//         .then(response => {
+//             if(!response.ok) {
+//                 throw new Error('네트워크 응답 오류');
+//             }
+//             return response.json();
+//         })
+//         .then(newCount => {
+//            const matches = newCount.match(/\d+/);
+//            if (matches && matches.length > 0){
+//                const updateLikeCount = matches[0];
+//                document.getElementById(`like-count-${postId}`).innerText = updateLikeCount;
+//            }
+//         })
+//         .catch(error => {
+//             console.error("좋아요 오류 발생", error);
+//         });
+// }
 
 
 
