@@ -2,9 +2,7 @@ package com.smhrd.olaPJ.service;
 
 import com.smhrd.olaPJ.domain.Post;
 import com.smhrd.olaPJ.domain.User;
-import com.smhrd.olaPJ.dto.ContentRequest;
 import com.smhrd.olaPJ.dto.PostResponse;
-import com.smhrd.olaPJ.repository.ContentRepository;
 import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PostService{
+public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -32,7 +30,6 @@ public class PostService{
                 .collect(Collectors.toList());
     }
 
-    // PostService 내부
     public Long uploadReview(String postTitle, MultipartFile file1, MultipartFile file2, MultipartFile file3, String username) throws IOException {
         // 1. 실제 유저 찾기
         Optional<User> optionalUser = userRepository.findByUsername(username);
@@ -41,29 +38,28 @@ public class PostService{
         }
         String userId = optionalUser.get().getUserId(); // UUID
 
-        // 2. 파일 저장 로직
+        // 2. 파일 저장 (루트/uploads 폴더 사용)
         String uploadDir = System.getProperty("user.dir") + "/uploads/";
-        String path1 = saveFile(file1, uploadDir);
-        String path2 = saveFile(file2, uploadDir);
-        String path3 = saveFile(file3, uploadDir);
+        String fileName1 = saveFile(file1, uploadDir);
+        String fileName2 = saveFile(file2, uploadDir);
+        String fileName3 = saveFile(file3, uploadDir);
 
-            Post newPost = Post.builder()
-                    .userId(userId) // 실제 UUID userId
-                    .postTitle(postTitle)
-                    .postFile1(path1)
-                    .postFile2(path2)
-                    .postFile3(path3)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
-            postRepository.save(newPost);
+        // 3. 엔티티 저장 (DB에는 파일명만 저장!)
+        Post newPost = Post.builder()
+                .userId(userId)
+                .postTitle(postTitle)
+                .postFile1(fileName1)
+                .postFile2(fileName2)
+                .postFile3(fileName3)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
 
-            Post savedPost = postRepository.save(newPost);
-            return savedPost.getPostSeq();
-
+        Post savedPost = postRepository.save(newPost);
+        return savedPost.getPostSeq();
     }
 
-
+    // ✅ 저장은 uploads/ 폴더에, DB에는 파일명만 저장
     private String saveFile(MultipartFile file, String uploadDir) throws IOException {
         if (file == null || file.isEmpty()) return null;
 
@@ -79,26 +75,25 @@ public class PostService{
         String filePath = uploadDir + fileName;
 
         file.transferTo(new File(filePath));
-        return "/" + filePath;
+
+        // DB에는 파일명만 저장
+        return fileName;
     }
 
-
-        public void updateReviewBySeq(Long postSeq, String content, int rating) {
-            Optional<Post> optionalPost = postRepository.findById(postSeq);
-
-            if (optionalPost.isPresent()) {
-                Post post = optionalPost.get();
-                post.setPostContent(content);
-                post.setPostRating(rating);
-                post.setUpdatedAt(LocalDateTime.now());
-                postRepository.save(post);
-            } else {
-                throw new RuntimeException("postSeq " + postSeq + "에 해당하는 게시글이 없습니다.");
-            }
+    public void updateReviewBySeq(Long postSeq, String content, int rating) {
+        Optional<Post> optionalPost = postRepository.findById(postSeq);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            post.setPostContent(content);
+            post.setPostRating(rating);
+            post.setUpdatedAt(LocalDateTime.now());
+            postRepository.save(post);
+        } else {
+            throw new RuntimeException("postSeq " + postSeq + "에 해당하는 게시글이 없습니다.");
         }
+    }
 
     public Optional<Post> findPostBySeq(Long postSeq) {
         return postRepository.findById(postSeq);
     }
 }
-

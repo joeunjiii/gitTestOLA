@@ -5,6 +5,7 @@ import com.smhrd.olaPJ.dto.CommentRequest;
 import com.smhrd.olaPJ.dto.CommentResponse;
 import com.smhrd.olaPJ.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +34,12 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/{id}")
-    public void deleteComment(@PathVariable Long id, @RequestParam String userId) {
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id,
+                                                @AuthenticationPrincipal UserDetails userDetails) {
+        String userId = userDetails.getUsername();
         commentService.deleteComment(id, userId);
+        return ResponseEntity.ok().build();
+
     }
 
     // 댓글 좋아요

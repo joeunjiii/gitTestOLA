@@ -119,9 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                         postList = posts;
                                         currentPostIndex = 0;
 
-                                        // ✅ 콘솔에 받아온 게시글 확인
-                                        console.log("📦 서버에서 받은 게시글 리스트:", postList);
-                                        console.log("📦 첫 번째 게시글 내용:", postList[0]); // 👉 여기서 nickname 확인 가능
 
                                         // 🔥 새 게시글 출력
                                         if (postList.length > 0) {
@@ -220,6 +217,22 @@ function updateReviewSection(post) {
     section.style.opacity = 0;
     section.style.transform = "translateX(30px)";
 
+    // 이미지 처리
+    const fileFields = ['postFile1', 'postFile2', 'postFile3'];
+    let imagesHtml = '';
+
+    fileFields.forEach(field => {
+        const rawPath = post[field];
+        if (rawPath) {
+            // 윈도우 경로에서 파일명만 추출
+            const fileName = rawPath.split("\\").pop().split("/").pop(); // 둘 다 고려
+            const imgSrc = `/uploads/${fileName}`; // uploads로 맵핑
+
+            imagesHtml += `<img src="${imgSrc}" alt="콘텐츠 이미지" style="max-width: 100%; margin-bottom: 10px;" />`;
+        }
+    });
+
+
     setTimeout(() => {
         section.innerHTML = `
             <div class="review-header">
@@ -232,8 +245,10 @@ function updateReviewSection(post) {
             </div>
 
             <div class="review-thumbnail">
-                <img src="${post.postFile1 || '/images/no-image.png'}" alt="콘텐츠 이미지" />
+                ${imagesHtml} <!-- 이미지 렌더링 -->
             </div>
+            
+            
 
             <div class="review-stats">
                 <span>❤️ ${post.postRating}</span>
@@ -268,7 +283,7 @@ function updateReviewSection(post) {
             fetch("/api/comments", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json" // ✅ C 대문자!
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     postSeq: postSeq,
@@ -278,8 +293,7 @@ function updateReviewSection(post) {
             }).then((res) => {
                 if (res.ok) {
                     commentInput.value = "";
-                    alert("댓글이 등록되었습니다.");
-                    // ✅댓글 목록 새로고침 함수 작성 시 여기에 호출
+                    // 댓글 목록 새로고침
                      loadComments(postSeq);
                 } else {
                     alert("댓글 등록에 실패했습니다.");
@@ -319,6 +333,9 @@ function loadComments(postSeq) {
                         <strong>${comment.username || '익명'}</strong>
                      </div>                    
                     <p class="comment-content">${comment.content}</p>
+                    <button type="button" onclick="deleteComment(${comment.id}, ${postSeq});" class ="d_btns">
+                    <span class="icons icon_del">삭제</span>
+                    </button>
                     <div class="comment-meta">
                         <span>${comment.createdAt}</span>
                         <span>❤️ ${comment.likes}</span>
@@ -331,6 +348,29 @@ function loadComments(postSeq) {
             commentList.innerHTML = "<p>댓글을 불러오지 못했습니다.</p>";
         });
 }
+
+function deleteComment(id, postSeq) {
+    if(!confirm('해당 댓글을 삭제할까요?')){
+        return;
+    }
+
+    fetch(`/api/comments/${id}`,{
+        method: 'DELETE'
+    })
+        .then(res => {
+            if(res.ok){
+                loadComments(postSeq);
+            }else{
+                alert('댓글 삭제 초☆실★패');
+            }
+        })
+        .catch(()=> {
+            alert('서버 오류');
+        });
+}
+
+
+
 
 
 

@@ -66,13 +66,21 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(Long id, String userId) {
+    public void deleteComment(Long id, String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("유저 정보를 찾을 수 없습니다"));
+
+
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
-        if (!comment.getUserId().equals(userId)) {
+
+
+        if (!comment.getUserId().equals(user.getUserId())) {
             throw new RuntimeException("본인의 댓글만 삭제할 수 있습니다.");
         }
         commentRepository.delete(comment);
+
+        System.out.println("삭제 완료");
     }
 
     @Transactional
