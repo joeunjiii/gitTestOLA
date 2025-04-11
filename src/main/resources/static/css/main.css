@@ -522,3 +522,10 @@ body {
     font-size: 0.95rem;
     margin-top: 8px;
 }
+.ranking-item {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.ranking-item:hover {
+    transform: scale(1.02);
+}

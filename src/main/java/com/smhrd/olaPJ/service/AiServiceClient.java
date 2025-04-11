@@ -96,7 +96,7 @@ public class AiServiceClient {
             for (JsonNode item : results) {
                 Map<String, Object> content = new HashMap<>();
                 content.put("title", item.path("CONTENTS_TITLE").asText());
-                content.put("poster", item.path("POSTER_IMG").asText());
+                content.put("posterImg", item.path("POSTER_IMG").asText());
                 double similarity = item.path("유사도").asDouble();
                 content.put("similarity", similarity);
                 System.out.println("🎬 " + content.get("title") + " | 유사도: " + similarity);
@@ -140,7 +140,7 @@ public class AiServiceClient {
             for (JsonNode item : root) {
                 Map<String, Object> content = new HashMap<>();
                 content.put("title", item.path("CONTENTS_TITLE").asText());
-                content.put("poster", item.path("POSTER_IMG").asText());
+                content.put("posterImg", item.path("POSTER_IMG").asText());
                 content.put("similarity", item.path("유사도").asDouble());
                 contentList.add(content);
             }

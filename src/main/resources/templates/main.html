@@ -51,7 +51,7 @@
         <div class="slide">
             <a th:each="item : ${basicResults}" href="#" class="slide-item"
                th:data-title="${item.title}">
-                <img th:src="${item.poster}" th:alt="${item.title}" />
+                <img th:src="${item.posterImg}" th:alt="${item.title}" />
             </a>
         </div>
     </section>
@@ -89,7 +89,7 @@
                 <button class="arrow left">◀</button>
                 <div class="ott-slide-track">
                     <a th:each="item : ${selectedResults}" href="#" class="ott-card">
-                        <img th:src="${item.poster}" th:alt="${item.title}" />
+                        <img th:src="${item.posterImg}" th:alt="${item.title}" />
                     </a>
                 </div>
                 <button class="arrow right">▶</button>

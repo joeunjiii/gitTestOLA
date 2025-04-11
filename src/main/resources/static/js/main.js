@@ -30,117 +30,130 @@ let currentPostIndex = 0;
 let postList = [];
 
 document.addEventListener("DOMContentLoaded", function () {
+    // 1. OTT 저장 후 메인 페이지로 이동
     const ottList = JSON.parse(localStorage.getItem("selectedOtt")) || [];
-
 
     if (ottList.length > 0) {
         fetch("/genre/save-ott", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ottPlatform: ottList })
         }).then(res => {
             if (res.ok) {
                 console.log("✅ OTT 저장 완료");
-                localStorage.removeItem("selectedOtt"); // 저장 후 정리
-
-                // ✅ 메인 페이지 새로고침 or 이동
-                window.location.href = "/main"; // 또는 window.location.reload();
+                localStorage.removeItem("selectedOtt");
+                window.location.href = "/main";
             } else {
                 console.error("❌ OTT 저장 실패");
             }
         });
     }
 
+    // 2. 슬라이드 클릭 → 타이틀 저장 → 추천 fetch → 리뷰 fetch
     const slideItems = document.querySelectorAll(".slide-item");
     slideItems.forEach(item => {
         item.addEventListener("click", function (event) {
             event.preventDefault();
+
             const selectedTitle = item.getAttribute("data-title");
+            sessionStorage.setItem("selectedTitle", selectedTitle); // ✅ 반드시 저장!
 
             fetch("/genre/save-title", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ selectedTitle })
-            })
-                .then(res => {
-                    if (res.ok) {
-                        console.log("✅ 선택 제목 저장 완료:", selectedTitle);
+            }).then(res => {
+                if (!res.ok) {
+                    console.error("❌ 제목 저장 실패");
+                    return;
+                }
 
-                        // ✅ 선택 기반 추천 AJAX 요청
-                        fetch(`/ai/selected?title=${encodeURIComponent(selectedTitle)}`)
-                            .then(res => res.json())
-                            .then(data => {
-                                const track = document.querySelector(".ott-slide-track");
-                                track.innerHTML = ""; // 기존 슬라이드 비움
+                console.log("✅ 선택 제목 저장 완료:", selectedTitle);
 
-                                if (!data || data.length === 0) {
-                                    track.innerHTML = "<p>추천 결과가 없습니다.</p>";
+                // 3. 선택 기반 추천 fetch
+                fetch(`/ai/selected?title=${encodeURIComponent(selectedTitle)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const track = document.querySelector(".ott-slide-track");
+                        track.innerHTML = "";
+
+                        if (!data || data.length === 0) {
+                            track.innerHTML = "<p>추천 결과가 없습니다.</p>";
+                            return;
+                        }
+
+                        data.forEach(item => {
+                            const a = document.createElement("a");
+                            a.href = "javascript:void(0);";
+                            a.className = "ott-card";
+                            a.style.cursor = "pointer";
+
+                            const img = document.createElement("img");
+                            img.src = item.posterImg || "/images/no-image.png";
+                            img.alt = item.title;
+
+                            a.addEventListener("click", () => {
+                                sessionStorage.setItem("selectedTitle", item.title);
+                                sessionStorage.setItem("selectedContentId", item.id);
+                                sessionStorage.setItem("selectedPoster", item.posterImg);
+                                window.location.href = `/reviewDetail?title=${encodeURIComponent(item.title)}`;
+                            });
+
+                            a.appendChild(img);
+                            track.appendChild(a);
+                        });
+
+                        console.log("✅ 추천 결과 동적 반영 완료");
+
+                        // 4. 선택된 콘텐츠의 리뷰 fetch
+                        fetch(`/posts/by-title?title=${encodeURIComponent(selectedTitle)}`)
+                            .then(res => {
+                                if (!res.ok) {
+                                    postList = [];
+                                    currentPostIndex = 0;
+                                    document.querySelector(".review-preview").innerHTML = `
+                                        <div class="review-text">
+                                            <p>📭 해당 콘텐츠에 대한 게시글이 없습니다.</p>
+                                        </div>
+                                    `;
+                                    updateArrowButtons();
                                     return;
                                 }
+                                return res.json();
+                            })
+                            .then(posts => {
+                                if (!posts) return;
 
-                                data.forEach(item => {
-                                    const a = document.createElement("a");
-                                    a.href = "#";
-                                    a.className = "ott-card";
+                                postList = posts;
+                                currentPostIndex = 0;
 
-                                    const img = document.createElement("img");
-                                    img.src = item.poster || "/images/no-image.png";
-                                    img.alt = item.title;
-
-                                    a.appendChild(img);
-                                    track.appendChild(a);
-                                });
-
-
-                                fetch(`/posts/by-title?title=${encodeURIComponent(selectedTitle)}`)
-                                    .then(res => {
-                                        if (!res.ok) {
-                                            postList = []; // 🔥 이전 게시글 리스트 초기화
-                                            currentPostIndex = 0;
-
-                                            // 🔥 화면 초기화
-                                            document.querySelector(".review-preview").innerHTML = `
-                                                <div class="review-text">
-                                                    <p>📭 해당 콘텐츠에 대한 게시글이 없습니다.</p>
-                                                </div>
-                                            `;
-                                            updateArrowButtons();
-                                            return;
-                                        }
-                                        return res.json();
-                                    })
-                                    .then(posts => {
-                                        if (!posts) return;
-
-                                        postList = posts;
-                                        currentPostIndex = 0;
-
-
-                                        // 🔥 새 게시글 출력
-                                        if (postList.length > 0) {
-                                            updateReviewSection(postList[currentPostIndex]);
-                                            updateArrowButtons();
-                                        } else {
-                                            showNoPostMessage();
-                                        }
-                                    });
-
-
-                                console.log("✅ 추천 결과 동적 반영 완료");
+                                if (postList.length > 0) {
+                                    updateReviewSection(postList[currentPostIndex]);
+                                    updateArrowButtons();
+                                } else {
+                                    showNoPostMessage();
+                                }
                             });
-                    } else {
-                        console.error("❌ 제목 저장 실패");
-                    }
-                });
+                    });
+            });
         });
     });
 
+    // 5. 로그인 후 추천 카드가 존재할 경우 클릭 이벤트 수동 바인딩
+    const cards = document.querySelectorAll(".ott-card");
+    cards.forEach(card => {
+        card.addEventListener("click", () => {
+            const title = card.querySelector("img").alt;
+            const poster = card.querySelector("img").src;
 
+            sessionStorage.setItem("selectedTitle", title);
+            sessionStorage.setItem("selectedPoster", poster);
+            // contentId는 없음 (서버에 요청해서 다시 가져와야 함)
+            window.location.href = `/reviewDetail?title=${encodeURIComponent(title)}`;
+        });
+    });
 });
+
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("ott-search");
     const contentSelection = document.querySelector(".content-selection");
@@ -219,14 +232,20 @@ document.addEventListener("DOMContentLoaded", function () {
             data.forEach((item, idx) => {
                 const rankingItem = document.createElement("div");
                 rankingItem.className = "ranking-item";
+                rankingItem.style.cursor = "pointer"; // 마우스 커서 변경
+
+                // ✅ 클릭 시 상세 페이지 이동
+                rankingItem.addEventListener("click", () => {
+                    window.location.href = `/reviewDetail?title=${encodeURIComponent(item.title)}`;
+                });
 
                 rankingItem.innerHTML = `
-                    <img src="${item.posterImg || '/img/no-image.png'}" alt="${idx + 1}위 콘텐츠" class="ranking-thumb" />
-                    <div class="ranking-text">
-                        <p class="ranking-title">${idx + 1}. ${item.title}</p>
-                        <span class="ranking-info">${item.releaseYear}년 · ${item.genre}</span>
-                    </div>
-                `;
+                <img src="${item.posterImg || '/img/no-image.png'}" alt="${idx + 1}위 콘텐츠" class="ranking-thumb" />
+                <div class="ranking-text">
+                    <p class="ranking-title">${idx + 1}. ${item.title}</p>
+                    <span class="ranking-info">${item.releaseYear}년 · ${item.genre}</span>
+                </div>
+            `;
 
                 box.appendChild(rankingItem);
             });
@@ -235,6 +254,8 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("리뷰 랭킹 불러오기 실패:", error);
             document.getElementById("review-ranking-box").innerHTML += `<p>랭킹 정보를 불러올 수 없습니다.</p>`;
         });
+
+
 
 });
 
