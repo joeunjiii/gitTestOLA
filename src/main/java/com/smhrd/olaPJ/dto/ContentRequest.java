@@ -10,6 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContentRequest {
+
+    private Long id;
     private String title;
     private String posterImg;
 }

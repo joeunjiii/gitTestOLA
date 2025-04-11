@@ -1,9 +1,11 @@
 package com.smhrd.olaPJ.service;
 
+import com.smhrd.olaPJ.domain.Content;
 import com.smhrd.olaPJ.domain.Post;
 import com.smhrd.olaPJ.domain.PostLike;
 import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.PostResponse;
+import com.smhrd.olaPJ.repository.ContentRepository;
 import com.smhrd.olaPJ.repository.PostLikeRepository;
 import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
@@ -27,6 +29,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PostLikeRepository postLikeRepository;
+    private final ContentRepository contentRepository;
 
 
     public List<Post> getPostsByContentId(Long contentId) {
@@ -34,13 +37,15 @@ public class PostService {
     }
 
 
-    public Long uploadReview(String postTitle, MultipartFile file1, MultipartFile file2, MultipartFile file3, String username) throws IOException {
+    public Long uploadReview(Long contentId, String postTitle, MultipartFile file1, MultipartFile file2, MultipartFile file3, String username) throws IOException {
         // 1. 실제 유저 찾기
         Optional<User> optionalUser = userRepository.findByUsername(username);
-        if (optionalUser.isEmpty()) {
+        Optional<Content> optionalContent = contentRepository.findById(contentId);
+        if (optionalUser.isEmpty() || optionalContent.isEmpty()) {
             throw new IllegalArgumentException("해당 유저가 존재하지 않습니다: " + username);
         }
-        String userId = optionalUser.get().getUserId(); // UUID
+        User user = optionalUser.get();
+        Content content = optionalContent.get();
 
         // 2. 파일 저장 (루트/uploads 폴더 사용)
         String uploadDir = System.getProperty("user.dir") + "/uploads/";
@@ -50,7 +55,7 @@ public class PostService {
 
         // 3. 엔티티 저장 (DB에는 파일명만 저장!)
         Post newPost = Post.builder()
-                .userId(userId)
+                .userId(user.getUserId())
                 .postTitle(postTitle)
                 .postFile1(fileName1)
                 .postFile2(fileName2)
@@ -58,6 +63,9 @@ public class PostService {
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
+
+        // ✅ 반드시 명시적으로 Content 설정
+        newPost.setContent(content);
 
         Post savedPost = postRepository.save(newPost);
         return savedPost.getPostSeq();
@@ -129,6 +137,8 @@ public class PostService {
         System.out.println("현재 좋아요 수: " + count);
         return count;
     }
+
+
 
 
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -65,10 +66,6 @@ public class PostApiController {
                     .body(Map.of("error", e.getMessage())); // 실패 시 에러 메시지 반환
         }
     }
-
-
-
-
 
 
 

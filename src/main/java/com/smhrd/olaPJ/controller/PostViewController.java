@@ -34,13 +34,14 @@ public class PostViewController {
                                @RequestParam("file1") MultipartFile file1,
                                @RequestParam("file2") MultipartFile file2,
                                @RequestParam("file3") MultipartFile file3,
+                               @RequestParam("contentId") Long contentId,
                                Authentication authentication) {
 
         String username = authentication.getName(); // 로그인한 사용자 이름
         try {
 
             //DB 저장후 postseq 반환
-            Long postSeq = postService.uploadReview(postTitle, file1, file2, file3, username);
+            Long postSeq = postService.uploadReview(contentId, postTitle,file1, file2, file3, username);
 
             System.out.println("Review photo uploaded, postSeq: " + postSeq);
             return "redirect:/review?postSeq=" + postSeq; //다음화면 + postSeq 넘김
@@ -95,4 +96,3 @@ public class PostViewController {
         return ResponseEntity.ok(result); // ✅ 이 줄이 핵심!
     }
 }
-

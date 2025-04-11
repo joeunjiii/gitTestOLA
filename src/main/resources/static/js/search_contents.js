@@ -1,4 +1,4 @@
-/*document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("ott-search");
     const contentSelection = document.querySelector(".content-selection");
 
@@ -40,15 +40,15 @@
                     box.addEventListener("click", () => {
                         sessionStorage.setItem("selectedTitle", content.title);
                         sessionStorage.setItem("selectedPoster", content.posterImg);
+                        sessionStorage.setItem("selectedContentId", content.id); // ✅ 이거 추가!
+
                         alert(`"${content.title}"을(를) 선택하셨습니다.`);
 
-                        // 선택 표시 스타일 (선택된 박스 강조)
-                        //document.querySelectorAll(".content-box").forEach(el => el.classList.remove("selected"));
                         contentSelection.innerHTML = "";
                         contentSelection.appendChild(box);
-
                         box.classList.add("selected");
                     });
+
 
                     contentSelection.appendChild(box);
                 });
@@ -58,6 +58,6 @@
                 contentSelection.innerHTML = "<p>검색 오류가 발생했습니다.</p>";
             });
     });
-});*/
+});
 
 

@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`/api/content/detail?title=${encodeURIComponent(title)}`)
         .then(res => res.json())
         .then(data => {
+            console.log("✅ API 결과:", data);
             renderContent(data.content);
             renderReviews(data.reviews);
         })

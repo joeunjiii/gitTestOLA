@@ -19,7 +19,7 @@ public class ContentService {
         List<Content> contentList = contentRepository.findByTitleContainingIgnoreCase(keyword);
 
         return contentList.stream()
-                .map(content -> new ContentRequest(content.getTitle(), content.getPosterImg()))
+                .map(content -> new ContentRequest(content.getId(),content.getTitle(), content.getPosterImg()))
                 .collect(Collectors.toList());
     }
 
