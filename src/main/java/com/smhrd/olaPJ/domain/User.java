@@ -82,24 +82,6 @@ public class User implements UserDetails {
         return username;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //사용자의 패스워드 반환
     @Override
     public String getPassword() {
@@ -133,5 +115,10 @@ public class User implements UserDetails {
 
     public boolean isGenreSelected() {
         return this.genreSelected == 1;
+    }
+
+
+    public String getUserNick() {
+        return nickname;
     }
 }

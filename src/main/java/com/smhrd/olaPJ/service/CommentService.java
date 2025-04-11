@@ -11,6 +11,7 @@ import com.smhrd.olaPJ.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -40,7 +42,7 @@ public class CommentService {
                             .createdAt(comment.getCreatedAt().format(formatter))
                             .likes(comment.getLikes())
                             .userId(comment.getUserId())
-                            .username(user != null ? user.getUsername() : "알 수 없음") //
+                            .username(user != null ? user.getUserNick() : "알 수 없음") //
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -79,7 +81,7 @@ public class CommentService {
 
 
         if (!comment.getUserId().equals(user.getUserId())) {
-            throw new RuntimeException("본인의 댓글만 삭제할 수 있습니다.");
+            throw new IllegalArgumentException("본인의 댓글만 삭제할 수 있습니다.");
         }
         commentRepository.delete(comment);
 

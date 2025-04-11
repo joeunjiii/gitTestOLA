@@ -4,11 +4,12 @@ import com.smhrd.olaPJ.domain.Post;
 import com.smhrd.olaPJ.domain.PostLike;
 import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.PostResponse;
-//import com.smhrd.olaPJ.repository.PostLikeRepository;
+import com.smhrd.olaPJ.repository.PostLikeRepository;
 import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +26,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-//    private final PostLikeRepository postLikeRepository;
+    private final PostLikeRepository postLikeRepository;
 
 
     public List<PostResponse> getAllPosts() {
@@ -44,7 +45,7 @@ public class PostService {
         String userId = optionalUser.get().getUserId(); // UUID
 
         // 2. 파일 저장 (루트/uploads 폴더 사용)
-        String uploadDir = new File("src/main/resources/static/uploads/").getAbsolutePath() + "/";
+        String uploadDir = System.getProperty("user.dir") + "/uploads/";
         String fileName1 = saveFile(file1, uploadDir);
         String fileName2 = saveFile(file2, uploadDir);
         String fileName3 = saveFile(file3, uploadDir);
@@ -102,31 +103,34 @@ public class PostService {
         return postRepository.findById(postSeq);
     }
 
-//    @Transactional
-//    public int likePost(Long postSeq, String username) {
-//
-//        User user = userRepository.findByUsername(username)
-//                .orElseThrow(() -> new RuntimeException("유저 없음"));
-//        String userId = user.getUserId();
-//
-//        Post post = postRepository.findByPostSeq(postSeq);
-//        if (post == null) {
-//            throw new RuntimeException("리뷰를 찾을 수 없습니다");
-//        }
-//
-//        Optional<PostLike> existingLike = postLikeRepository.findBPostSeqAndUserId(postSeq, userId);
-//
-//        if (existingLike.isPresent()) {
-//            PostLike postLike = existingLike.get();
-//        } else {
-//            PostLike postLike = new PostLike(postSeq, userId);
-//            postLikeRepository.save(postLike);
-//        }
-//
-//        return postLikeRepository.countByPostSeq(postSeq);
-//
-//
-//
-//
-//    }
+    @Transactional
+    public int likePost(Long postSeq, String username) {
+        System.out.println("likePost 실행: postSeq = " + postSeq + ", username = " + username);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("유저 없음: " + username));
+
+        Post post = postRepository.findByPostSeq(postSeq)
+                .orElseThrow(() -> new RuntimeException("리뷰 없음: postSeq = " + postSeq));
+
+        if (post.getUserId().equals(user.getUserId())) {
+            throw new IllegalArgumentException("본인 리뷰에는 좋아요를 누를 수 없습니다");
+        }
+
+        Optional<PostLike> existingLike = postLikeRepository.findByPostSeqAndUserId(postSeq, user.getUserId());
+
+        if (existingLike.isPresent()) {
+            postLikeRepository.delete(existingLike.get());
+            System.out.println("좋아요 취소");
+        } else {
+            postLikeRepository.save(new PostLike(postSeq, user.getUserId()));
+            System.out.println("❤️ 좋아요 등록");
+        }
+
+        int count = postLikeRepository.countByPostSeq(postSeq);
+        System.out.println("현재 좋아요 수: " + count);
+        return count;
+    }
+
+
 }

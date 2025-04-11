@@ -253,9 +253,14 @@ function updateReviewSection(post) {
         if (rawPath) {
             // 윈도우 경로에서 파일명만 추출
             const fileName = rawPath.split("\\").pop().split("/").pop(); // 둘 다 고려
-            const imgSrc = `/uploads/${fileName}`; // uploads로 맵핑
+            const lowerName = fileName.toLowerCase();
 
-            imagesHtml += `<img src="${imgSrc}" alt="콘텐츠 이미지" style="max-width: 100%; margin-bottom: 10px;" />`;
+            const isImage = /\.(jpg|jpeg|png|gif|jfif|bmp|webp)$/.test(lowerName);
+
+            if (isImage) {
+                const imgSrc = `/uploads/${fileName}`;
+                imagesHtml += `<img src="${imgSrc}" alt="콘텐츠 이미지" style="max-width: 100%; margin-bottom: 10px;" />`;
+            }
         }
     });
 
@@ -278,12 +283,12 @@ function updateReviewSection(post) {
             
 
             <div class="review-stats">
-                <span onclick="likePost(${post.id})"
-                              style = "cursor: pointer; user-select: none;"
-                              onmouseover="this.style.opacity='0.7"
-                              onmouseout="this.style.opacity='1'">
-                            ❤️<span id="like-count-$post.id}">${post.likes}</span>
-                        </span>
+                <span onclick="likePost(${post.postSeq})"
+                        style="cursor: pointer; user-select: none;"
+                        onmouseover="this.style.opacity='0.7'"
+                        onmouseout="this.style.opacity='1'">
+                        ❤️<span id="like-count-${post.postSeq}">${post.likeCount}</span>
+                </span>
                 <span>💬 댓글</span>
             </div>
             
@@ -388,24 +393,27 @@ function loadComments(postSeq) {
 }
 
 function deleteComment(id, postSeq) {
-    if(!confirm('해당 댓글을 삭제할까요?')){
+    if (!confirm('해당 댓글을 삭제할까요?')) {
         return;
     }
 
-    fetch(`/api/comments/${id}`,{
+    fetch(`/api/comments/${id}`, {
         method: 'DELETE'
     })
         .then(res => {
-            if(res.ok){
+            if (res.ok) {
                 loadComments(postSeq);
-            }else{
-                alert('댓글 삭제 초☆실★패');
+            } else {
+                return res.text().then(err => {
+                    alert((err.error || "댓글 삭제 실패"));
+                });
             }
         })
-        .catch(()=> {
-            alert('서버 오류');
+        .catch(() => {
+            alert('서버 오류가 발생');
         });
 }
+
 
 function likeComment(commentId) {
     fetch(`api/comments/comment/${commentId}/like`, {
@@ -414,7 +422,7 @@ function likeComment(commentId) {
         .then(response => {
             if (!response.ok) {
                 return response.text().then(msg => {
-                    alert("❌ " + msg);
+                    alert(msg);
                     throw new Error(msg);
                 });
             }
@@ -428,30 +436,29 @@ function likeComment(commentId) {
         });
 }
 
-// function likePost(postId) {
-//     fetch(`/post/${postId}/like`,{
-//         method : 'POST',
-//         headers: {
-//             'content-Type' : 'application/json'
-//         }
-//     })
-//         .then(response => {
-//             if(!response.ok) {
-//                 throw new Error('네트워크 응답 오류');
-//             }
-//             return response.json();
-//         })
-//         .then(newCount => {
-//            const matches = newCount.match(/\d+/);
-//            if (matches && matches.length > 0){
-//                const updateLikeCount = matches[0];
-//                document.getElementById(`like-count-${postId}`).innerText = updateLikeCount;
-//            }
-//         })
-//         .catch(error => {
-//             console.error("좋아요 오류 발생", error);
-//         });
-// }
+function likePost(postId) {
+    fetch(`/posts/${postId}/like`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.error || '좋아요 실패');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById(`like-count-${postId}`).innerText = data.likeCount;
+        })
+        .catch(error => {
+            alert(error.message);
+            console.error("좋아요 오류:", error.message);
+        });
+}
 
 
 

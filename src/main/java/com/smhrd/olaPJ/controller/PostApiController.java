@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/posts")
@@ -51,17 +52,24 @@ public class PostApiController {
         return contentService.searchByTitle(keyword);
     }
 
-//    //리뷰 좋아요
-//    @PostMapping("/posts/{id}/like")
-//    public ResponseEntity<?> likePost(@PathVariable Long postSeq,
-//                                      @AuthenticationPrincipal UserDetails userDetails) {
-//        try {
-//            int updateLikes = postService.likePost(postSeq, userDetails.getUsername());
-//            return ResponseEntity.ok().body("Update like count:" +updateLikes);
-//            } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("에러:" + e.getMessage());
-//        }
-//    }
+    @PostMapping("/{id}/like")
+    public ResponseEntity<?> likePost(@PathVariable("id") Long postSeq,
+                                      @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            int updateLikes = postService.likePost(postSeq, userDetails.getUsername());
+            return ResponseEntity.ok(Map.of("likeCount", updateLikes)); //JSON 응답
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", e.getMessage())); // 실패 시 에러 메시지 반환
+        }
+    }
+
+
+
+
+
 
 
 

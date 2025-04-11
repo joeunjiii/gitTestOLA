@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "TB_COMMENT_LIKE", uniqueConstraints = @UniqueConstraint(columnNames = {"commentId", "userId"}))
 public class CommentLike {
 
-    @Getter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
