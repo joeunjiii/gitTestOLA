@@ -23,6 +23,7 @@ public class PostResponse {
     private String postFile3;
     private LocalDateTime createdAt;
     private int likeCount;
+    private int postRating;
 
 
     public static PostResponse from(Post post) {
@@ -35,6 +36,7 @@ public class PostResponse {
                 .postFile2(post.getPostFile2())
                 .postFile3(post.getPostFile3())
                 .createdAt(post.getCreatedAt())
+                .postRating(post.getPostRating())
                 .build();
     }
 

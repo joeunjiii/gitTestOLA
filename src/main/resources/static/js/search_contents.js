@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("ott-search");
     const contentSelection = document.querySelector(".content-selection");
 
@@ -58,6 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 contentSelection.innerHTML = "<p>검색 오류가 발생했습니다.</p>";
             });
     });
-});
+});*/
 
 

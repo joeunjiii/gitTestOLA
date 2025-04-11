@@ -17,4 +17,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 
     Optional<Post> findByPostSeq(Long postSeq);
+    Optional<Post> findByPostTitleAndUserId(String postTitle, String username);
+
+    Post findByPostSeq(Long postSeq);
+
+    // 특정 콘텐츠에 대한 전체 리뷰(Post) 목록
+    List<Post> findByContent_IdOrderByCreatedAtDesc(Long contentId);
 }

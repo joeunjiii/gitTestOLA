@@ -183,7 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     box.addEventListener("click", () => {
                         sessionStorage.setItem("selectedTitle", content.title);
                         sessionStorage.setItem("selectedPoster", content.posterImg);
-                        alert(`"${content.title}"을(를) 선택하셨습니다.`);
+
+                        location.href = `/reviewDetail?title=${encodeURIComponent(content.title)}`;
 
                         contentSelection.innerHTML = "";
                         contentSelection.style.display = "none";
@@ -276,9 +277,7 @@ function updateReviewSection(post) {
                 <button class="follow-btn">팔로우</button>
             </div>
 
-            <div class="review-thumbnail">
-                ${imagesHtml} <!-- 이미지 렌더링 -->
-            </div>
+             ${imagesHtml ? `<div class="review-thumbnail">${imagesHtml}</div>` : ''}
             
             
 

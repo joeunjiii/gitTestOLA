@@ -73,6 +73,12 @@ public class UserViewController {
 
     @GetMapping("/main")
     public String showMainPage(Model model, Principal principal) {
+
+        // ✅ 로그인 안된 상태에서 바로 접근하면 예외 방지
+        if (principal == null) {
+            return "redirect:/login";  // 로그인 페이지로 이동
+        }
+
         String username = principal.getName(); // 현재 로그인 유저 이름
 
         // 기본 추천
@@ -96,6 +102,7 @@ public class UserViewController {
 
         return "main"; // templates/main.html
     }
+
 
     @GetMapping("/ai/selected")
     @ResponseBody

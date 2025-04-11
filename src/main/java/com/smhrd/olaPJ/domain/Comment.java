@@ -38,5 +38,7 @@ public class Comment {
     @JoinColumn(name = "SUPER_SEQ")
     private Comment superComment;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POST_SEQ", insertable = false, updatable = false)
+    private Post post;
 }

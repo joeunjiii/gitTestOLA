@@ -20,15 +20,30 @@ public class Content {
     @Column(name = "CONTENTS_TITLE")
     private String title;
 
+    @Column(name = "CONTENTS_SYNOPSIS")
+    private String synopsis;
+
     @Column(name = "POSTER_IMG")
     private String posterImg;
 
-    @Column(name="RATING")
+    @Column(name = "RATING")
     private int rating;
 
-    @Column(name="CONTENTS_GENRE")
+    @Column(name = "CONTENTS_GENRE")
     private String contentsGenre;
 
-    @Column(name="RELEASE_YEAR")
+    @Column(name = "RELEASE_YEAR")
     private int releaseYear;
+
+    @Column(name = "AGE_RATING")
+    private String ageRating;
+
+    @Column(name = "DIRECTOR")
+    private String director;
+
+    @Column(name = "CAST")
+    private String cast;
+
+    @Column(name = "OTT")
+    private String ott;
 }

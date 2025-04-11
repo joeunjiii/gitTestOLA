@@ -22,4 +22,9 @@ public class ContentService {
                 .map(content -> new ContentRequest(content.getTitle(), content.getPosterImg()))
                 .collect(Collectors.toList());
     }
+
+    public Content getContentByTitle(String title) {
+        return contentRepository.findByTitle(title)
+                .orElseThrow(() -> new RuntimeException("작품을 찾을 수 없습니다."));
+    }
 }

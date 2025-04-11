@@ -29,12 +29,10 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
 
 
-    public List<PostResponse> getAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        return posts.stream()
-                .map(PostResponse::from)
-                .collect(Collectors.toList());
+    public List<Post> getPostsByContentId(Long contentId) {
+        return postRepository.findByContent_IdOrderByCreatedAtDesc(contentId);
     }
+
 
     public Long uploadReview(String postTitle, MultipartFile file1, MultipartFile file2, MultipartFile file3, String username) throws IOException {
         // 1. 실제 유저 찾기
