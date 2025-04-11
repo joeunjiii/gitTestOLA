@@ -91,86 +91,98 @@ body {
 }
 
 /* ================================
-  리뷰 정보
+  작품 상세 콘텐츠 박스
 ================================= */
-.user-info {
+.content-detail-box {
     display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 0.8rem;
-}
-.profile-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-.user-meta .nickname {
-    font-weight: bold;
-}
-.ott-title {
-    font-size: 0.85rem;
-    color: #eee;
-}
-.follow-btn {
-    margin-left: auto;
-    background: #002c59;
-    color: white;
-    padding: 0.4rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.review-text {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 0.6rem;
-    color: #fff;
-}
-.reaction-bar {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-    color: #fff;
-}
-.comment-input {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-.comment-input input {
-    flex: 1;
-    padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-.comment-btn {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* ================================
-  리뷰 카드 리스트
-================================= */
-.review-list {
-    padding: 1rem;
-}
-.review-card {
-    background: #f9f9f9;
-    padding: 1rem;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.06);
-}
-.review-card img {
-    width: 100%;
+.content-detail-box .poster-img {
+    width: 180px;
     border-radius: 10px;
-    margin-top: 1rem;
+    object-fit: cover;
 }
+
+.content-meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.content-meta h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.synopsis-text {
+    line-height: 1.6;
+    font-size: 0.95rem;
+    color: #333;
+    max-height: 4.8em; /* 약 3줄 */
+    overflow: hidden;
+    position: relative;
+}
+
+.synopsis-text.expanded {
+    max-height: none;
+}
+
+.more-btn {
+    color: #007BFF;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.info-table {
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+    border-collapse: collapse;
+}
+
+.info-table tr {
+    border-bottom: 1px solid #eee;
+}
+
+.info-table td {
+    padding: 0.4rem 0.6rem;
+    vertical-align: top;
+}
+
+.info-table td:first-child {
+    font-weight: bold;
+    color: #555;
+    white-space: nowrap;
+    width: 100px;
+}
+.bookmark-btn {
+    font-size: 0.95rem;
+    background: #f3f3f3;
+    border: 1px solid #ddd;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.bookmark-btn:hover {
+    background: #ffe99f;
+}
+
+.bookmark-btn.active {
+    background: #ffc107;
+    color: #000;
+    font-weight: bold;
+}
+
 
 /* ================================
   SNS 피드 형식 리뷰 추가 스타일
