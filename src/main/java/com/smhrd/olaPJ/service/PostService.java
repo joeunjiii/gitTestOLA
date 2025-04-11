@@ -1,12 +1,15 @@
 package com.smhrd.olaPJ.service;
 
 import com.smhrd.olaPJ.domain.Post;
+import com.smhrd.olaPJ.domain.PostLike;
 import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.PostResponse;
+//import com.smhrd.olaPJ.repository.PostLikeRepository;
 import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,6 +25,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+//    private final PostLikeRepository postLikeRepository;
+
 
     public List<PostResponse> getAllPosts() {
         List<Post> posts = postRepository.findAll();
@@ -96,4 +101,32 @@ public class PostService {
     public Optional<Post> findPostBySeq(Long postSeq) {
         return postRepository.findById(postSeq);
     }
+
+//    @Transactional
+//    public int likePost(Long postSeq, String username) {
+//
+//        User user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new RuntimeException("유저 없음"));
+//        String userId = user.getUserId();
+//
+//        Post post = postRepository.findByPostSeq(postSeq);
+//        if (post == null) {
+//            throw new RuntimeException("리뷰를 찾을 수 없습니다");
+//        }
+//
+//        Optional<PostLike> existingLike = postLikeRepository.findBPostSeqAndUserId(postSeq, userId);
+//
+//        if (existingLike.isPresent()) {
+//            PostLike postLike = existingLike.get();
+//        } else {
+//            PostLike postLike = new PostLike(postSeq, userId);
+//            postLikeRepository.save(postLike);
+//        }
+//
+//        return postLikeRepository.countByPostSeq(postSeq);
+//
+//
+//
+//
+//    }
 }
