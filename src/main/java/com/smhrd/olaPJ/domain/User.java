@@ -14,10 +14,10 @@ import java.util.UUID;
 
 
 @Table(name="TB_USER")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @Entity
-
+@Setter
 //유저정보
 public class User implements UserDetails {
 

@@ -19,6 +19,10 @@ public class PostLike {
     @Column(name="LIKE_SEQ")
     private Long likeSeq;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POST_SEQ", insertable = false, updatable = false)
+    private Post post;
+
     @Column(name = "POST_SEQ", nullable = false)
     private Long postSeq;
 

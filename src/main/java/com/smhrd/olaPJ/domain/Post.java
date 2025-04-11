@@ -51,4 +51,6 @@ public class Post {
     @JoinColumn(name = "CONTENTS_SEQ")  // CONTENT 테이블의 PK를 FK로 설정
     private Content content;
 
+
+
 }
