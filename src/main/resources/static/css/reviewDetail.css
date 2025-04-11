@@ -1,0 +1,319 @@
+/* ================================
+  기본 초기화 및 전체 레이아웃
+================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'SUIT', sans-serif;
+    background: #7b7a7a;
+}
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+    background: white;
+}
+
+/* ================================
+  상단 영역
+================================= */
+.top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: white;
+}
+.logo {
+    width: 60px;
+}
+.search-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: #b7b7c5;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    margin-left: 1rem;
+}
+.search-icon {
+    width: 20px;
+    height: 20px;
+    color: #333;
+}
+.search-box input {
+    border: none;
+    background: transparent;
+    margin-left: 0.5rem;
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+/* ================================
+  상세 페이지 콘텐츠 박스
+================================= */
+.detail-section {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+}
+.detail-left .poster-img {
+    width: 160px;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.detail-right {
+    flex: 1;
+    background: #a5a5b8; /* 회색 배경 */
+    border-radius: 12px;
+    padding: 1rem;
+    position: relative;
+}
+
+/* 북마크 버튼 */
+.bookmark-box {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.bookmark-btn {
+    background: #2c2c3e;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* ================================
+  리뷰 정보
+================================= */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.user-meta .nickname {
+    font-weight: bold;
+}
+.ott-title {
+    font-size: 0.85rem;
+    color: #eee;
+}
+.follow-btn {
+    margin-left: auto;
+    background: #002c59;
+    color: white;
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.review-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0.6rem;
+    color: #fff;
+}
+.reaction-bar {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    color: #fff;
+}
+.comment-input {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+.comment-input input {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+.comment-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ================================
+  리뷰 카드 리스트
+================================= */
+.review-list {
+    padding: 1rem;
+}
+.review-card {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.06);
+}
+.review-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+/* ================================
+  SNS 피드 형식 리뷰 추가 스타일
+================================= */
+.review-detail {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+.review-user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+.review-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 1rem 0;
+}
+.review-image-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.arrow-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+.comment-list {
+    margin-top: 0.8rem;
+}
+.comment {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+    color: #444;
+}
+
+/* ================================
+  하단 로고 & 네비게이션
+================================= */
+.footer {
+    text-align: center;
+    margin: 2rem 0;
+}
+.footer-logo {
+    width: 200px;
+}
+
+.review-detail {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    background: white;
+}
+.review-user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+.review-img,
+.review-main-img {
+    width: 400px;
+    height: auto;
+    border-radius: 12px;
+    margin: 1rem auto;      /* ✅ 상하 여백 + 좌우 가운데 정렬 */
+    display: block;
+}
+.review-image-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.arrow-btn,
+.image-arrow {
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #444;
+}
+.comment-list {
+    margin-top: 0.8rem;
+}
+.comment {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+    color: #444;
+}
+.review-extended {
+    padding: 1.2rem;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+}
+.review-extended .review-text {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+.review-extended .reaction-bar {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 700px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    padding: 0.6rem 0;
+    z-index: 999;
+}
+.nav-menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.icon-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+}
+.icon-svg {
+    width: 24px;
+    height: 24px;
+    stroke: #666;
+    stroke-width: 2;
+}
+.nav-item.active .icon-svg {
+    stroke: #007aff;
+}

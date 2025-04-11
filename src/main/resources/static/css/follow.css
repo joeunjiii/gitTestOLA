@@ -1,0 +1,185 @@
+/* 팔로우 페이지 css */
+
+/* 브라우저 기본 여백 제거 + 전체 높이 설정 */
+html, body {
+    height: 100%;         /* 전체 화면 높이 채움 */
+    margin: 0;            /* 바깥 여백 제거 */
+    padding: 0;           /* 안쪽 여백 제거 */
+}
+
+/* 바디 전체 설정 */
+body {
+    font-family: 'Pretendard', sans-serif;   /* 깔끔한 웹폰트 적용 */
+    display: flex;                           /* 가운데 정렬을 위한 flex */
+    justify-content: center;                /* 수평 가운데 정렬 */
+    align-items: flex-start;                /* 수직 정렬: 상단에서 시작 */
+    min-height: 100vh;                      /* 최소 화면 높이 100% */
+    background-color: #7b7a7a;              /* 배경색: 회색 느낌 */
+    padding: 40px 0;                        /* 위아래 여백 줘서 가운데로 */
+}
+
+/* 팔로우 페이지 전체 감싸는 컨테이너 */
+.container {
+    background-color: #ffffff;              /* 배경 흰색 */
+    width: 700px;                           /* 가로 너비 */
+    padding: 40px 20px;                     /* 내부 여백 */
+    border-radius: 12px;                    /* 둥근 모서리 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 그림자 */
+    display: flex;                          /* 내부 요소를 세로 정렬 */
+    flex-direction: column;
+    align-items: center;
+
+    min-height: 90vh;                       /* 화면 거의 다 채우기 */
+    box-sizing: border-box;                /* padding 포함한 높이 계산 */
+}
+
+/* 탭(팔로워/팔로잉) 감싸는 영역 */
+.tabs {
+    width: 100vw;                           /* 뷰포트 너비만큼 */
+    max-width: 450px;                       /* 최대 너비 제한 */
+    margin: 0 auto 14px auto;               /* 가운데 정렬 + 아래 여백 */
+    display: flex;                          /* 탭 나란히 배치 */
+    justify-content: space-between;        /* 좌우 정렬 */
+    border-bottom: 2px solid #bbb;          /* 하단 테두리 */
+    margin-bottom: 15px;
+    user-select: none;                     /* 텍스트 드래그 방지 */
+}
+
+/* 각 탭 스타일 (비활성 상태) */
+.tab {
+    flex: 1;                                /* 너비 동일하게 분할 */
+    text-align: center;                    /* 가운데 정렬 */
+    padding: 10px;                          /* 여백 */
+    font-weight: bold;                     /* 글자 굵게 */
+    color: #999;                            /* 회색 글씨 */
+    cursor: pointer;                       /* 마우스 커서: 손모양 */
+}
+
+/* 활성 탭 (선택된 탭) */
+.tab.active {
+    color: #000;                            /* 글자 검정 */
+    border-bottom: 2px solid #444;          /* 진한 밑줄 표시 */
+}
+
+/* 검색창 전체 박스 */
+.search-box {
+    position: relative;                    /* 내부 아이콘 위치용 기준 */
+    margin-bottom: 20px;                   /* 아래 여백 */
+    display: flex;                          /* 내부 input 정렬용 */
+    justify-content: center;                /* 가운데 정렬 */
+    width: 70%;                             /* 전체 너비의 70% */
+    margin-top: 30px;                       /* 위 여백 */
+}
+
+/* 돋보기 아이콘 위치 설정 */
+.search-icon {
+    position: absolute;                     /* input 위에 올리기 */
+    top: 50%;                               /* 수직 중앙 */
+    left: 12px;                             /* 왼쪽 여백 */
+    transform: translateY(-50%);            /* 정확한 수직 중앙 맞춤 */
+    font-size: 16px;                        /* 아이콘 크기 */
+    color: #888;                            /* 연한 회색 */
+    pointer-events: none;                   /* 클릭 무시 */
+    z-index: 2;                             /* input 위에 표시되도록 */
+}
+
+/* 검색창 input */
+.search-box input {
+    width: 100%;                            /* 부모 너비에 꽉 차게 */
+    max-width: 600px;                       /* 최대 너비 제한 */
+    padding: 8px 14px 8px 38px;             /* 좌측 패딩은 아이콘 공간 확보 */
+    border: none;                           /* 테두리 제거 */
+    border-radius: 20px;                    /* pill 형태로 둥글게 */
+    background: #e0e0e0;                    /* 연회색 배경 */
+    font-size: 14px;                        /* 글자 크기 */
+    box-sizing: border-box;                /* 패딩 포함 크기 계산 */
+    caret-color: transparent;              /* 커서 기본 숨김 */
+    color: #222;                            /* 글자 색 */
+    outline: none;                          /* 포커스 테두리 제거 */
+    position: relative;
+    z-index: 1;                             /* 아이콘 아래 위치 */
+}
+
+/* 팔로워/팔로잉 리스트 영역 */
+.follower-list {
+    list-style: none;                      /* 점 제거 */
+    padding: 0;
+    margin: 60px auto 0 auto;              /* 위 여백 + 가운데 정렬 */
+    width: 480px;                          /* 슬림한 크기 */
+    margin-top: 20px;                      /* 여백 재조정 */
+}
+
+/* 각 팔로워/팔로잉 항목 */
+.follower {
+    display: flex;                         /* 정렬용 flex */
+    justify-content: space-between;       /* 좌우 분리 */
+    align-items: center;                   /* 수직 가운데 정렬 */
+    margin-bottom: 16px;                   /* 항목 사이 간격 */
+}
+
+/* 프로필 영역 (사진 + 닉네임) */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;                             /* 요소 사이 간격 */
+    user-select: none;                    /* 텍스트 선택 방지 */
+    caret-color: transparent;             /* 커서 깜빡임 제거 */
+    pointer-events: none;                 /* 클릭 불가 처리 (선택적으로) */
+}
+
+/* 프로필 이미지 */
+.profile img {
+    width: 40px;                           /* 고정 크기 */
+    height: 40px;
+    border-radius: 50%;                   /* 원형 이미지 */
+    object-fit: cover;                     /* 이미지 비율 유지하며 채우기 */
+    pointer-events: none;                 /* 클릭 방지 */
+}
+
+/* 닉네임 텍스트 */
+.profile span {
+    font-size: 14px;
+    caret-color: transparent;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* 버튼 등 액션 요소 영역 */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;                             /* 버튼 간격 */
+}
+
+/* 메시지 보내기 버튼 */
+.message-btn {
+    padding: 4px 10px;                    /* 내부 여백 */
+    background-color: #003366;            /* 진한 남색 배경 */
+    color: #fff;                           /* 흰색 글자 */
+    border: none;                          /* 테두리 없음 */
+    border-radius: 10px;                   /* 살짝 둥근 테두리 */
+    font-size: 13px;
+    cursor: pointer;
+    caret-color: transparent;
+    user-select: none;
+}
+
+/* 메시지 버튼 호버 시 */
+.message-btn:hover {
+    background-color: #002244;            /* 더 진한 남색 */
+}
+
+/* 언팔 버튼 (X 아이콘 등) */
+.remove {
+    cursor: pointer;                      /* 손모양 커서 */
+    color: #888;                           /* 회색 아이콘 */
+    font-size: 16px;
+    caret-color: transparent;
+    user-select: none;
+    pointer-events: auto;                 /* 클릭 가능하게 함 */
+}
+
+/* 언팔 버튼 호버 시 색 변경 */
+.remove:hover {
+    color: #000;                          /* 검정색으로 강조 */
+}

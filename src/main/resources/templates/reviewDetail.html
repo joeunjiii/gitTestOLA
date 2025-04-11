@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTT LIFE A</title>
+    <link rel="stylesheet" href="../static/css/reviewDetail.css" />
+    <script src="../static/js/reviewDetail.js" defer></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+<div class="container">
+
+    <!-- 상단 로고 & 검색창 -->
+    <header class="top-header">
+        <img src="/img/OLA.png" alt="로고" class="logo" />
+        <div class="search-box">
+            <i data-feather="search" class="search-icon"></i>
+            <input type="text" placeholder="# OTT 검색" />
+        </div>
+    </header>
+
+    <!-- 콘텐츠 상세 -->
+    <section class="detail-section">
+        <div class="detail-left">
+            <img src="/img/ch.webp" alt="poster" class="poster-img" />
+        </div>
+        <div class="detail-right">
+            <div class="bookmark-box">
+                <button class="bookmark-btn">☆</button>
+            </div>
+            <div class="user-info">
+                <div class="user-meta">
+                    <p class="ott-title">(OTT 제목)</p>
+                </div>
+            </div>
+            <p class="review-text">
+                내용
+            </p>
+        </div>
+    </section>
+
+
+    <!-- 리뷰 리스트 반복 (백엔드에서 리스트로 받아옴) -->
+    <section class="review-detail"><!-- 반복 시작: 리뷰 한 개 -->
+
+        <!-- 작성자 정보 -->
+        <div class="review-user-row">
+            <div class="user-info">
+                <!-- 프로필 이미지 경로 바인딩 필요 -->
+                <img src="/img/inside out2.webp" class="profile-img" />
+                <div>
+                    <!-- 작성자 닉네임 -->
+                    <p class="nickname">OO</p>
+                    <!-- 관련 OTT 작품 제목 -->
+                    <p class="ott-title">소용없어 거짓말 (OTT 제목)</p>
+                </div>
+            </div>
+            <button class="follow-btn">팔로우</button><!-- (로그인 유저 기준 팔로우 상태 체크 가능) -->
+        </div>
+
+        <!-- 리뷰 이미지 -->
+        <div class="review-image-wrapper">
+            <button class="arrow-btn">◀</button>
+            <img src="/img/ex-01.webp" class="review-img" />
+            <button class="arrow-btn">▶</button>
+        </div>
+
+        <!-- 좋아요 수 -->
+        <div class="reaction-bar">
+            <span class="like-btn">❤️ 150</span>
+            <span>💬</span><!-- 댓글 개수 출력 가능 -->
+        </div>
+
+        <!-- 리뷰 본문 내용 -->
+        <p class="review-text">팝콘 진짜 개맛있다. CGV에서는 무조건 반반콤보를 시켜야함...</p>
+
+        <!-- 댓글 리스트 반복 -->
+        <div class="comment-list">
+            <p class="comment">🗨️ 나도 반반콤보 좋아해요</p>
+            <p class="comment">🗨️ CU 콘소메 인정</p>
+            <!-- 여기도 반복 필요 -->
+        </div>
+
+        <!-- 댓글 입력 (프론트 제출용 폼) -->
+        <div class="comment-input">
+            <input type="text" placeholder="댓글을 입력하세요" />
+            <button class="comment-btn">댓글</button><!-- 클릭 시 API로 POST 요청 -->
+        </div>
+    </section><!-- 반복 끝 -->
+
+    <section class="review-detail">
+        <div class="review-user-row">
+            <div class="user-info">
+                <img src="/img/profile.png" class="profile-img" />
+                <div>
+                    <p class="nickname">은지</p>
+                    <p class="ott-title">소용없어 거짓말 (OTT 제목)</p>
+                </div>
+            </div>
+            <button class="follow-btn">팔로우</button>
+        </div>
+        <div class="review-image-wrapper">
+            <button class="arrow-btn">◀</button>
+            <img src="/img/popcorn.jpg" class="review-img" />
+            <button class="arrow-btn">▶</button>
+        </div>
+        <div class="reaction-bar">
+            <span class="like-btn">❤️ 92</span>
+            <span>💬</span>
+        </div>
+        <p class="review-text">달콤한 팝콘에 콜라 한잔이면 끝나지~</p>
+        <div class="comment-list"></div>
+        <div class="comment-input">
+            <input type="text" placeholder="댓글을 입력하세요" />
+            <button class="comment-btn">댓글</button>
+        </div>
+    </section>
+
+    <section class="review-detail">
+        <div class="review-user-row">
+            <div class="user-info">
+                <img src="/img/profile.png" class="profile-img" />
+                <div>
+                    <p class="nickname">라이언</p>
+                    <p class="ott-title">소용없어 거짓말 (OTT 제목)</p>
+                </div>
+            </div>
+            <button class="follow-btn">팔로우</button>
+        </div>
+        <div class="review-image-wrapper">
+            <button class="arrow-btn">◀</button>
+            <img src="/img/ch.webp" class="review-img" />
+            <button class="arrow-btn">▶</button>
+        </div>
+        <div class="reaction-bar">
+            <span class="like-btn">❤️ 103</span>
+            <span>💬</span>
+        </div>
+        <p class="review-text">CU 콘소메맛 팝콘 진짜 개맛있음. 무조건 먹어봐야 함</p>
+        <div class="comment-list"></div>
+        <div class="comment-input">
+            <input type="text" placeholder="댓글을 입력하세요" />
+            <button class="comment-btn">댓글</button>
+        </div>
+    </section>
+
+    <!-- SNS 스타일 리뷰 목록 -->
+    <section class="review-detail">
+        <div class="review-user-row">
+            <div class="user-info">
+                <img src="/img/profile.png" class="profile-img" />
+                <div>
+                    <p class="nickname">OO</p>
+                    <p class="ott-title">소용없어 거짓말 (OTT 제목)</p>
+                </div>
+            </div>
+            <button class="follow-btn">팔로우</button>
+        </div>
+
+        <div class="review-image-wrapper">
+            <button class="arrow-btn">◀</button>
+            <img src="/img/popcorn.jpg" alt="리뷰 이미지" class="review-img" />
+            <button class="arrow-btn">▶</button>
+        </div>
+
+        <div class="reaction-bar">
+            <span class="like-btn">❤️ 150</span>
+            <span>💬</span>
+        </div>
+
+        <p class="review-text">
+            팝콘 진짜 개맛있다. CGV에서는 무조건 반반콤보를 시켜야함<br />
+            그리고 달콤한 맛이랑 아니면 또는 더블치즈 두개 중 하나를 골라야 단짠을 즐길 수 있음<br />
+            절대 달콤한맛만 먹어서는 안됨<br />
+            그리고 CU에 가면 콘소메맛 팝콘 있음. 그게 진짜 개맛도리임<br />
+            암튼 팝콘이 최고고 영화가 맛있어요^^!<br />
+            금발로 최고의 맛집 CGV! 다음에 또 방문하겠습니다.<br />
+            사장님 번창하세요 ~~~!
+        </p>
+
+        <div class="comment-list">
+            <p class="comment">🗨️ 나도 반반콤보 좋아해요</p>
+            <p class="comment">🗨️ CU 콘소메 인정</p>
+        </div>
+
+        <div class="comment-input">
+            <input type="text" placeholder="댓글을 입력하세요" />
+            <button class="comment-btn">댓글</button>
+        </div>
+    </section>
+
+    <!-- 리뷰 상세 하단 구성: 이미지 + 좋아요 + 댓글 + 팔로우 -->
+    <section class="review-detail">
+        <div class="review-user-row">
+            <div class="user-info">
+                <img src="/img/profile.png" class="profile-img" />
+                <div>
+                    <p class="nickname">OO</p>
+                    <p class="ott-title">소용없어 거짓말 (OTT 제목)</p>
+                </div>
+            </div>
+            <button class="follow-btn">팔로우</button>
+        </div>
+
+        <div class="review-image-wrapper">
+            <button class="arrow-btn">◀</button>
+            <img src="/img/popcorn.jpg" alt="리뷰 이미지" class="review-img" />
+            <button class="arrow-btn">▶</button>
+        </div>
+
+        <div class="reaction-bar">
+            <span>❤️ 150</span>
+            <span>💬</span>
+        </div>
+
+        <p class="review-text">
+            팝콘 진짜 개맛있다. CGV에서는 무조건 반반콤보를 시켜야함<br>
+            그리고 달콤한 맛이랑 아니면 또는 더블치즈 두개 중 하나를 골라야 단짠을 즐길 수 있음<br>
+            절대 달콤한맛만 먹어서는 안됨<br>
+            그리고 CU에 가면 콘소메맛 팝콘 있음. 그게 진짜 개맛드러움<br>
+            암튼 팝콘이 최고고 영화가 맛있어요^_^!<br>
+            금발로 최고의 맛집 CGV! 다음에 또 방문하겠습니다.<br>
+            사장님 번창하세요 ~~~!
+        </p>
+
+        <div class="comment-input">
+            <input type="text" placeholder="댓글을 입력하세요" />
+            <button class="comment-btn">댓글</button>
+        </div>
+    </section>
+
+    <!-- 리뷰 상세 콘텐츠 아래 추가 영역 -->
+    <section class="review-extended">
+        <!-- 유저 정보 + 팔로우 버튼 -->
+        <div class="review-user-row">
+            <div class="user-info">
+                <img src="/img/profile.png" class="profile-img" />
+                <div class="user-meta">
+                    <p class="nickname">OO</p>
+                    <p class="ott-title">소용없어 거짓말 (OTT 제목)</p>
+                </div>
+            </div>
+            <button class="follow-btn">팔로우</button>
+        </div>
+
+        <!-- 리뷰 이미지 -->
+        <div class="review-image-wrapper">
+            <button class="image-arrow">◀</button>
+            <img src="/img/love.jpg" alt="팝콘 이미지" class="review-main-img" />
+            <button class="image-arrow">▶</button>
+        </div>
+
+        <!-- 리뷰 내용 텍스트 -->
+        <p class="review-text">
+            팝콘 진짜 개맛있다. CGV에서는 무조건 반반콤보를 시켜야함<br>
+            그리고 달콤한 맛이랑 아니면 또는 더블치즈 두개 중 하나를 골라야 단짠을 즐길 수 있음<br>
+            절대 달콤한맛만 먹어서는 안됨<br>
+            그리고 CU에 가면 콘소메맛 팝콘 있음. 그게 진짜 개맛드러움<br>
+            암튼 팝콘이 최고고 영화가 맛있어요^_^!<br>
+            금발로 최고의 맛집 CGV! 다음에 또 방문하겠습니다.<br>
+            사장님 번창하세요 ~~~!
+        </p>
+
+        <!-- 하트 + 댓글 개수 -->
+        <div class="reaction-bar">
+            <span>❤️ 150</span>
+            <span>💬 2</span>
+        </div>
+
+        <!-- 댓글 입력창 -->
+        <div class="comment-input">
+            <input type="text" placeholder="댓글을 입력하세요" />
+            <button class="comment-btn">댓글</button>
+        </div>
+    </section>
+
+
+    <!-- 하단 고정 네비게이션 -->
+    <nav class="bottom-nav">
+        <ul class="nav-menu">
+
+            <li class="nav-item active">
+                <a href="/HTML/main/main.html" class="icon-box">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9.75L12 4l9 5.75v8.5A2.25 2.25 0 0118.75 20H5.25A2.25 2.25 0 013 18.25v-8.5z" />
+                    </svg>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <div class="icon-box">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
+                    </svg>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <div class="icon-box">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <div class="icon-box">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3c0 .386-.145.735-.405 1.005L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <div class="icon-box">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A10.97 10.97 0 0112 15c2.21 0 4.257.654 5.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+
+      <script>feather.replace();</script>
+</body>
+</html>
