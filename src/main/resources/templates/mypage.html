@@ -73,7 +73,7 @@
             <img th:if="${post.content == null or post.content.posterImg == null}"
                  src="/images/default_poster.jpg"
                  alt="기본 포스터" />
-            <div class="title-clamp-2" th:text="${post.postTitle}">제목</div>
+            <p th:text="${post.postTitle}">제목</p>
           </div>
         </th:block>
       </div>
@@ -101,7 +101,7 @@
             <!-- 기본 -->
             <img th:if="${post.content == null or post.content.posterImg == null}"
                  src="/images/default_poster.jpg" alt="기본 포스터" />
-            <div class="title-clamp-2" th:text="${post.postTitle}">제목</div>
+            <p th:text="${post.postTitle}">제목</p>
           </div>
         </th:block>
       </div>
@@ -122,12 +122,75 @@
         <th:block th:each="fav : ${favoriteContents}">
           <div class="favorite-content-item">
             <img th:src="${fav.posterImg}" alt="포스터" />
-            <p class="title-clamp-2" th:text="${fav.title}">제목</p>
+            <p th:text="${fav.title}">제목</p>
           </div>
         </th:block>
       </div>
     </div>
   </div>
+
+  <nav class="bottom-nav">
+    <ul class="nav-menu">
+
+      <li class="nav-item active">
+        <a href="/main" class="icon-box">
+          <!-- 홈 아이콘 -->
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9.75L12 4l9 5.75v8.5A2.25 2.25 0 0118.75 20H5.25A2.25 2.25 0 013 18.25v-8.5z" />
+            </svg>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="icon-box">
+          <!-- 랭킹/커뮤니티 -->
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
+            </svg>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/review_contents" class="icon-box">
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="icon-box">
+          <!-- 알림 -->
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3c0 .386-.145.735-.405 1.005L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <!-- 마이페이지 -->
+        <div class="icon-box">
+          <a href="/mypage" class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A10.97 10.97 0 0112 15c2.21 0 4.257.654 5.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </a>
+        </div>
+      </li>
+
+    </ul>
+  </nav>
+
+
+
 </div>
 </body>
 </html>
