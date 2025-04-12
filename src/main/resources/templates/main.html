@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +14,16 @@
 
 </head>
 <body>
+
+<div sec:authorize="isAnonymous()" class="blur-overlay">
+    <div class="blur-message-box">
+        <img src ="/images/Logo_1.png" class="blur-logo-img"  alt="로고"/>
+        <h2>OLA</h2>
+        <p>OLA를 즐기려면 로그인이 필요해요😊</p>
+        <a href="/login" class="login-btn">로그인하러가기</a>
+    </div>
+</div>
+
 <div class="container">
     <!-- 상단 로고 -->
     <header class="top-header">

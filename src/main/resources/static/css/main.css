@@ -533,3 +533,71 @@ body {
     transform: scale(1.02);
 }
 
+
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10vh;
+}
+
+.blur-message-box {
+    width: 500px;
+    min-height: 420px;
+    padding: 3rem 2.5rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.85); /* 👈 투명한 흰 배경 */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+    backdrop-filter: blur(4px);            /* 👈 내부 요소에도 유리효과 */
+    -webkit-backdrop-filter: blur(4px);
+}
+
+
+.blur-message-box .blur-logo-img {
+    width: 130px;
+    margin-bottom: 1.5rem;
+}
+
+.blur-message-box h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 1rem;
+}
+
+.blur-message-box p {
+    font-size: 1.05rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.blur-message-box a.login-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #002453, #6272aa);
+    color: white;
+    padding: 0.8rem 1.8rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+    transition: all 0.3s ease;
+}
+
+.blur-message-box a.login-btn:hover {
+    background: linear-gradient(135deg, #0e1d4a, #6272aa);
+    transform: translateY(-2px);
+}
+
+
