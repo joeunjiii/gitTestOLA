@@ -9,7 +9,7 @@
 
 body {
     font-family: 'SUIT', sans-serif;;
-    background: #7b7a7a;
+    background: #f0f0f0;
 }
 
 .container {
@@ -68,12 +68,15 @@ body {
     border: none;
     font-size: 1rem;
     cursor: pointer;
+    color: #333;
+    text-decoration: none;
 }
 
 .login-btn i {
     width: 18px;
     height: 18px;
     color: #333;
+    text-decoration: none;
 }
 
 /* ========================
