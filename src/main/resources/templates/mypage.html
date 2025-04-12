@@ -56,7 +56,7 @@
       <div class="review-list">
         <!-- 리뷰가 없을 경우 -->
         <th:block th:if="${#lists.isEmpty(myPosts)}">
-          <p class="no-review-message">아직 작성한 리뷰가 없습니다</p>
+          <p class="no-review-message">아직 작성한 리뷰가 없어요...ㅜ</p>
         </th:block>
         <!-- 리뷰 목록 출력 -->
         <th:block th:each="post : ${myPosts}">
@@ -73,7 +73,7 @@
             <img th:if="${post.content == null or post.content.posterImg == null}"
                  src="/images/default_poster.jpg"
                  alt="기본 포스터" />
-            <p th:text="${post.postTitle}">제목</p>
+            <div class="title-clamp-2" th:text="${post.postTitle}">제목</div>
           </div>
         </th:block>
       </div>
@@ -101,12 +101,33 @@
             <!-- 기본 -->
             <img th:if="${post.content == null or post.content.posterImg == null}"
                  src="/images/default_poster.jpg" alt="기본 포스터" />
-            <p th:text="${post.postTitle}">제목</p>
+            <div class="title-clamp-2" th:text="${post.postTitle}">제목</div>
           </div>
         </th:block>
       </div>
   </div>
 </div>
+
+  <!-- 내가 찜한 작품 섹션 -->
+  <div class="favorite-content-box">
+    <div class="favorite-header"><div>내가 찜한 작품</div></div>
+    <div class="favorite-content-container">
+      <!-- 찜한 콘텐츠가 없을 경우 -->
+      <th:block th:if="${#lists.isEmpty(favoriteContents)}">
+        <p class="no-favorites">찜한 작품이 없어요...ㅜ</p>
+      </th:block>
+
+      <!-- 찜한 콘텐츠 리스트 출력 -->
+      <div class="favorite-content-list">
+        <th:block th:each="fav : ${favoriteContents}">
+          <div class="favorite-content-item">
+            <img th:src="${fav.posterImg}" alt="포스터" />
+            <p class="title-clamp-2" th:text="${fav.title}">제목</p>
+          </div>
+        </th:block>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>

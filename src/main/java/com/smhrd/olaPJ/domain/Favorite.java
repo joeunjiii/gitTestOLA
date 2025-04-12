@@ -2,7 +2,6 @@ package com.smhrd.olaPJ.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,11 +19,12 @@ public class Favorite {
     private Long favSeq;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POST_SEQ")
-    private Post post;
+    @JoinColumn(name = "CONTENTS_SEQ")
+    private Content content;
 
-    @Column(name = "USER_ID", nullable = false)
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;

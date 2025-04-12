@@ -1,10 +1,14 @@
 package com.smhrd.olaPJ.controller;
 
+import com.smhrd.olaPJ.domain.Favorite;
 import com.smhrd.olaPJ.domain.Post;
 import com.smhrd.olaPJ.domain.User;
+import com.smhrd.olaPJ.dto.FavoriteResponse;
+import com.smhrd.olaPJ.repository.FavoriteRepository;
 import com.smhrd.olaPJ.repository.PostLikeRepository;
 import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
+import com.smhrd.olaPJ.service.FavoriteService;
 import com.smhrd.olaPJ.service.GenreService;
 import com.smhrd.olaPJ.service.PostService;
 import com.smhrd.olaPJ.service.UserService;
@@ -31,6 +35,8 @@ public class MypageController {
     private final PostLikeRepository postLikeRepository;
     private final UserService userService;
     private final GenreService genreService;
+    private final FavoriteRepository favoriteRepository;
+    private final FavoriteService favoriteService;
 
 
     @GetMapping("/mypage")
@@ -45,11 +51,19 @@ public class MypageController {
 
         String userId = user.getUserId();
 
-       List<Post> myPosts = postRepository.findAllByUserIdWithContent(userId);
+        List<Post> myPosts = postRepository.findAllByUserIdWithContent(userId);
         List<Post> likedReviews = postLikeRepository.findLikedPostsWithContentByUserId(userId);
+        // ✅ 추가: 찜한 콘텐츠 가져오기
+        List<Favorite> favorites = favoriteRepository.findByUser(user);
+        List<FavoriteResponse> favoriteContents = favorites.stream().map(fav -> FavoriteResponse.builder()
+                .contentId(fav.getContent().getId())
+                .title(fav.getContent().getTitle())
+                .posterImg(fav.getContent().getPosterImg())
+                .build()).toList();
 
         model.addAttribute("myPosts", myPosts);
         model.addAttribute("likedReviews", likedReviews);
+        model.addAttribute("favoriteContents", favoriteContents); // ✅ 추가
         model.addAttribute("user", user);
 
         return "mypage";

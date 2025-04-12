@@ -14,4 +14,6 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     List<Object[]> findRankingByRating();
     Optional<Content> findByTitle(String title);
 
+    List<Content> findByIdIn(List<Long> ids);
+
 }

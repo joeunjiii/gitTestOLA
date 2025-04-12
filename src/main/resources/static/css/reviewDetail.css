@@ -20,6 +20,11 @@ body {
 /* ================================
   상단 영역
 ================================= */
+.logo {
+    width: 60px;
+    height: auto;
+}
+
 .top-header {
     display: flex;
     align-items: center;
@@ -27,29 +32,94 @@ body {
     padding: 1rem;
     background: white;
 }
-.logo {
-    width: 60px;
-}
+
 .search-box {
     flex: 1;
     display: flex;
     align-items: center;
     background: #b7b7c5;
-    padding: 0.2rem 0.5rem;
+    padding: 0.1rem 0.5rem;
+    margin: 0 1rem;
     border-radius: 20px;
-    margin-left: 1rem;
 }
-.search-icon {
+
+.search-box i {
     width: 20px;
     height: 20px;
     color: #333;
 }
+
 .search-box input {
     border: none;
     background: transparent;
     margin-left: 0.5rem;
     flex: 1;
     font-size: 0.95rem;
+    outline: none;
+}
+
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.login-btn i {
+    width: 18px;
+    height: 18px;
+    color: #333;
+}
+
+/* 검색 결과 박스를 아래 float box처럼 고정 */
+.content-selection {
+    position: absolute;         /* input 아래 뜨도록 */
+    top: 60px;                  /* 검색창과의 간격 (원하는 만큼 조정) */
+    left: 10px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 300px;          /* 원하는 높이로 조정 */
+    overflow-y: auto;           /* 내부만 스크롤 */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    padding: 10px;
+    display: none;
+}
+
+/* 콘텐츠 카드 스타일 유지 */
+.content-box {
+    width: 100px;
+    margin: 8px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+.content-box.selected {
+    border: 2px solid #007bff;
+    background-color: #e9f0ff;
+}
+
+.content-box img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.content-title {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+.search-box {
+    position: relative; /* 검색창 기준으로 결과창을 띄우기 위해 추가 */
 }
 
 /* ================================

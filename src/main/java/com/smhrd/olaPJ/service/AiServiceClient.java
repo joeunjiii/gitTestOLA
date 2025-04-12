@@ -76,7 +76,7 @@ public class AiServiceClient {
             builder.queryParam("ott", ott); // ✅ 수정
         }
         builder.queryParam("prefer_new", genre.isLatestYear())
-                .queryParam("total_needed", 5);
+                .queryParam("total_needed", 10);
 
 
         URI uri = builder.build(true).toUri();

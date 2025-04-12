@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="content-meta">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h2>${content.title}</h2>
-                    <button class="bookmark-btn" id="bookmarkBtn">☆ 찜하기</button>
+                    <button class="bookmark-btn" id="bookmarkBtn">☆ 찜</button>
                 </div>
 
                 <p class="synopsis-text" id="synopsis">${content.synopsis}</p>
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     `;
 
-        // ✅ 줄거리 ...더보기/간략히 토글
+        // ✅ 줄거리 ...더보기 토글
         const toggleBtn = document.getElementById("toggleMore");
         const synopsisEl = document.getElementById("synopsis");
         toggleBtn.addEventListener("click", () => {
@@ -53,17 +53,44 @@ document.addEventListener("DOMContentLoaded", function () {
             toggleBtn.textContent = synopsisEl.classList.contains("expanded") ? "...간략히" : "...더보기";
         });
 
-        // ✅ 찜 버튼 토글
+        // ✅ 찜 버튼 토글 기능 추가
         const bookmarkBtn = document.getElementById("bookmarkBtn");
         if (bookmarkBtn) {
-            let isBookmarked = false;
+            // 초기 상태 조회
+            fetch("/favorite/list")
+                .then(res => res.json())
+                .then(favorites => {
+                    const isBookmarked = favorites.some(fav => fav.contentId === content.id);
+                    updateBookmarkUI(isBookmarked);
+                });
+
+            // 클릭 시 토글 요청
             bookmarkBtn.addEventListener("click", () => {
-                isBookmarked = !isBookmarked;
-                bookmarkBtn.textContent = isBookmarked ? "★ 찜" : "☆ 찜";
-                bookmarkBtn.classList.toggle("active");
+                fetch("/favorite/toggle", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ contentId: content.id })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        updateBookmarkUI(data.favorite);
+                    })
+                    .catch(() => alert("로그인이 필요합니다."));
             });
+
+            // 버튼 UI 반영 함수
+            function updateBookmarkUI(isBookmarked) {
+                if (isBookmarked) {
+                    bookmarkBtn.textContent = "★ 찜";
+                    bookmarkBtn.classList.add("active");
+                } else {
+                    bookmarkBtn.textContent = "☆ 찜";
+                    bookmarkBtn.classList.remove("active");
+                }
+            }
         }
     }
+
 
 
 
@@ -120,4 +147,74 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         });
     }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("ott-search");
+    const contentSelection = document.querySelector(".content-selection");
+
+    searchInput.addEventListener("input", function () {
+        const keyword = searchInput.value.trim();
+
+        if (keyword === "") {
+            contentSelection.innerHTML = "";
+            contentSelection.style.display = "none";
+            return;
+        }
+
+        fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`)
+            .then((response) => response.json())
+            .then((data) => {
+                contentSelection.innerHTML = "";
+                contentSelection.style.display = "block";  // ✅ 수정된 부분!
+
+                if (data.length === 0) {
+                    contentSelection.innerHTML = "<p>검색 결과가 없습니다.</p>";
+                    return;
+                }
+
+                data.forEach((content) => {
+                    const box = document.createElement("div");
+                    box.className = "content-box";
+
+                    const img = document.createElement("img");
+                    img.src = content.posterImg || "/images/no-image.png";
+                    img.alt = content.title;
+
+                    const title = document.createElement("p");
+                    title.className = "content-title";
+                    title.textContent = content.title;
+
+                    box.appendChild(img);
+                    box.appendChild(title);
+
+                    box.addEventListener("click", () => {
+                        sessionStorage.setItem("selectedTitle", content.title);
+                        sessionStorage.setItem("selectedPoster", content.posterImg);
+
+                        location.href = `/reviewDetail?title=${encodeURIComponent(content.title)}`;
+
+                        contentSelection.innerHTML = "";
+                        contentSelection.style.display = "none";
+                    });
+
+                    contentSelection.appendChild(box);
+                });
+            })
+            .catch((error) => {
+                console.error("검색 중 오류:", error);
+                contentSelection.innerHTML = "<p>검색 오류가 발생했습니다.</p>";
+                contentSelection.style.display = "block";
+            });
+    });
+
+    // 검색창 외 클릭 시 결과 박스 숨김
+    document.addEventListener("click", function (e) {
+        const searchBox = document.querySelector(".search-box");
+
+        if (!searchBox.contains(e.target)) {
+            contentSelection.innerHTML = "";
+            contentSelection.style.display = "none";
+        }
+    });
 });
