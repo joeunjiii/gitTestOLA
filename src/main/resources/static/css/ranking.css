@@ -1,0 +1,157 @@
+.ranking-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.ranking-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+}
+.tab-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #ccc;
+    font-weight: bold;
+    cursor: pointer;
+}
+.tab-btn.active {
+    background: #007aff;
+    color: #fff;
+}
+.ranking-list {
+    list-style: none;
+    padding: 0;
+}
+.ranking-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.rank-num {
+    width: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+.poster-img {
+    width: 50px;
+    height: 70px;
+    object-fit: cover;
+    margin-right: 12px;
+    border-radius: 6px;
+}
+.info .title {
+    font-weight: bold;
+}
+.info .meta {
+    font-size: 12px;
+    color: gray;
+}
+
+
+/* ================================
+  하단 로고 & 네비게이션
+================================= */
+.footer {
+    text-align: center;
+    margin: 2rem 0;
+}
+.footer-logo {
+    width: 200px;
+}
+
+.review-detail {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    background: white;
+}
+.review-user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+.review-img,
+.review-main-img {
+    width: 400px;
+    height: auto;
+    border-radius: 12px;
+    margin: 1rem auto;      /* ✅ 상하 여백 + 좌우 가운데 정렬 */
+    display: block;
+}
+.review-image-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.arrow-btn,
+.image-arrow {
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #444;
+}
+.comment-list {
+    margin-top: 0.8rem;
+}
+.comment {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+    color: #444;
+}
+.review-extended {
+    padding: 1.2rem;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+}
+.review-extended .review-text {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+.review-extended .reaction-bar {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 700px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    padding: 0.6rem 0;
+    z-index: 999;
+}
+.nav-menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.icon-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+}
+.icon-svg {
+    width: 24px;
+    height: 24px;
+    stroke: #666;
+    stroke-width: 2;
+}
+.nav-item.active .icon-svg {
+    stroke: #007aff;
+}
