@@ -1,15 +1,10 @@
-<!-- genre/main 분기 나누는 코드 -->
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>OLA 이동중...</title>
     <script>
         window.addEventListener("DOMContentLoaded", async () => {
-
-
-
             try {
                 const res = await fetch("/api/user/current", {
                     credentials: "include"
@@ -17,20 +12,19 @@
 
                 const contentType = res.headers.get("Content-Type");
                 if (!res.ok || !contentType.includes("application/json")) {
-                   return new Error("비정상 응답");
+                    throw new Error("비정상 응답");
                 }
 
                 const userData = await res.json();
                 const genreSelected = Number(userData.genreSelected);
 
-                // 2초 후 화면이 넘어갈 수 있게
                 setTimeout(() => {
                     if (genreSelected === 1) {
                         window.location.href = "/main";
                     } else {
                         window.location.href = "/genre";
                     }
-                }, 2000); // 3초
+                }, 2000);
 
             } catch (error) {
                 console.error("리다이렉트 중 오류 발생:", error);
@@ -41,12 +35,52 @@
     <style>
         body {
             text-align: center;
-            padding-top: 100px;
+            padding-top: 120px;
+            font-family: 'SUIT', sans-serif;
+            background: #f5f5f5;
+            animation: fadeIn 1s ease;
+        }
+
+        img {
+            width: 180px; /* ✅ 기존 120px → 더 큼 */
+            animation: scaleUp 1s ease;
+        }
+
+        .loading-text {
+            font-size: 1.6rem;    /* ✅ 폰트 크기 키움 */
+            font-weight: 600;
+            color: #333;
+            margin-top: 1.5rem;
+        }
+
+        .loading-text::after {
+            content: '';
+            display: inline-block;
+            width: 1.5em;
+            animation: dots 1.5s steps(3, end) infinite;
+        }
+
+
+        @keyframes dots {
+            0% { content: ''; }
+            33% { content: '.'; }
+            66% { content: '..'; }
+            100% { content: '...'; }
+        }
+
+        @keyframes scaleUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 <h2><img src="/images/Logo_1.png" alt="OLA 로고"></h2>
-<p>페이지 이동중</p>
+<p class="loading-text">페이지 이동중</p>
 </body>
 </html>
