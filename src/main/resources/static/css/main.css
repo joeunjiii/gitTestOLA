@@ -584,12 +584,12 @@ body {
 
 .blur-message-box a.login-btn {
     display: inline-block;
-    background: linear-gradient(135deg, #002453, #6272aa);
+    background: #002453;
     color: white;
     padding: 0.8rem 1.8rem;
     font-weight: bold;
     font-size: 1rem;
-    border-radius: 30px;
+    border-radius: 8px;
     text-decoration: none;
     box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
     transition: all 0.3s ease;
