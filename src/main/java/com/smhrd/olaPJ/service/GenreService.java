@@ -74,6 +74,24 @@ public class GenreService {
         genreRepository.save(genre);
     }
 
+    public List<String> findUsersWithSimilarGenres(String userId) {
+        Genre myGenre = genreRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("장르 정보 없음"));
+
+        return genreRepository.findUsersWithSimilarGenres(
+                userId,
+                String.valueOf(myGenre.getRomance()),
+                String.valueOf(myGenre.getComedy()),
+                String.valueOf(myGenre.getThriller()),
+                String.valueOf(myGenre.getAnimation()),
+                String.valueOf(myGenre.getAction()),
+                String.valueOf(myGenre.getDrama()),
+                String.valueOf(myGenre.getHorror()),
+                String.valueOf(myGenre.getFantasy())
+        );
+    }
+
+
     @Transactional
     public void saveSelectedTitle(String username, String selectedTitle)
     {

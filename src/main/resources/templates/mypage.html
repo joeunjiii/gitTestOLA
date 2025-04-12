@@ -110,11 +110,11 @@
 
   <!-- 내가 찜한 작품 섹션 -->
   <div class="favorite-content-box">
-    <div class="favorite-header"><div>내가 찜한 작품</div></div>
+    <div class="favorite-header"><div>내가 찜한 콘텐츠</div></div>
     <div class="favorite-content-container">
       <!-- 찜한 콘텐츠가 없을 경우 -->
       <th:block th:if="${#lists.isEmpty(favoriteContents)}">
-        <p class="no-favorites">찜한 작품이 없어요...ㅜ</p>
+        <p class="no-favorites">찜한 콘텐츠가 없어요...ㅜ</p>
       </th:block>
 
       <!-- 찜한 콘텐츠 리스트 출력 -->

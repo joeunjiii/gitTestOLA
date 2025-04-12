@@ -11,4 +11,5 @@ public class FavoriteResponse {
     private Long contentId;
     private String title;
     private String posterImg;
+    private String nickname;
 }

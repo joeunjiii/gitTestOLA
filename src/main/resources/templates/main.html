@@ -106,25 +106,21 @@
     <section class="ott-recommend-user">
         <div class="user-row">
             <div class="user-info">
-                <img src="/img/pjg.png" class="profile-img" />
-                <span>강쥐님과 비슷한 취향의 컨텐츠예요</span>
+                <img src="/img/default.png" class="profile-img" />
+                <span id="similar-user-nickname">님이 찜한 콘텐츠예요</span>
             </div>
             <button class="follow-btn">팔로우</button>
         </div>
-        <!--슬라이더-->
+        <!-- 슬라이더 -->
         <div class="ott-slider">
-            <button class="arrow">◀</button>
-            <div class="ott-slide-track">
-                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠1"/></a>
-                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠2"/></a>
-                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠3"/></a>
-                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠4"/></a>
-                <a href="#" class="ott-card"><img src="/img/ch.webp" alt="콘텐츠5"/></a>
-
+            <button class="fa-arrow left">◀</button>
+            <div class="ott-slide-track" id="similar-user-slide-track">
+                <!-- JS로 콘텐츠 카드 추가 예정 -->
             </div>
-            <button class="arrow">▶</button>
+            <button class="fa-arrow right">▶</button>
         </div>
     </section>
+
 
 
     <!-- 하단 로고 -->

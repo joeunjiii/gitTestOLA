@@ -513,3 +513,59 @@ function showNoPostMessage() {
         </div>
     `;
 }
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("/favorite/similar-users")
+        .then(res => res.json())
+        .then(data => {
+            const track = document.getElementById("similar-user-slide-track");
+            const nicknameSpan = document.getElementById("similar-user-nickname"); // 상단 닉네임
+
+            track.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                track.innerHTML = "<p>추천 콘텐츠가 없습니다.</p>";
+                nicknameSpan.textContent = "비슷한 유저의 콘텐츠를 찾을 수 없어요";
+                return;
+            }
+
+            if (!Array.isArray(data)) {
+                console.error("❌ 서버 응답이 배열이 아님:", data);
+                return;
+            }
+
+            console.log("📦 받은 데이터:", data);
+
+            // ✅ 한 사람의 닉네임으로 가정 → 첫 번째 객체의 nickname 사용
+            const nickname = data[0].nickname || "익명의 유저";
+            nicknameSpan.textContent = `${nickname}님이 찜한 콘텐츠예요`;
+
+            data.forEach(item => {
+                const a = document.createElement("a");
+                a.href = `/reviewDetail?title=${encodeURIComponent(item.title)}`;
+                a.className = "ott-card";
+                a.style.cursor = "pointer";
+
+                const img = document.createElement("img");
+                img.src = item.posterImg || "/images/no-image.png";
+                img.alt = item.title;
+
+                a.appendChild(img);
+                track.appendChild(a);
+            });
+        })
+        .catch(err => {
+            console.error("❌ 비슷한 유저 찜 콘텐츠 불러오기 실패", err);
+        });
+});
+
+
+document.querySelector(".fa-arrow.left").addEventListener("click", () => {
+    document.getElementById("similar-user-slide-track").scrollBy({ left: -200, behavior: "smooth" });
+});
+document.querySelector(".fa-arrow.right").addEventListener("click", () => {
+    document.getElementById("similar-user-slide-track").scrollBy({ left: 200, behavior: "smooth" });
+});
+

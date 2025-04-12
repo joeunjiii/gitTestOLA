@@ -1,5 +1,6 @@
 package com.smhrd.olaPJ.controller;
 
+import com.smhrd.olaPJ.domain.Content;
 import com.smhrd.olaPJ.domain.Favorite;
 import com.smhrd.olaPJ.dto.FavoriteResponse;
 import com.smhrd.olaPJ.service.FavoriteService;
@@ -47,4 +48,18 @@ public class FavoriteController {
 
         return ResponseEntity.ok(responseList);
     }
+
+    @GetMapping("/similar-users")
+    public ResponseEntity<?> getRecommendationsFromSimilarUsers(@AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            String username = userDetails.getUsername();
+            List<FavoriteResponse> recommendations = favoriteService.getFavoritesBySimilarUsers(username);
+            return ResponseEntity.ok(recommendations);
+        } catch (Exception e) {
+            e.printStackTrace(); // ✅ 콘솔에 오류 출력
+            return ResponseEntity.status(500).body(Map.of("error", "서버 오류 발생"));
+        }
+    }
+
+
 }
