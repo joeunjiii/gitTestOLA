@@ -4,11 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const photoInput = document.getElementById('photoInput');
     const nicknameInput = document.getElementById('nickname');
     const bioInput = document.getElementById('bio');
-    const genreCheckboxes = document.querySelectorAll('.genre-grid input[type="checkbox"]');
     const saveBtn = document.getElementById('saveBtn');
 
-    profileImage.addEventListener('click', () => photoInput.click());
-    photoInput.addEventListener('change', () => {
+    // ✅ 프로필 이미지 클릭 시 파일 선택창 열기
+    profileImage?.addEventListener('click', () => {
+        photoInput?.click();
+    });
+
+    // ✅ 선택한 이미지 미리보기
+    photoInput?.addEventListener('change', () => {
         const file = photoInput.files[0];
         if (file) {
             const reader = new FileReader();
@@ -19,28 +23,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 🔥 form 기본 제출 막고 fetch로 전송
-    form.addEventListener('submit', async (e) => {
+    // ✅ 폼 submit 이벤트 가로채기 → fetch로 비동기 전송
+    form?.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const nickname = nicknameInput.value;
-        const introduce = bioInput.value;
+        const nickname = nicknameInput?.value?.trim();
+        const introduce = bioInput?.value?.trim();
 
         const allGenres = ['romance', 'comedy', 'thriller', 'animation', 'action', 'drama', 'horror', 'fantasy'];
         const formData = new FormData();
 
-        formData.append("nickname", nickname);
-        formData.append("introduce", introduce);
+        if (nickname) formData.append("nickname", nickname);
+        if (introduce) formData.append("introduce", introduce);
 
-        // 모든 장르에 대해 Y/N 체크 후 formData에 추가
-        allGenres.forEach(g => {
-            const checkbox = document.querySelector(`input[name="genres"][value="${g}"]`);
-            formData.append(`genres[${g}]`, checkbox.checked ? 'Y' : 'N');
+        // ✅ 장르 체크값 설정
+        allGenres.forEach(genre => {
+            const checkbox = document.querySelector(`input[name="genres"][value="${genre}"]`);
+            const isChecked = checkbox?.checked ? 'Y' : 'N';
+            formData.append(`genres[${genre}]`, isChecked);
         });
 
+        // ✅ 프로필 이미지가 선택되어 있을 경우
         if (photoInput.files[0]) {
             formData.append("profileImg", photoInput.files[0]);
         }
+
+        // ✅ 저장 중 버튼 비활성화
+        saveBtn.disabled = true;
+        saveBtn.innerText = "저장 중...";
 
         try {
             const response = await fetch("/mypage/update", {
@@ -49,14 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                alert("프로필이 성공적으로 수정되었습니다!");
                 location.href = "/mypage";
             } else {
+                const text = await response.text();
+                console.error("서버 응답 오류:", text);
                 alert("저장에 실패했습니다.");
             }
-        } catch (err) {
-            console.error("서버 오류 발생:", err);
+        } catch (error) {
+            console.error("네트워크 오류:", error);
             alert("서버 오류가 발생했습니다.");
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.innerText = "저장";
         }
     });
 });

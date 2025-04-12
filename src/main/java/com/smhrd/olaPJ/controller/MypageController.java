@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -85,29 +87,62 @@ public class MypageController {
     }
 
     @PostMapping("/mypage/update")
-    public String updateProfile(@RequestParam String nickname,
-                                @RequestParam String introduce,
+    public String updateProfile(@RequestParam(required = false) String nickname,
+                                @RequestParam(required = false) String introduce,
                                 @RequestParam Map<String, String> genres,
                                 @RequestParam(value = "profileImg", required = false) MultipartFile profileImg,
                                 Principal principal) {
 
-        String userName = principal.getName();
-        String userId = userService.findUserIdByUsername(userName);
+        String username = principal.getName(); // 현재 로그인된 사용자 이름
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        userService.updateProfile(userName, nickname, introduce, profileImg);
+        // 닉네임 수정
+        if (nickname != null && !nickname.isBlank()) {
+            user.setNickname(nickname);
+        }
 
-        // genres map: "genres[romance]" → "Y"
+        // 소개글 수정
+        if (introduce != null && !introduce.isBlank()) {
+            user.setIntroduce(introduce);
+        }
+
+        // 이미지 수정
+        if (profileImg != null && !profileImg.isEmpty()) {
+            try {
+                String fileName = saveFile(profileImg); // 실제 저장 경로 반환
+                user.setProfileImg(fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 저장 실패", e);
+            }
+        }
+
+        // 장르 업데이트 - genres 맵에서 "genres[xxx]" 형식 파싱
         Map<String, String> parsedGenres = new HashMap<>();
         genres.forEach((key, value) -> {
             if (key.startsWith("genres[")) {
-                String genreKey = key.substring(7, key.length() - 1); // "genres[romance]" → "romance"
-                parsedGenres.put(genreKey, value); // → "romance" → "Y"
+                String genreKey = key.substring(7, key.length() - 1); // 예: genres[romance] → romance
+                parsedGenres.put(genreKey, value);
             }
         });
 
-        genreService.updateGenres(userId, parsedGenres);
+        if (!parsedGenres.isEmpty()) {
+            genreService.updateGenres(user.getUserId(), parsedGenres);
+        }
 
         return "redirect:/mypage";
+    }
+
+    private String saveFile(MultipartFile file) throws IOException {
+        String uploadDir = System.getProperty("user.dir") + "/uploads/";
+        File dir = new File(uploadDir);
+        if (!dir.exists()) dir.mkdirs();
+
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        File dest = new File(uploadDir + fileName);
+        file.transferTo(dest);
+
+        return fileName;
     }
 
 

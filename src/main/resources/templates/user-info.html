@@ -6,64 +6,64 @@
     <link rel="stylesheet" href="/css/user-info.css" />
     <script src="/js/user-info.js" defer></script>
     <title>프로필 편집 | OLA</title>
-
 </head>
 <body>
 <div class="edit-profile-container">
     <h1>프로필 편집</h1>
 
-    <form id="profileForm" enctype="multipart/form-data">
-    <!-- 프로필 섹션 -->
-    <section class="card">
-        <h2>프로필 편집</h2>
-        <div class="profile-edit-row">
-            <div class="profile-left">
-                <img th:src="@{/images/default_profile.jpg}" alt="기본 프로필 사진" class="profile-img" id="profileImage" />
-                <label for="nickname"><input type="text" id="nickname" class="nickname-input" th:value="${nickname}" /></label>
-                <!--<button class="submit-btn edit-btn" id="editNicknameBtn">수정</button> -->
+    <form id="profileForm" th:action="@{/mypage/update}" method="post" enctype="multipart/form-data">
+        <!-- 프로필 섹션 -->
+        <section class="card">
+            <h2>프로필 편집</h2>
+            <div class="profile-edit-row">
+                <div class="profile-left">
+                    <img th:src="${user != null and user.profileImg != null} ? @{'/uploads/' + ${user.profileImg}} : @{/images/default_profile.jpg}"
+                         alt="프로필 이미지" class="profile-img" id="profileImage" />
+                    <label for="nickname">
+                        <input type="text" id="nickname" name="nickname" class="nickname-input" th:value="${nickname}" />
+                    </label>
+                </div>
+                <input type="file" id="photoInput" name="profileImg" accept="image/*" style="display: none;" />
             </div>
-            <input type="file" id="photoInput" accept="image/*" style="display: none;" />
-        </div>
-    </section>
+        </section>
 
-    <!-- 소개 -->
-    <section class="card">
-        <div class="form-group">
-            <label for="bio">소개</label>
-            <textarea id="bio" placeholder="여기를 작성하면 마이페이지에서 보임"
-                      th:text="${introduce}"></textarea>
-        </div>
-    </section>
+        <!-- 소개 -->
+        <section class="card">
+            <div class="form-group">
+                <label for="bio">소개</label>
+                <textarea id="bio" name="introduce" th:text="${introduce}"></textarea>
+            </div>
+        </section>
 
-    <!-- 장르 -->
-    <section class="card">
-        <h2>장르 변경</h2>
-        <div class="genre-grid">
-            <label><input type="checkbox" name="genres" value="romance"
-                    th:checked="${selectedGenres != null and selectedGenres.contains('romance')}"/> 로맨스</label>
-            <label><input type="checkbox" name="genres" value="comedy"
-                          th:checked="${selectedGenres != null and selectedGenres.contains('comedy')}"/> 코미디</label>
-            <label><input type="checkbox" name="genres" value="thriller"
-                          th:checked="${selectedGenres != null and selectedGenres.contains('thriller')}"/> 스릴러</label>
-            <label><input type="checkbox" name="genres" value="animation"
-                          th:checked="${selectedGenres != null and selectedGenres.contains('animation')}"/> 애니메이션</label>
-            <label><input type="checkbox" name="genres" value="action"
-                          th:checked="${selectedGenres != null and selectedGenres.contains('action')}"/> 액션</label>
-            <label><input type="checkbox" name="genres" value="drama"
-                          th:checked="${selectedGenres != null and selectedGenres.contains('drama')}"/> 드라마</label>
-            <label><input type="checkbox" name="genres" value="horror"
-                          th:checked="${selectedGenres != null and selectedGenres.contains('horror')}"/> 공포</label>
-            <label><input type="checkbox" name="genres" value="fantasy"
-                          th:checked="${selectedGenres != null and selectedGenres.contains('fantasy')}"/> 판타지</label>
-        </div>
-    </section>
+        <!-- 장르 체크 -->
+        <section class="card">
+            <h2>장르 변경</h2>
+            <div class="genre-grid">
+                <label><input type="checkbox" name="genres" value="romance"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('romance')}"/> 로맨스</label>
+                <label><input type="checkbox" name="genres" value="comedy"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('comedy')}"/> 코미디</label>
+                <label><input type="checkbox" name="genres" value="thriller"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('thriller')}"/> 스릴러</label>
+                <label><input type="checkbox" name="genres" value="animation"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('animation')}"/> 애니메이션</label>
+                <label><input type="checkbox" name="genres" value="action"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('action')}"/> 액션</label>
+                <label><input type="checkbox" name="genres" value="drama"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('drama')}"/> 드라마</label>
+                <label><input type="checkbox" name="genres" value="horror"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('horror')}"/> 공포</label>
+                <label><input type="checkbox" name="genres" value="fantasy"
+                              th:checked="${selectedGenres != null and selectedGenres.contains('fantasy')}"/> 판타지</label>
+            </div>
+        </section>
 
-    <div class="submit-wrapper">
-        <button class="submit-btn">이전</button>
-        <button type = "submit" class="submit-btn" id="saveBtn">저장</button>
-    </div>
+        <!-- 버튼 -->
+        <div class="submit-wrapper">
+            <button type="button" class="submit-btn" onclick="history.back()">이전</button>
+            <button type="submit" class="submit-btn" id="saveBtn">저장</button>
+        </div>
     </form>
 </div>
 </body>
-
 </html>
