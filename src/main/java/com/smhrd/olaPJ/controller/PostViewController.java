@@ -3,6 +3,7 @@ package com.smhrd.olaPJ.controller;
 import com.smhrd.olaPJ.domain.Post;
 import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.PostResponse;
+import com.smhrd.olaPJ.repository.PostLikeRepository;
 import com.smhrd.olaPJ.repository.PostRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
 import com.smhrd.olaPJ.service.PostService;
@@ -27,6 +28,8 @@ public class PostViewController {
 
     private final PostService postService;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
 
     // ✅ 리뷰 업로드 + redirect
     @PostMapping("/uploadReview")
@@ -73,7 +76,6 @@ public class PostViewController {
         return ("redirect:/main");
     }
 
-    private final PostRepository postRepository;
     @GetMapping("/by-title")
     public ResponseEntity<?> getPostsByTitle(@RequestParam String title) {
         List<Post> posts = postRepository.findByPostTitleContaining(title);
@@ -83,16 +85,18 @@ public class PostViewController {
                     .body("해당 제목의 게시글이 없습니다.");
         }
 
-        // DTO로 변환하면서 닉네임 주입
         List<PostResponse> result = posts.stream()
                 .map(post -> {
                     String nickname = userRepository.findByUserId(post.getUserId())
                             .map(User::getNickname)
                             .orElse("알 수 없음");
-                    return PostResponse.fromWithNickname(post, nickname);
+
+                    int likeCount = postLikeRepository.countByPostSeq(post.getPostSeq()); // ✅ 추가
+
+                    return PostResponse.fromWithNickname(post, nickname, likeCount); // ✅ 수정
                 })
                 .toList();
 
-        return ResponseEntity.ok(result); // ✅ 이 줄이 핵심!
+        return ResponseEntity.ok(result);
     }
 }

@@ -119,6 +119,11 @@ public class PostService {
         Post post = postRepository.findByPostSeq(postSeq)
                 .orElseThrow(() -> new RuntimeException("리뷰 없음: postSeq = " + postSeq));
 
+        // ⭐ null 방지 체크
+        if (post.getUserId() == null || user.getUserId() == null) {
+            throw new RuntimeException("userId가 null입니다");
+        }
+
         if (post.getUserId().equals(user.getUserId())) {
             throw new IllegalArgumentException("본인 리뷰에는 좋아요를 누를 수 없습니다");
         }
@@ -137,6 +142,24 @@ public class PostService {
         System.out.println("현재 좋아요 수: " + count);
         return count;
     }
+    public List<PostResponse> getPostResponsesByContentId(Long contentId) {
+        List<Post> posts = postRepository.findByContent_IdOrderByCreatedAtDesc(contentId);
+
+        return posts.stream()
+                .map(post -> {
+                    // 유저 닉네임 조회
+                    String nickname = userRepository.findById(post.getUserId())
+                            .map(User::getNickname)
+                            .orElse("알수없음");
+
+                    // 좋아요 수 계산
+                    int likeCount = postLikeRepository.countByPostSeq(post.getPostSeq());
+
+                    return PostResponse.fromWithNickname(post, nickname, likeCount);
+                })
+                .collect(Collectors.toList());
+    }
+
 
 
 

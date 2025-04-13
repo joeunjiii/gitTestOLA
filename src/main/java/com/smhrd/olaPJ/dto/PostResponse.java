@@ -40,7 +40,7 @@ public class PostResponse {
                 .build();
     }
 
-    public static PostResponse fromWithNickname(Post post, String nickname) {
+    public static PostResponse fromWithNickname(Post post, String nickname, int likeCount) {
         return PostResponse.builder()
                 .nickname(nickname)
                 .postSeq(post.getPostSeq())
@@ -51,6 +51,7 @@ public class PostResponse {
                 .postFile2(post.getPostFile2())
                 .postFile3(post.getPostFile3())
                 .createdAt(post.getCreatedAt())
+                .likeCount(likeCount)
                 .build();
     }
 }

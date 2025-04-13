@@ -32,16 +32,12 @@ public class ContentApiController {
         Content content = contentService.getContentByTitle(title);
         List<Post> posts = postService.getPostsByContentId(content.getId());
 
-        List<PostResponse> enriched = posts.stream().map(post -> {
-            String nickname = userRepository.findByUserId(post.getUserId())
-                    .map(User::getNickname)
-                    .orElse("익명");
-            return PostResponse.fromWithNickname(post, nickname);
-        }).toList();
+        // 2. 좋아요 수, 닉네임 포함된 PostResponse 리스트 조회 (서비스에서 처리)
+        List<PostResponse> reviews = postService.getPostResponsesByContentId(content.getId());
 
         Map<String, Object> result = new HashMap<>();
         result.put("content", content);
-        result.put("reviews", enriched);
+        result.put("reviews", reviews);
 
         return ResponseEntity.ok(result);
     }

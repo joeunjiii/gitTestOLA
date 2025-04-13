@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
     const title = params.get("title");
+    // 전역으로 현재 로그인 사용자 ID 가져오기
+    const currentUserId = document.querySelector('meta[name="current-user-id"]')?.content;
+
 
     if (!title) return; // 🔸 title이 없으면 아예 동작 안 함
 
@@ -102,51 +105,83 @@ document.addEventListener("DOMContentLoaded", function () {
         reviews.forEach(post => {
             const reviewEl = document.createElement("section");
             reviewEl.className = "review-detail";
-            reviewEl.innerHTML = `
-                <div class="review-user-row">
-                    <div class="user-info">
-                        <img src="/img/profile.png" class="profile-img" />
-                        <div>
-                            <p class="nickname">${post.nickname}</p>
-                            <p class="ott-title">${post.postTitle}</p>
-                        </div>
-                    </div>
-                    <button class="follow-btn">팔로우</button>
-                </div>
 
-                <div class="review-image-wrapper">
-                    ${[post.postFile1, post.postFile2, post.postFile3]
+            const imageHtml = [post.postFile1, post.postFile2, post.postFile3]
                 .filter(Boolean)
                 .map(f => `<img src="/uploads/${f}" class="review-img" />`)
-                .join("")}
+                .join("");
+
+            reviewEl.innerHTML = `
+            <div class="review-user-row">
+                <div class="user-info">
+                    <img src="/img/profile.png" class="profile-img" />
+                    <div>
+                        <p class="nickname">${post.nickname}</p>
+                        <p class="ott-title">${post.postTitle}</p>
+                    </div>
                 </div>
+                <button class="follow-btn">팔로우</button>
+            </div>
 
-                <div class="reaction-bar">
-                    <span class="like-btn">❤️ ${post.postRating ?? 0}</span>
-                    <span>💬 댓글</span>
-                </div>
+            <div class="review-image-wrapper">${imageHtml}</div>
 
-                <p class="review-text">${post.postContent ?? ""}</p>
+            <div class="reaction-bar">
+                ${
+                    post.userId !== currentUserId
+                    ? `<span class="like-btn" style="cursor: pointer;" onclick="likePost(${post.postSeq})">
+                            ❤️ <span id="like-count-${post.postSeq}">${post.likeCount ?? 0}</span>
+                        </span>`
+                    : `<span class="like-btn" style="color: gray;">❤️ ${post.likeCount ?? 0}</span>`
+                }
+                <span>💬 댓글</span>
+            </div>
 
-                <div class="comment-list" id="comments-${post.postSeq}"></div>
 
-                <div class="comment-input">
-                    <input type="text" placeholder="댓글을 입력하세요" />
-                    <button class="comment-btn" data-postseq="${post.postSeq}">댓글</button>
-                </div>
-            `;
+            <p class="review-text">${(post.postContent || '').replace(/\n/g, '<br>')}</p>
+
+            <div class="comment-list" id="comments-${post.postSeq}">댓글 불러오는 중...</div>
+
+            <div class="comment-input">
+                <input type="text" placeholder="댓글을 입력하세요" />
+                <button class="comment-btn" data-postseq="${post.postSeq}">댓글</button>
+            </div>
+        `;
 
             reviewSection.appendChild(reviewEl);
 
-            // 🔹 댓글 불러오기
-            fetch(`/api/comments/${post.postSeq}`)
-                .then(res => res.json())
-                .then(comments => {
-                    const commentBox = document.getElementById(`comments-${post.postSeq}`);
-                    commentBox.innerHTML = comments.map(c => `<p class="comment">🗨️ ${c.content}</p>`).join("");
+            // 댓글 불러오기
+            loadComments(post.postSeq);
+
+            // 댓글 등록 이벤트
+            const input = reviewEl.querySelector(".comment-input input");
+            const btn = reviewEl.querySelector(".comment-btn");
+            btn.addEventListener("click", () => {
+                const content = input.value.trim();
+                if (!content) {
+                    alert("댓글 내용을 입력해주세요.");
+                    return;
+                }
+
+                fetch("/api/comments", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        postSeq: post.postSeq,
+                        content: content,
+                        superSeq: 0
+                    })
+                }).then(res => {
+                    if (res.ok) {
+                        input.value = "";
+                        loadComments(post.postSeq);
+                    } else {
+                        alert("댓글 등록 실패");
+                    }
                 });
+            });
         });
     }
+
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -218,3 +253,99 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+function loadComments(postSeq) {
+    const commentList = document.getElementById(`comments-${postSeq}`);
+    commentList.innerHTML = "<p>댓글 불러오는 중...</p>";
+
+    fetch(`/api/comments/${postSeq}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                commentList.innerHTML = "<p>아직 댓글이 없습니다.</p>";
+                return;
+            }
+
+            commentList.innerHTML = "";
+            data.forEach(comment => {
+                const div = document.createElement("div");
+                div.className = "single-comment";
+                div.innerHTML = `
+                    <div class="comment-top">
+                        <strong>${comment.username || '익명'}</strong>
+                    </div>
+                    <p class="comment-content">${comment.content}</p>
+                    <button onclick="deleteComment(${comment.id}, ${postSeq});" class="d_btns">
+                        <span class="icons icon_del">삭제</span>
+                    </button>
+                    <div class="comment-meta">
+                        <span>${comment.createdAt}</span>
+                        <span onclick="likeComment(${comment.id})" style="cursor: pointer;">
+                            ❤️<span id="like-count-${comment.id}">${comment.likes}</span>
+                        </span>
+                    </div>
+                `;
+                commentList.appendChild(div);
+            });
+        })
+        .catch(() => {
+            commentList.innerHTML = "<p>댓글을 불러오지 못했습니다.</p>";
+        });
+}
+
+function deleteComment(id, postSeq) {
+    if (!confirm('해당 댓글을 삭제할까요?')) return;
+
+    fetch(`/api/comments/${id}`, {
+        method: 'DELETE'
+    })
+        .then(res => {
+            if (res.ok) {
+                loadComments(postSeq);
+            } else {
+                return res.text().then(err => {
+                    alert((err.error || "댓글 삭제 실패"));
+                });
+            }
+        })
+        .catch(() => {
+            alert('서버 오류가 발생했습니다.');
+        });
+}
+
+function likeComment(commentId) {
+    fetch(`api/comments/comment/${commentId}/like`, {
+        method: 'POST'
+    })
+        .then(res => res.json())
+        .then(newCount => {
+            document.getElementById(`like-count-${commentId}`).innerText = newCount;
+        })
+        .catch(error => {
+            console.error("좋아요 오류:", error.message);
+        });
+}
+
+function likePost(postId) {
+    fetch(`/posts/${postId}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(err => {
+                    alert(err.error || "좋아요 실패");
+                    throw new Error(err.error);
+                });
+            }
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById(`like-count-${postId}`).innerText = data.likeCount;
+        })
+        .catch(err => {
+            console.warn("좋아요 오류:", err.message);
+        });
+}
+
+

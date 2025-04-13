@@ -6,6 +6,7 @@ import com.smhrd.olaPJ.service.ContentService;
 import com.smhrd.olaPJ.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,8 @@ public class PostApiController {
                     .body(Map.of("error", e.getMessage())); // 실패 시 에러 메시지 반환
         }
     }
+
+
 
 
 
