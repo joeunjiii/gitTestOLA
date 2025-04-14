@@ -12,4 +12,5 @@ public class FavoriteResponse {
     private String title;
     private String posterImg;
     private String nickname;
+    private String userId;
 }

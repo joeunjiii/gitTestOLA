@@ -261,33 +261,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function updateReviewSection(post) {
     const section = document.querySelector(".review-preview");
-
-    // 초기 슬라이드 효과 (투명 + 오른쪽에서 들어오는 느낌)
     section.style.opacity = 0;
     section.style.transform = "translateX(30px)";
 
-    // 이미지 처리
-    const fileFields = ['postFile1', 'postFile2', 'postFile3'];
-    let imagesHtml = '';
+    const renderImages = () => {
+        return ['postFile1', 'postFile2', 'postFile3']
+            .map(field => {
+                const rawPath = post[field];
+                if (!rawPath) return '';
+                const fileName = rawPath.split("\\").pop().split("/").pop();
+                const isImage = /\.(jpg|jpeg|png|gif|jfif|bmp|webp)$/i.test(fileName);
+                return isImage
+                    ? `<img src="/uploads/${fileName}" alt="콘텐츠 이미지" style="max-width: 100%; margin-bottom: 10px;" />`
+                    : '';
+            }).join('');
+    };
 
-    fileFields.forEach(field => {
-        const rawPath = post[field];
-        if (rawPath) {
-            // 윈도우 경로에서 파일명만 추출
-            const fileName = rawPath.split("\\").pop().split("/").pop(); // 둘 다 고려
-            const lowerName = fileName.toLowerCase();
-
-            const isImage = /\.(jpg|jpeg|png|gif|jfif|bmp|webp)$/.test(lowerName);
-
-            if (isImage) {
-                const imgSrc = `/uploads/${fileName}`;
-                imagesHtml += `<img src="${imgSrc}" alt="콘텐츠 이미지" style="max-width: 100%; margin-bottom: 10px;" />`;
-            }
-        }
-    });
-
-
-    setTimeout(() => {
+    const renderPost = () => {
         section.innerHTML = `
             <div class="review-header">
                 <img src="/img/pjg.png" class="profile-img" alt="프로필 이미지" />
@@ -298,21 +288,17 @@ function updateReviewSection(post) {
                 <button class="follow-btn">팔로우</button>
             </div>
 
-             ${imagesHtml ? `<div class="review-thumbnail">${imagesHtml}</div>` : ''}
-            
-            
+            ${renderImages() ? `<div class="review-thumbnail">${renderImages()}</div>` : ''}
 
             <div class="review-stats">
                 <span onclick="likePost(${post.postSeq})"
-                        style="cursor: pointer; user-select: none;"
-                        onmouseover="this.style.opacity='0.7'"
-                        onmouseout="this.style.opacity='1'">
-                        ❤️<span id="like-count-${post.postSeq}">${post.likeCount}</span>
+                      style="cursor: pointer; user-select: none;"
+                      onmouseover="this.style.opacity='0.7'"
+                      onmouseout="this.style.opacity='1'">
+                      ❤️ <span id="like-count-${post.postSeq}">${post.likeCount ?? 0}</span>
                 </span>
                 <span>💬 댓글</span>
             </div>
-            
-            
 
             <div class="review-text">
                 <p>${(post.postContent || '').replace(/\n/g, '<br>')}</p>
@@ -321,55 +307,95 @@ function updateReviewSection(post) {
             <div class="review-comment">
                 <input type="text" placeholder="댓글을 입력하세요..." />
                 <button class="comment-btn">💬 댓글</button>
-            </div>          
-            
-            <div class ="comment-list"></div>
-        `;
+            </div>
 
-        // 댓글 등록 이벤트 바인딩
+            <div class="comment-list"></div>
+        `;
+    };
+
+    const handleFollow = () => {
+        const followBtn = section.querySelector(".follow-btn");
+        const followeeUserId = post.userId;
+
+        if (!followeeUserId || !followBtn) return;
+
+        // 기존 이벤트 제거
+        const newBtn = followBtn.cloneNode(true);
+        followBtn.replaceWith(newBtn);
+
+        // 팔로우 상태 확인
+        fetch(`/api/follow/status?followee=${encodeURIComponent(followeeUserId)}`)
+            .then(res => res.ok ? res.json() : Promise.reject("팔로우 상태 확인 실패"))
+            .then(isFollowing => {
+                newBtn.textContent = isFollowing ? "언팔로우" : "팔로우";
+            })
+            .catch(err => {
+                console.error("팔로우 상태 오류:", err);
+                newBtn.textContent = "팔로우";
+            });
+
+        // 팔로우 / 언팔로우 처리
+        newBtn.addEventListener("click", () => {
+            const method = newBtn.textContent === "팔로우" ? "POST" : "DELETE";
+
+            fetch("/api/follow", {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ followee: followeeUserId })
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("팔로우 요청 실패");
+                    newBtn.textContent = method === "POST" ? "언팔로우" : "팔로우";
+                })
+                .catch(err => {
+                    alert("⚠️ 팔로우 처리 중 오류");
+                    console.error("팔로우 오류:", err);
+                });
+        });
+    };
+
+    const setupComment = () => {
         const commentBtn = section.querySelector(".comment-btn");
         const commentInput = section.querySelector(".review-comment input");
 
-        commentBtn.addEventListener("click", () => {
+        commentBtn?.addEventListener("click", () => {
             const content = commentInput.value.trim();
-            if (!content) {
-                alert("댓글 내용을 입력해주세요.");
-                return;
-            }
-
-            const postSeq = post.postSeq;
+            if (!content) return alert("댓글 내용을 입력해주세요.");
 
             fetch("/api/comments", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    postSeq: postSeq,
-                    content: content,
+                    postSeq: post.postSeq,
+                    content,
                     superSeq: 0
                 })
-            }).then((res) => {
-                if (res.ok) {
-                    commentInput.value = "";
-                    // 댓글 목록 새로고침
-                    loadComments(postSeq);
-                } else {
-                    alert("댓글 등록에 실패했습니다.");
-                }
-            });
+            })
+                .then(res => {
+                    if (res.ok) {
+                        commentInput.value = "";
+                        loadComments(post.postSeq);
+                    } else {
+                        alert("댓글 등록에 실패했습니다.");
+                    }
+                });
         });
+    };
 
-        //댓글 새로고침 함수 호출
+    setTimeout(() => {
+        renderPost();
+        handleFollow();
+        setupComment();
         loadComments(post.postSeq);
-
-        // 복원 효과
         section.style.opacity = 1;
         section.style.transform = "translateX(0)";
     }, 100);
-
-
 }
+
+
+
+
+
 
 function loadComments(postSeq) {
     const commentList = document.querySelector(".comment-list");
@@ -517,17 +543,19 @@ function showNoPostMessage() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    const track = document.getElementById("similar-user-slide-track");
+    const nicknameSpan = document.getElementById("similar-user-nickname");
+    const followBtn = document.querySelector(".ott-recommend-user .follow-btn");
+
     fetch("/favorite/similar-users")
         .then(res => res.json())
         .then(data => {
-            const track = document.getElementById("similar-user-slide-track");
-            const nicknameSpan = document.getElementById("similar-user-nickname"); // 상단 닉네임
-
             track.innerHTML = "";
 
             if (!data || data.length === 0) {
                 track.innerHTML = "<p>추천 콘텐츠가 없습니다.</p>";
                 nicknameSpan.textContent = "비슷한 유저의 콘텐츠를 찾을 수 없어요";
+                followBtn.style.display = "none";
                 return;
             }
 
@@ -536,12 +564,54 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            console.log("📦 받은 데이터:", data);
+            // ✅ 정보 분리
+            const firstUser = data[0];
+            const nickname = firstUser.nickname || "익명의 유저";
+            const userId = firstUser.userId;
 
-            // ✅ 한 사람의 닉네임으로 가정 → 첫 번째 객체의 nickname 사용
-            const nickname = data[0].nickname || "익명의 유저";
             nicknameSpan.textContent = `${nickname}님이 찜한 콘텐츠예요`;
+            followBtn.style.display = "inline-block";
 
+            if (userId) {
+                // ✅ 버튼 초기화
+                const newBtn = followBtn.cloneNode(true);
+                followBtn.replaceWith(newBtn);
+
+                // ✅ 상태 확인 → 텍스트 업데이트
+                fetch(`/api/follow/status?followee=${encodeURIComponent(userId)}`)
+                    .then(res => res.ok ? res.json() : Promise.reject("팔로우 상태 확인 실패"))
+                    .then(isFollowing => {
+                        newBtn.textContent = isFollowing ? "언팔로우" : "팔로우";
+                    })
+                    .catch(err => {
+                        console.error("팔로우 상태 확인 오류:", err);
+                        newBtn.textContent = "팔로우";
+                    });
+
+                // ✅ 클릭 이벤트 설정
+                newBtn.addEventListener("click", () => {
+                    const method = newBtn.textContent === "팔로우" ? "POST" : "DELETE";
+
+                    fetch("/api/follow", {
+                        method,
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ followee: userId })
+                    })
+                        .then(res => {
+                            if (!res.ok) throw new Error("팔로우 요청 실패");
+                            newBtn.textContent = method === "POST" ? "언팔로우" : "팔로우";
+                        })
+                        .catch(err => {
+                            alert("⚠️ 팔로우 처리 중 오류");
+                            console.error("팔로우 오류:", err);
+                        });
+                });
+            } else {
+                console.warn("❌ userId가 존재하지 않아 팔로우 상태를 확인할 수 없음");
+                followBtn.style.display = "none";
+            }
+
+            // ✅ 콘텐츠 카드 렌더링
             data.forEach(item => {
                 const a = document.createElement("a");
                 a.href = `/reviewDetail?title=${encodeURIComponent(item.title)}`;
@@ -558,14 +628,16 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(err => {
             console.error("❌ 비슷한 유저 찜 콘텐츠 불러오기 실패", err);
+            track.innerHTML = "<p>오류로 인해 콘텐츠를 불러올 수 없습니다.</p>";
+            followBtn.style.display = "none";
         });
-});
 
+    // 슬라이더 버튼
+    document.querySelector(".fa-arrow.left").addEventListener("click", () => {
+        track.scrollBy({ left: -200, behavior: "smooth" });
+    });
 
-document.querySelector(".fa-arrow.left").addEventListener("click", () => {
-    document.getElementById("similar-user-slide-track").scrollBy({ left: -200, behavior: "smooth" });
+    document.querySelector(".fa-arrow.right").addEventListener("click", () => {
+        track.scrollBy({ left: 200, behavior: "smooth" });
+    });
 });
-document.querySelector(".fa-arrow.right").addEventListener("click", () => {
-    document.getElementById("similar-user-slide-track").scrollBy({ left: 200, behavior: "smooth" });
-});
-

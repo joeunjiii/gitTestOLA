@@ -111,6 +111,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 .map(f => `<img src="/uploads/${f}" class="review-img" />`)
                 .join("");
 
+            const isMine = post.userId === currentUserId;
+
             reviewEl.innerHTML = `
             <div class="review-user-row">
                 <div class="user-info">
@@ -120,22 +122,25 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p class="ott-title">${post.postTitle}</p>
                     </div>
                 </div>
-                <button class="follow-btn">팔로우</button>
+                ${
+                !isMine
+                    ? `<button class="follow-btn" data-userid="${post.userId}">팔로우</button>`
+                    : `<span class="self-label">내 게시글</span>`
+            }
             </div>
 
             <div class="review-image-wrapper">${imageHtml}</div>
 
             <div class="reaction-bar">
                 ${
-                    post.userId !== currentUserId
+                !isMine
                     ? `<span class="like-btn" style="cursor: pointer;" onclick="likePost(${post.postSeq})">
-                            ❤️ <span id="like-count-${post.postSeq}">${post.likeCount ?? 0}</span>
-                        </span>`
+                                ❤️ <span id="like-count-${post.postSeq}">${post.likeCount ?? 0}</span>
+                           </span>`
                     : `<span class="like-btn" style="color: gray;">❤️ ${post.likeCount ?? 0}</span>`
-                }
+            }
                 <span>💬 댓글</span>
             </div>
-
 
             <p class="review-text">${(post.postContent || '').replace(/\n/g, '<br>')}</p>
 
@@ -149,10 +154,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             reviewSection.appendChild(reviewEl);
 
-            // 댓글 불러오기
+            // ✅ 댓글 로딩
             loadComments(post.postSeq);
 
-            // 댓글 등록 이벤트
+            // ✅ 댓글 등록 이벤트
             const input = reviewEl.querySelector(".comment-input input");
             const btn = reviewEl.querySelector(".comment-btn");
             btn.addEventListener("click", () => {
@@ -167,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         postSeq: post.postSeq,
-                        content: content,
+                        content,
                         superSeq: 0
                     })
                 }).then(res => {
@@ -179,8 +184,54 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 });
             });
+
+            // ✅ 팔로우 버튼 동작 (USER_ID 기준)
+            const followBtn = reviewEl.querySelector(".follow-btn");
+            const followeeUserId = post.userId;
+
+            if (followBtn && followeeUserId && !isMine) {
+                // 버튼 복제 및 교체 (이벤트 중복 방지)
+                const newFollowBtn = followBtn.cloneNode(true);
+                followBtn.replaceWith(newFollowBtn);
+
+                // 팔로우 상태 확인 → 버튼 텍스트 설정
+                fetch(`/api/follow/status?followee=${encodeURIComponent(followeeUserId)}`)
+                    .then(res => res.ok ? res.json() : Promise.reject("팔로우 상태 확인 실패"))
+                    .then(isFollowing => {
+                        newFollowBtn.textContent = isFollowing ? "언팔로우" : "팔로우";
+
+                        // 클릭 이벤트 설정
+                        newFollowBtn.addEventListener("click", () => {
+                            const method = newFollowBtn.textContent === "팔로우" ? "POST" : "DELETE";
+
+                            fetch("/api/follow", {
+                                method,
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ followee: followeeUserId })
+                            })
+                                .then(res => {
+                                    if (!res.ok) throw new Error("팔로우 요청 실패");
+                                    newFollowBtn.textContent = method === "POST" ? "언팔로우" : "팔로우";
+                                })
+                                .catch(err => {
+                                    alert("⚠️ 팔로우 처리 중 오류");
+                                    console.error("팔로우 오류:", err);
+                                });
+                        });
+                    })
+                    .catch(err => {
+                        console.error("팔로우 상태 확인 오류:", err);
+                        newFollowBtn.textContent = "팔로우";
+                    });
+
+            } else if (followBtn) {
+                // 👉 내 게시글이면 버튼 제거
+                followBtn.remove();
+            }
         });
     }
+
+
 
 });
 

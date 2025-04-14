@@ -23,36 +23,31 @@ public class FavoriteService {
     private final ContentRepository contentRepository;
     private final GenreService genreService;
 
-    // ✅ 찜 토글 기능 (찜 추가 또는 해제)
+    // ✅ 찜 토글 기능
     @Transactional
     public boolean toggleFavorite(String username, Long contentId) {
-        // 유저 정보 가져오기
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("사용자 정보 없음"));
 
-        // 콘텐츠 정보 가져오기
         Content content = contentRepository.findById(contentId)
                 .orElseThrow(() -> new RuntimeException("콘텐츠 정보 없음"));
 
-        // 기존 찜 여부 확인
         Optional<Favorite> existing = favoriteRepository.findByUserAndContent(user, content);
 
         if (existing.isPresent()) {
-            // 이미 찜 → 해제
             favoriteRepository.delete(existing.get());
-            return false; // 찜 해제됨
+            return false;
         } else {
-            // 찜 추가
             Favorite favorite = Favorite.builder()
                     .user(user)
                     .content(content)
                     .build();
             favoriteRepository.save(favorite);
-            return true; // 찜 추가됨
+            return true;
         }
     }
 
-    // ✅ 유저가 찜한 콘텐츠 리스트 조회
+    // ✅ 로그인 유저의 찜 목록 조회
     public List<Favorite> getFavoritesByUser(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("사용자 정보 없음"));
@@ -60,32 +55,28 @@ public class FavoriteService {
         return favoriteRepository.findByUser(user);
     }
 
+    // ✅ 유사 유저들의 찜 목록 조회
     public List<FavoriteResponse> getFavoritesBySimilarUsers(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("사용자 정보 없음"));
         String userId = user.getUserId();
 
-        // ✅ 장르 기준 비슷한 유저 찾기
         List<String> similarUserIds = genreService.findUsersWithSimilarGenres(userId);
 
         if (similarUserIds == null || similarUserIds.isEmpty()) {
             return List.of();
         }
 
-        // ✅ 유사 유저들의 찜 정보 가져오기
         List<Favorite> favorites = favoriteRepository.findAllByUser_UserIdIn(similarUserIds);
 
-        // ✅ DTO로 변환
         return favorites.stream().map(fav ->
                 FavoriteResponse.builder()
                         .contentId(fav.getContent().getId())
                         .title(fav.getContent().getTitle())
                         .posterImg(fav.getContent().getPosterImg())
-                        .nickname(fav.getUser().getNickname())  // 여기 핵심!
+                        .nickname(fav.getUser().getNickname())
+                        .userId(fav.getUser().getUserId()) // ✅ 추가된 부분
                         .build()
         ).toList();
     }
-
-
-
 }
