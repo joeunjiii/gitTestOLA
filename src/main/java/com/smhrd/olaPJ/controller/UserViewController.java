@@ -2,6 +2,7 @@ package com.smhrd.olaPJ.controller;
 
 import com.smhrd.olaPJ.domain.Genre;
 import com.smhrd.olaPJ.domain.Post;
+import com.smhrd.olaPJ.domain.User;
 import com.smhrd.olaPJ.dto.ContentRequest;
 import com.smhrd.olaPJ.repository.GenreRepository;
 import com.smhrd.olaPJ.repository.UserRepository;
@@ -80,6 +81,12 @@ public class UserViewController {
         }
 
         String username = principal.getName(); // 현재 로그인 유저 이름
+
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+
+        model.addAttribute("user", user);
 
         // 기본 추천
         List<Map<String, Object>> basicRecommendations = aiServiceClient.getBasicRecommendation(username);

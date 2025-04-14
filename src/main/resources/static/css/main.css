@@ -143,6 +143,7 @@ body {
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
+    margin-left: 15px;
 }
 
 .user-row{
@@ -315,17 +316,23 @@ body {
     border-radius: 10px;
 }
 
-.arrow {
-    background: transparent;
-    border: none;
-    font-size: 1.4rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 50%;
-    box-shadow: none;
+
+.arrow,
+.fa-arrow {
+    all: unset;
+    font-size: 1.2rem;
     cursor: pointer;
-    z-index: 10;
-    color: white;            /* 아이콘 색이 안 보이면 흰색으로 지정 (또는 원하는 색) */
+    color: #444;
 }
+
+.arrow:hover,
+.fa-arrow:hover {
+    color: #222;
+    transform: scale(1.05);
+}
+
+
+
 
 /* ========================
     푸터 및 고정 네비
@@ -412,6 +419,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-right: 17px;
 }
 
 
@@ -486,23 +494,20 @@ body {
 }
 
 .post-arrow {
-    background-color: #f0f0f0;
-    border: none;
-    font-size: 20px;
-    padding: 10px 14px;
-    border-radius: 6px;
+    all: unset;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: background 0.3s ease;
+    color: #444;
 }
 
-.post-arrow:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+.post-arrow:hover{
+
+        color: #222;
+        transform: scale(1.05);
+
 }
 
-.post-arrow:hover:not(:disabled) {
-    background-color: #ddd;
-}
+
 
 .review-placeholder {
     text-align: center;
@@ -599,6 +604,5 @@ body {
     background: linear-gradient(135deg, #0e1d4a, #6272aa);
     transform: translateY(-2px);
 }
-
 
 

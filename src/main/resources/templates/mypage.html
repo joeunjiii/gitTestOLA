@@ -12,17 +12,16 @@
   <!-- 로고 -->
   <img class="logo" src="/images/Logo_1.png" alt="OLA 로고">
 
-  <!-- 프로필 상단 영역 -->
-  <div class="top-section">
-    <!-- 프로필 이미지 -->
-    <img class="profile-pic"
+  <div class="profile-img-wrapper">
+    <img class="profile-img"
          th:if="${user != null and user.profileImg != null}"
          th:src="@{'/uploads/' + ${user.profileImg}}"
-         alt="프로필 사진"/>
-    <img class="profile-pic"
+         alt="프로필 사진" />
+    <img class="profile-img"
          th:unless="${user != null and user.profileImg != null}"
          src="/images/default_profile.jpg"
          alt="기본 프로필 사진" />
+  </div>
 
     <!-- 닉네임 및 팔로워/팔로잉 -->
     <div class="user-info" th:if="${user != null}">

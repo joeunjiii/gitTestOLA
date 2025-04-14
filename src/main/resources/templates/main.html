@@ -118,7 +118,16 @@
     <section class="ott-recommend-user">
         <div class="user-row">
             <div class="user-info">
-                <img src="/img/default.png" class="profile-img" />
+                <div class="profile-img-wrapper">
+                    <img class="profile-img"
+                         th:if="${user != null and user.profileImg != null}"
+                         th:src="@{'/uploads/' + ${user.profileImg}}"
+                         alt="프로필 사진" />
+                    <img class="profile-img"
+                         th:unless="${user != null and user.profileImg != null}"
+                         src="/images/default_profile.jpg"
+                         alt="기본 프로필 사진" />
+                </div>
                 <span id="similar-user-nickname">님이 찜한 콘텐츠예요</span>
             </div>
             <button class="follow-btn">팔로우</button>
@@ -157,12 +166,12 @@
 
         <li class="nav-item">
             <a href="/ranking-page" class="icon-box">
-            <!-- 랭킹/커뮤니티 -->
-            <div class="icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
-                </svg>
-            </div>
+                <!-- 랭킹/커뮤니티 -->
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.242 5.992h12m-12 6.003H20.24m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H5.24m-1.92 2.577a1.125 1.125 0 1 1 1.591 1.59l-1.83 1.83h2.16M2.99 15.745h1.125a1.125 1.125 0 0 1 0 2.25H3.74m0-.002h.375a1.125 1.125 0 0 1 0 2.25H2.99" />
+                    </svg>
+                </div>
             </a>
         </li>
 
@@ -178,12 +187,12 @@
 
         <li class="nav-item">
             <a href="#" class="icon-box">
-            <!-- 알림 -->
-            <div class="icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3c0 .386-.145.735-.405 1.005L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-            </div>
+                <!-- 알림 -->
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3c0 .386-.145.735-.405 1.005L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </div>
             </a>
         </li>
 
