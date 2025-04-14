@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("ott-search");
     const contentSelection = document.querySelector(".content-selection");
 
-    // ✅ 검색 input 이벤트
+    // 검색 input 이벤트
     searchInput.addEventListener("input", function () {
         const keyword = searchInput.value.trim();
 
@@ -44,8 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         sessionStorage.setItem("selectedPoster", content.posterImg);
                         sessionStorage.setItem("selectedContentId", content.id);
 
-                        document.querySelectorAll(".content-box").forEach(b => b.classList.remove("selected"));
 
+                        contentSelection.innerHTML = "";
+                        contentSelection.appendChild(box);
                         box.classList.add("selected");
                     });
 

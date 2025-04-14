@@ -36,7 +36,6 @@ public class MypageController {
     private final UserService userService;
     private final GenreService genreService;
     private final FavoriteRepository favoriteRepository;
-    private final FavoriteService favoriteService;
     private final FollowService followService; // ✅ 팔로우 서비스 추가
 
     @GetMapping("/mypage")
@@ -89,22 +88,26 @@ public class MypageController {
     @PostMapping("/mypage/update")
     public String updateProfile(@RequestParam(required = false) String nickname,
                                 @RequestParam(required = false) String introduce,
-                                @RequestParam Map<String, String> genres,
+                                @RequestParam(value = "genres", required = false) List<String> genres,
                                 @RequestParam(value = "profileImg", required = false) MultipartFile profileImg,
                                 Principal principal) {
 
         String username = principal.getName();
 
-        // 장르 파싱
+        List<String> allGenres = List.of("romance", "comedy", "thriller", "animation", "action", "drama", "horror", "fantasy");
+
         Map<String, String> parsedGenres = new HashMap<>();
-        genres.forEach((key, value) -> {
-            if (key.startsWith("genres[")) {
-                String genreKey = key.substring(7, key.length() - 1);
-                parsedGenres.put(genreKey, value);
-            }
-        });
+        for (String genre : allGenres) {
+            // 로그 추가
+            System.out.println("장르 [" + genre + "] 선택됨? " + (genres != null && genres.contains(genre)));
+            parsedGenres.put(genre, genres != null && genres.contains(genre) ? "Y" : "N");
+        }
 
         userService.updateProfile(username, nickname, introduce, profileImg, parsedGenres);
         return "redirect:/mypage";
     }
+
+
+
+
 }

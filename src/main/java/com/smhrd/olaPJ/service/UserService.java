@@ -23,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final String uploadDir = System.getProperty("user.dir") + "/uploads/";
+    private final GenreService genreService;
 
 
     @Transactional
@@ -67,6 +68,11 @@ public class UserService {
                 } catch (IOException e) {
                     throw new RuntimeException("파일 저장 실패", e);
                 }
+            }
+
+            // ✅ Genre 저장 로직 추가
+            if (parsedGenres != null && !parsedGenres.isEmpty()) {
+                genreService.updateGenres(user.getUserId(), parsedGenres);
             }
 
             userRepository.save(user);

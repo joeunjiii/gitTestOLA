@@ -111,7 +111,7 @@ public class GenreService {
         Genre genre = genreRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("장르 정보 없음"));
 
-        // 모든 장르에 대해 Y/N 세팅
+        // 모든 항목을 무조건 반영
         genre.setRomance(getYnValue(genresMap.get("romance")));
         genre.setComedy(getYnValue(genresMap.get("comedy")));
         genre.setThriller(getYnValue(genresMap.get("thriller")));
@@ -123,6 +123,7 @@ public class GenreService {
 
         genreRepository.save(genre);
     }
+
 
     // 유틸 메서드: null이면 'N', 'Y'/'N'이면 그대로 char로 변환
     private char getYnValue(String value) {

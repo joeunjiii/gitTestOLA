@@ -83,11 +83,21 @@ h2 {
 .previous {
     background-color: #888;
     color: white;
+    padding: 0.4rem 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .save {
-    background-color: #007bff;
+    background: #002c59;
     color: white;
+    padding: 0.4rem 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 textarea, input {

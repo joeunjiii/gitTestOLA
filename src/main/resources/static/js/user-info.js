@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 폼 submit 이벤트 가로채기 → fetch로 비동기 전송
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -36,19 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nickname) formData.append("nickname", nickname);
         if (introduce) formData.append("introduce", introduce);
 
-        // 장르 체크값 설정
+        // ✅ 체크된 항목만 formData에 name="genres"로 추가
         allGenres.forEach(genre => {
             const checkbox = document.querySelector(`input[name="genres"][value="${genre}"]`);
-            const isChecked = checkbox?.checked ? 'Y' : 'N';
-            formData.append(`genres[${genre}]`, isChecked);
+            if (checkbox?.checked) {
+                formData.append("genres", genre);
+            }
         });
 
-        // 프로필 이미지가 선택되어 있을 경우
         if (photoInput.files[0]) {
             formData.append("profileImg", photoInput.files[0]);
         }
 
-        // 저장 중 버튼 비활성화
         saveBtn.disabled = true;
         saveBtn.innerText = "저장 중...";
 
@@ -73,4 +71,5 @@ document.addEventListener('DOMContentLoaded', () => {
             saveBtn.innerText = "저장";
         }
     });
+
 });

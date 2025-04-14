@@ -58,12 +58,12 @@ h2 {
 /* 콘텐츠 선택 영역 */
 .content-selection {
     margin-top: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 8px;
 }
 
-.content-box.selected {
-    border: 2px solid #007bff;
-    background-color: #e9f0ff;
-}
 
 .content-box {
     display: flex;
@@ -110,9 +110,19 @@ h2 {
 .cancel {
     background-color: #888;
     color: white;
+    padding: 0.4rem 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .next {
-    background-color: #007bff;
+    background: #002c59;
     color: white;
+    padding: 0.4rem 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
 }
