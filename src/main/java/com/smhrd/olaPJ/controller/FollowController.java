@@ -68,10 +68,12 @@ public class FollowController {
     // ✅ 4. 팔로우 상태 확인
     @GetMapping("/status")
     public ResponseEntity<Boolean> checkFollowStatus(@RequestParam String followee, Authentication auth) {
-        String userId = auth.getName();
-        boolean isFollowing = followService.isFollowing(userId, followee);
+        String username = auth.getName();
+        String myUserId = userRepository.findByUsername(username)
+                .map(User::getUserId)
+                .orElseThrow(() -> new RuntimeException("❌ USER_ID 조회 실패"));
 
-        log.info("📌 [팔로우 상태 확인] {} → {} = {}", userId, followee, isFollowing);
+        boolean isFollowing = followService.isFollowing(myUserId, followee);
         return ResponseEntity.ok(isFollowing);
     }
 

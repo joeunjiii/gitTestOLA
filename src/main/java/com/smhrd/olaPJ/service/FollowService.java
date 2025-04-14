@@ -78,10 +78,12 @@ public class FollowService {
                 .map(u -> Map.of(
                         "userId", u.getUserId(),
                         "nickname", u.getNickname(),
-                        "profileImg", u.getProfileImg() != null ? u.getProfileImg() : "/images/default_profile.jpg"
+                        "profileImg", u.getProfileImg() != null ? u.getProfileImg() : "/images/default_profile.jpg",
+                        "isFollowing", String.valueOf(isFollowing(myUserId, u.getUserId()))
                 ))
                 .collect(Collectors.toList());
     }
+
 
     // 6. 팔로우 여부 확인
     public boolean isFollowing(String followerUserId, String followeeUserId) {

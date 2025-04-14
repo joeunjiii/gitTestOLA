@@ -152,7 +152,7 @@ body {
 }
 
 /* 메시지 보내기 버튼 */
-.message-btn {
+.follow-btn {
     padding: 4px 10px;                    /* 내부 여백 */
     background-color: #003366;            /* 진한 남색 배경 */
     color: #fff;                           /* 흰색 글자 */
@@ -165,7 +165,7 @@ body {
 }
 
 /* 메시지 버튼 호버 시 */
-.message-btn:hover {
+.follow-btn:hover {
     background-color: #002244;            /* 더 진한 남색 */
 }
 
