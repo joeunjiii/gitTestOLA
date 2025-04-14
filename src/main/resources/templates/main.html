@@ -119,11 +119,11 @@
         <div class="user-row">
             <div class="user-info">
                 <div class="profile-img-wrapper">
-                    <img class="profile-img"
+                    <img class="main-profile-img"
                          th:if="${user != null and user.profileImg != null}"
                          th:src="@{'/uploads/' + ${user.profileImg}}"
                          alt="프로필 사진" />
-                    <img class="profile-img"
+                    <img class="main-profile-img"
                          th:unless="${user != null and user.profileImg != null}"
                          src="/images/default_profile.jpg"
                          alt="기본 프로필 사진" />

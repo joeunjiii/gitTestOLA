@@ -502,11 +502,19 @@ body {
 
 .post-arrow:hover{
 
-        color: #222;
-        transform: scale(1.05);
+    color: #222;
+    transform: scale(1.05);
 
 }
 
+.main-profile-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    margin-left: 15px;
+}
 
 
 .review-placeholder {

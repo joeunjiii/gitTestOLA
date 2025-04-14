@@ -28,7 +28,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
-                .requestMatchers("/static/**");
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**", "/static/**");
     }
 
     // 시큐리티 필터 체인 설정
