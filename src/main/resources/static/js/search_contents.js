@@ -8,13 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (keyword === "") {
             contentSelection.innerHTML = "<p>작품명을 검색해 주세요.</p>";
+            contentSelection.style.display = "none";
             return;
         }
 
         fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`)
             .then((response) => response.json())
             .then((data) => {
-                contentSelection.innerHTML = ""; // 이전 검색 결과 초기화
+                contentSelection.innerHTML = "";
+                contentSelection.style.display = "block";// 이전 검색 결과 초기화
 
                 if (data.length === 0) {
                     contentSelection.innerHTML = "<p>검색 결과가 없습니다.</p>";
@@ -40,12 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     box.addEventListener("click", () => {
                         sessionStorage.setItem("selectedTitle", content.title);
                         sessionStorage.setItem("selectedPoster", content.posterImg);
-                        sessionStorage.setItem("selectedContentId", content.id); // ✅ 이거 추가!
+                        sessionStorage.setItem("selectedContentId", content.id);
 
-                        alert(`"${content.title}"을(를) 선택하셨습니다.`);
+                        document.querySelectorAll(".content-box").forEach(b => b.classList.remove("selected"));
 
-                        contentSelection.innerHTML = "";
-                        contentSelection.appendChild(box);
                         box.classList.add("selected");
                     });
 
@@ -57,6 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("검색 중 오류:", error);
                 contentSelection.innerHTML = "<p>검색 오류가 발생했습니다.</p>";
             });
+    });
+    // 검색창 외 클릭 시 결과 박스 숨김
+    document.addEventListener("click", function (e) {
+        const searchBox = document.querySelector(".search-box");
+
+        if (!searchBox.contains(e.target)) {
+            contentSelection.innerHTML = "";
+            contentSelection.style.display = "none";
+        }
     });
 });
 

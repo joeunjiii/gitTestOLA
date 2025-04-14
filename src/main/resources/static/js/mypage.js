@@ -2,25 +2,35 @@
 function scrollLeft() {
     document.querySelector('.scroll-list')?.scrollBy({ left: -200, behavior: 'smooth' });
 }
-
 function scrollRight() {
     document.querySelector('.scroll-list')?.scrollBy({ left: 200, behavior: 'smooth' });
 }
 
-// 찜한 작품 클릭 알림
-document.querySelectorAll('.scroll-item').forEach(item => {
+document.addEventListener("DOMContentLoaded", () => {
+// 찜한 콘텐츠 클릭 시 상세 페이지 이동
+document.querySelectorAll('.favorite-content-item').forEach(item => {
     item.addEventListener('click', () => {
-        const title = item.querySelector('img')?.alt || '작품';
-        alert(`"${title}" 작품을 클릭했습니다!`);
+        const title = item.querySelector('p')?.innerText || '작품';
+        window.location.href = `/reviewDetail?title=${encodeURIComponent(title)}`;
     });
 });
 
-// 작성한 리뷰 클릭 알림
+// 좋아요한 리뷰 클릭 시 상세 페이지 이동
+document.querySelectorAll('.liked-review-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const title = item.querySelector('p')?.innerText || '리뷰';
+        window.location.href = `/reviewDetail?title=${encodeURIComponent(title)}`;
+    });
+});
+
+// 내가 작성한 리뷰 클릭 시 상세 페이지 이동 (알림만 있었던 기존 코드 수정)
 document.querySelectorAll('.review-item').forEach(item => {
     item.addEventListener('click', () => {
         const title = item.querySelector('p')?.innerText || '리뷰';
-        alert(`"${title}" 리뷰를 클릭했습니다!`);
+        window.location.href = `/reviewDetail?title=${encodeURIComponent(title)}`;
     });
+});
+
 });
 
 // 선택되지 않은 OTT 숨기기
@@ -28,18 +38,4 @@ document.querySelectorAll('.selected-ott img').forEach(img => {
     if (img.dataset.selected !== 'true') {
         img.style.display = 'none';
     }
-});
-
-document.querySelectorAll('.selected-ott img').forEach(img => {
-    if (img.dataset.selected !== 'true') {
-        img.style.display = 'none';
-    }
-});
-
-// 좋아요한 리뷰 클릭 알림
-document.querySelectorAll('.liked-review-item').forEach(item => {
-    item.addEventListener('click', () => {
-        const title = item.querySelector('p')?.innerText || '리뷰';
-        alert(`"${title}" 좋아요한 리뷰를 클릭했습니다!`);
-    });
 });

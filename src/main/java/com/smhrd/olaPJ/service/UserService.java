@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final String uploadDir = System.getProperty("user.dir") + "/uploads/profile/";
+    private final String uploadDir = System.getProperty("user.dir") + "/uploads/";
 
 
     @Transactional
@@ -52,7 +53,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateProfile(String username, String nickname, String introduce, MultipartFile profileImg) {
+    public void updateProfile(String username, String nickname, String introduce, MultipartFile profileImg, Map<String, String> parsedGenres) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -74,6 +75,9 @@ public class UserService {
 
 
     private String saveFile(MultipartFile file, String uploadDir) throws IOException {
+        System.out.println("▶ 업로드 경로: " + uploadDir);
+        System.out.println("▶ 원본 파일명: " + file.getOriginalFilename());
+
         File dir = new File(uploadDir);
         if (!dir.exists() && !dir.mkdirs()) {
             throw new IOException("디렉토리 생성 실패");
@@ -83,20 +87,20 @@ public class UserService {
         String originalName = file.getOriginalFilename();
         String savedName = uuid + "_" + originalName;
 
-        file.transferTo(new File(uploadDir + savedName));
+        File dest = new File(uploadDir + savedName);
+        file.transferTo(dest);
         return savedName;
     }
 
 
 
-    public String findUserIdByUsername(String userName) {
-        return userRepository.findByUsername(userName)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."))
-                .getUserId();
-    }
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("유저 X"));
     }
+
+
+
+
 }

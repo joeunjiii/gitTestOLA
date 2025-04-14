@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('profileForm');
-    const profileImage = document.getElementById('profileImage');
+    const profileImage = document.getElementById('profileImage' || document.getElementById('default-profileImage'));
     const photoInput = document.getElementById('photoInput');
     const nicknameInput = document.getElementById('nickname');
     const bioInput = document.getElementById('bio');
     const saveBtn = document.getElementById('saveBtn');
 
-    // ✅ 프로필 이미지 클릭 시 파일 선택창 열기
+    // 프로필 이미지 클릭 시 파일 선택창 열기
     profileImage?.addEventListener('click', () => {
         photoInput?.click();
     });
 
-    // ✅ 선택한 이미지 미리보기
+    // 선택한 이미지 미리보기
     photoInput?.addEventListener('change', () => {
         const file = photoInput.files[0];
         if (file) {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ✅ 폼 submit 이벤트 가로채기 → fetch로 비동기 전송
+    // 폼 submit 이벤트 가로채기 → fetch로 비동기 전송
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -36,19 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nickname) formData.append("nickname", nickname);
         if (introduce) formData.append("introduce", introduce);
 
-        // ✅ 장르 체크값 설정
+        // 장르 체크값 설정
         allGenres.forEach(genre => {
             const checkbox = document.querySelector(`input[name="genres"][value="${genre}"]`);
             const isChecked = checkbox?.checked ? 'Y' : 'N';
             formData.append(`genres[${genre}]`, isChecked);
         });
 
-        // ✅ 프로필 이미지가 선택되어 있을 경우
+        // 프로필 이미지가 선택되어 있을 경우
         if (photoInput.files[0]) {
             formData.append("profileImg", photoInput.files[0]);
         }
 
-        // ✅ 저장 중 버튼 비활성화
+        // 저장 중 버튼 비활성화
         saveBtn.disabled = true;
         saveBtn.innerText = "저장 중...";
 

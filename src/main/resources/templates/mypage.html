@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>OLA 마이페이지</title>
   <link rel="stylesheet" href="/css/mypage.css">
-  <script src="/js/mypage.js"></script>
+  <script th:src="@{/js/mypage.js}" defer></script>
 </head>
 <body>
 <div class="profile-container">
@@ -34,7 +34,7 @@
     </div>
 
     <!-- 프로필 변경 버튼 -->
-    <form action="/user-info" method="get">
+    <form action="/mypage/edit" method="get">
       <button type="submit" class="edit-button">프로필 변경</button>
     </form>
 

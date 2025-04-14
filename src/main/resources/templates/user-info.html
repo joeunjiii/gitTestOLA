@@ -17,10 +17,16 @@
             <h2>프로필 편집</h2>
             <div class="profile-edit-row">
                 <div class="profile-left">
-                    <img th:src="${user != null and user.profileImg != null} ? @{'/uploads/' + ${user.profileImg}} : @{/images/default_profile.jpg}"
-                         alt="프로필 이미지" class="profile-img" id="profileImage" />
+                    <img th:if="${user.profileImg != null}"
+                         th:src="@{'/uploads/' + ${user.profileImg}}"
+                         alt="프로필 이미지" class="profile-img"  id="profileImage"/>
+
+                    <img th:unless="${user.profileImg != null}"
+                         th:src="@{/images/default_profile.jpg}"
+                         alt="기본 이미지" class ="profile-img" id="default-profileImage"/>
+
                     <label for="nickname">
-                        <input type="text" id="nickname" name="nickname" class="nickname-input" th:value="${nickname}" />
+                        <input type="text" id="nickname" name="nickname" class="nickname-input" th:value="${user.nickname}" />
                     </label>
                 </div>
                 <input type="file" id="photoInput" name="profileImg" accept="image/*" style="display: none;" />
@@ -31,7 +37,7 @@
         <section class="card">
             <div class="form-group">
                 <label for="bio">소개</label>
-                <textarea id="bio" name="introduce" th:text="${introduce}"></textarea>
+                <textarea id="bio" name="introduce" th:text="${user.introduce}"></textarea>
             </div>
         </section>
 
@@ -40,21 +46,21 @@
             <h2>장르 변경</h2>
             <div class="genre-grid">
                 <label><input type="checkbox" name="genres" value="romance"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('romance')}"/> 로맨스</label>
+                              th:checked="${#lists.contains(selectedGenres, 'romance')}"/> 로맨스</label>
                 <label><input type="checkbox" name="genres" value="comedy"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('comedy')}"/> 코미디</label>
+                              th:checked="${#lists.contains(selectedGenres, 'comedy')}"/> 코미디</label>
                 <label><input type="checkbox" name="genres" value="thriller"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('thriller')}"/> 스릴러</label>
+                              th:checked="${#lists.contains(selectedGenres, 'thriller')}"/> 스릴러</label>
                 <label><input type="checkbox" name="genres" value="animation"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('animation')}"/> 애니메이션</label>
+                              th:checked="${#lists.contains(selectedGenres, 'animation')}"/> 애니메이션</label>
                 <label><input type="checkbox" name="genres" value="action"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('action')}"/> 액션</label>
+                              th:checked="${#lists.contains(selectedGenres, 'action')}"/> 액션</label>
                 <label><input type="checkbox" name="genres" value="drama"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('drama')}"/> 드라마</label>
+                              th:checked="${#lists.contains(selectedGenres, 'drama')}"/> 드라마</label>
                 <label><input type="checkbox" name="genres" value="horror"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('horror')}"/> 공포</label>
+                              th:checked="${#lists.contains(selectedGenres, 'horror')}"/> 공포</label>
                 <label><input type="checkbox" name="genres" value="fantasy"
-                              th:checked="${selectedGenres != null and selectedGenres.contains('fantasy')}"/> 판타지</label>
+                              th:checked="${#lists.contains(selectedGenres, 'fantasy')}"/> 판타지</label>
             </div>
         </section>
 

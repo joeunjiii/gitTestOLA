@@ -76,12 +76,16 @@ public class MypageController {
         String username = principal.getName();
         User user = userService.findByUsername(username); // 예시
 
-        model.addAttribute("nickname", user.getNickname());
-        model.addAttribute("introduce", user.getIntroduce());
-        model.addAttribute("profileImg", user.getProfileImg());
+        model.addAttribute("user", user);
+
+//        model.addAttribute("nickname", user.getNickname());
+//        model.addAttribute("introduce", user.getIntroduce());
+//        model.addAttribute("profileImg", user.getProfileImg());
 
         List<String> genres = genreService.getGenresByUserId(user.getUserId());
         model.addAttribute("selectedGenres", genres != null ? genres : List.of()); //null 방지
+
+
 
         return "user-info"; // Thymeleaf 템플릿 이름
     }
@@ -93,57 +97,22 @@ public class MypageController {
                                 @RequestParam(value = "profileImg", required = false) MultipartFile profileImg,
                                 Principal principal) {
 
-        String username = principal.getName(); // 현재 로그인된 사용자 이름
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        String username = principal.getName();
 
-        // 닉네임 수정
-        if (nickname != null && !nickname.isBlank()) {
-            user.setNickname(nickname);
-        }
-
-        // 소개글 수정
-        if (introduce != null && !introduce.isBlank()) {
-            user.setIntroduce(introduce);
-        }
-
-        // 이미지 수정
-        if (profileImg != null && !profileImg.isEmpty()) {
-            try {
-                String fileName = saveFile(profileImg); // 실제 저장 경로 반환
-                user.setProfileImg(fileName);
-            } catch (IOException e) {
-                throw new RuntimeException("이미지 저장 실패", e);
-            }
-        }
-
-        // 장르 업데이트 - genres 맵에서 "genres[xxx]" 형식 파싱
+        // 장르만 따로 파싱
         Map<String, String> parsedGenres = new HashMap<>();
         genres.forEach((key, value) -> {
             if (key.startsWith("genres[")) {
-                String genreKey = key.substring(7, key.length() - 1); // 예: genres[romance] → romance
+                String genreKey = key.substring(7, key.length() - 1);
                 parsedGenres.put(genreKey, value);
             }
         });
 
-        if (!parsedGenres.isEmpty()) {
-            genreService.updateGenres(user.getUserId(), parsedGenres);
-        }
+        userService.updateProfile(username, nickname, introduce, profileImg, parsedGenres);
 
         return "redirect:/mypage";
     }
 
-    private String saveFile(MultipartFile file) throws IOException {
-        String uploadDir = System.getProperty("user.dir") + "/uploads/";
-        File dir = new File(uploadDir);
-        if (!dir.exists()) dir.mkdirs();
-
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        File dest = new File(uploadDir + fileName);
-        file.transferTo(dest);
-
-        return fileName;
-    }
 
 
 }

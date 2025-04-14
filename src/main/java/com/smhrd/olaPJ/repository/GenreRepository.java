@@ -16,7 +16,10 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
 
     boolean existsByUserId(String userId);
 
-    List<String> findGenreNamesByUserId(String userId);
+
+
+    @Query("SELECT g.selectedTitle FROM Genre g WHERE g.userId = :userId")
+    List<String> findGenreNamesByUserId(@Param("userId") String userId);
 
     @Query("""
     SELECT g.userId
