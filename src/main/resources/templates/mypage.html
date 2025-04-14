@@ -28,8 +28,16 @@
     <div class="user-info" th:if="${user != null}">
       <div class="nickname" th:text="${user.nickname}">닉네임</div>
       <div class="stats">
-        <div><span>팔로워</span><span id="follower-count">10</span></div>
-        <div><span>팔로잉</span><span id="following-count">10</span></div>
+        <div>
+          <a href="/follow/list#follower">
+            <span>팔로워</span><span id="follower-count">0</span>
+          </a>
+        </div>
+        <div>
+          <a href="/follow/list#following">
+            <span>팔로잉</span><span id="following-count">0</span>
+          </a>
+        </div>
       </div>
     </div>
 

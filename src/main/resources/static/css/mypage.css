@@ -84,6 +84,31 @@ body {
     font-weight: bold;
 }
 
+/* ✅ 기본 링크 색상 제거 */
+.stats a {
+    text-decoration: none;      /* 밑줄 제거 */
+    color: inherit;             /* 상위 폰트 색상 상속 */
+}
+
+/* ✅ 링크 안 숫자 및 텍스트를 검정색으로 고정 */
+.stats a span {
+    color: #000 !important;     /* 항상 검정으로 고정 */
+}
+
+/* ✅ 링크 방문/호버/활성 시에도 검정색 유지 */
+.stats a:visited span,
+.stats a:active span,
+.stats a:hover span {
+    color: #000 !important;
+}
+
+/* 숫자 스타일 유지 */
+.stats div span:nth-child(2) {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
 /* 숫자를 글자 아래로 배치 */
 .stats div span:nth-child(2) {
     font-size: 16px;

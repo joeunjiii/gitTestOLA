@@ -1,81 +1,98 @@
-/* 팔로우 페이지 js */
+// follow.js
 
-// DOM이 모두 로드되었을 때 실행
-document.addEventListener("DOMContentLoaded", () => {
-    const followerTab = document.getElementById("follower-tab");       // 팔로워 탭 요소
-    const followingTab = document.getElementById("following-tab");     // 팔로잉 탭 요소
-    const followerList = document.getElementById("follower-list");     // 팔로워 목록 요소
-    const followingList = document.getElementById("following-list");   // 팔로잉 목록 요소
+window.addEventListener("DOMContentLoaded", () => {
+    const followerTab = document.getElementById("follower-tab");
+    const followingTab = document.getElementById("following-tab");
+    const followerList = document.getElementById("follower-list");
+    const followingList = document.getElementById("following-list");
 
-    // ▶ 두 리스트 중 더 긴 쪽의 높이를 기준으로 맞추는 함수
+    const hash = window.location.hash;
+    if (hash === "#following") {
+        followingTab.classList.add("active");
+        followerTab.classList.remove("active");
+        followerList.style.display = "none";
+        followingList.style.display = "block";
+    } else {
+        followerTab.classList.add("active");
+        followingTab.classList.remove("active");
+        followerList.style.display = "block";
+        followingList.style.display = "none";
+    }
+
     const matchListHeights = () => {
-        const followerHeight = followerList.scrollHeight;               // 팔로워 목록의 실제 높이
-        const followingHeight = followingList.scrollHeight;             // 팔로잉 목록의 실제 높이
-        const maxHeight = Math.max(followerHeight, followingHeight);    // 더 큰 쪽의 높이 선택
-
-        // 두 리스트 모두 최소 높이를 동일하게 설정
+        const maxHeight = Math.max(followerList.scrollHeight, followingList.scrollHeight);
         followerList.style.minHeight = `${maxHeight}px`;
         followingList.style.minHeight = `${maxHeight}px`;
     };
 
-    // ▶ 팔로워 탭 클릭 시 실행되는 이벤트
     followerTab.addEventListener("click", () => {
-        followerTab.classList.add("active");         // 팔로워 탭에 active 클래스 추가
-        followingTab.classList.remove("active");     // 팔로잉 탭에서는 active 클래스 제거
-        followerList.style.display = "block";        // 팔로워 목록 보이기
-        followingList.style.display = "none";        // 팔로잉 목록 숨기기
-        matchListHeights();                          // 리스트 높이 맞추기
+        followerTab.classList.add("active");
+        followingTab.classList.remove("active");
+        followerList.style.display = "block";
+        followingList.style.display = "none";
+        matchListHeights();
     });
 
-    // ▶ 팔로잉 탭 클릭 시 실행되는 이벤트
     followingTab.addEventListener("click", () => {
-        followingTab.classList.add("active");        // 팔로잉 탭에 active 클래스 추가
-        followerTab.classList.remove("active");      // 팔로워 탭에서는 active 클래스 제거
-        followerList.style.display = "none";         // 팔로워 목록 숨기기
-        followingList.style.display = "block";       // 팔로잉 목록 보이기
-        matchListHeights();                          // 리스트 높이 맞추기
+        followingTab.classList.add("active");
+        followerTab.classList.remove("active");
+        followerList.style.display = "none";
+        followingList.style.display = "block";
+        matchListHeights();
     });
 
-    // ▶ 페이지가 처음 로딩될 때 리스트 높이 맞추기
-    matchListHeights();
-});
+    fetch("/api/follow/users")
+        .then(res => res.json())
+        .then(({ followers, followings }) => {
+            if (followers.length === 0) {
+                followerList.innerHTML = '<li class="empty">팔로워가 없습니다.</li>';
+            } else {
+                followerList.innerHTML = followers.map(user => `
+                    <li class="follower">
+                        <div class="profile">
+                            <img src="/uploads/profile/${user.userId}.jpg" alt="프로필" onerror="this.src='/images/default_profile.jpg'" />
+                            <span>${user.nickname}</span>
+                        </div>
+                        <div class="actions">
+                            <button class="message-btn">메시지</button>
+                            <span class="remove">✕</span>
+                        </div>
+                    </li>
+                `).join("");
+            }
 
-// 두 번째 DOMContentLoaded는 검색창 관련 기능
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.querySelector(".search-box input");   // 검색창 input 요소
+            if (followings.length === 0) {
+                followingList.innerHTML = '<li class="empty">팔로잉한 유저가 없습니다.</li>';
+            } else {
+                followingList.innerHTML = followings.map(user => `
+                    <li class="follower">
+                        <div class="profile">
+                            <img src="/uploads/profile/${user.userId}.jpg" alt="프로필" onerror="this.src='/images/default_profile.jpg'" />
+                            <span>${user.nickname}</span>
+                        </div>
+                        <div class="actions">
+                            <button class="message-btn">메시지</button>
+                            <span class="remove">✕</span>
+                        </div>
+                    </li>
+                `).join("");
+            }
 
-    // ▶ input이 포커스 되었을 때 커서 색을 진하게 설정 (보이게)
-    searchInput.addEventListener("focus", () => {
-        searchInput.style.caretColor = "#222";  // 진한 회색으로 커서 표시
-    });
-
-    // ▶ input에서 포커스가 벗어났을 때, 값이 없으면 커서 숨김
-    searchInput.addEventListener("blur", () => {
-        if (searchInput.value.trim() === "") {
-            searchInput.style.caretColor = "transparent";  // 커서 숨기기
-        }
-    });
-
-    // ▶ 페이지 로딩 시에도 input 값이 비어있으면 커서 숨기기
-    if (searchInput.value.trim() === "") {
-        searchInput.style.caretColor = "transparent";
-    } else {
-        searchInput.style.caretColor = "#222";
-    }
+            matchListHeights();
+        })
+        .catch(err => {
+            console.error("팔로우 리스트 불러오기 실패", err);
+        });
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const profileImgs = document.querySelectorAll(".profile img"); // 프로필 이미지 전부 선택
+    const searchInput = document.querySelector(".search-box input");
 
-    profileImgs.forEach((img) => {
-        // 이미지 경로가 없거나 잘못되었을 경우 기본 이미지로 대체
-        if (!img.getAttribute("src") || img.getAttribute("src").trim() === "") {
-            img.setAttribute("src", "/images/default_profile.jpg");
-        }
-
-        // 이미지 로드 실패 시에도 기본 이미지로 대체
-        img.onerror = () => {
-            img.src = "/images/default_profile.jpg";
-        };
+    searchInput.addEventListener("focus", () => {
+        searchInput.style.caretColor = "#222";
     });
+    searchInput.addEventListener("blur", () => {
+        searchInput.style.caretColor = searchInput.value.trim() === "" ? "transparent" : "#222";
+    });
+    searchInput.style.caretColor = searchInput.value.trim() === "" ? "transparent" : "#222";
 });

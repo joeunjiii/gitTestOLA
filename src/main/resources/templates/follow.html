@@ -4,95 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>follow list</title>
-    <link rel="stylesheet" href="../static/css/follow.css" /> <!-- 외부 CSS 연결 -->
+    <link rel="stylesheet" href="/css/follow.css" /> <!-- 경로 정리 -->
 </head>
 <body>
-<div class="container"> <!-- 전체 페이지 컨테이너 -->
 
-    <!-- 탭 메뉴: 팔로워 / 팔로잉 전환 -->
+<div class="container">
+
+    <!-- 🔙 뒤로가기 버튼 -->
+    <div class="back-btn-wrapper">
+        <button class="back-btn" onclick="window.location.href='/mypage'">←</button>
+    </div>
+
+    <!-- 탭 메뉴 -->
     <div class="tabs">
-        <div class="tab active" id="follower-tab">팔로워</div> <!-- 기본 활성 탭 -->
-        <div class="tab" id="following-tab">팔로잉</div> <!-- 클릭 시 전환 탭 -->
+        <div class="tab active" id="follower-tab">팔로워</div>
+        <div class="tab" id="following-tab">팔로잉</div>
     </div>
 
-    <!-- 검색창 영역 -->
+    <!-- 검색창 -->
     <div class="search-box">
-        <span class="search-icon">🔍</span> <!-- 검색 아이콘 (돋보기 이모지) -->
-        <input type="text" placeholder="검색" /> <!-- 입력창 -->
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="검색" />
     </div>
 
-    <!-- 팔로워 리스트 영역 (기본 노출) -->
+    <!-- 팔로워 리스트 -->
     <ul class="follower-list" id="follower-list">
-        <!-- 팔로워 항목 -->
-        <li class="follower">
-            <div class="profile">
-                <img src="/LOA/public/images/do_nothing.jpg" alt="프로필" /> <!-- 프로필 이미지 -->
-                <span>아무것도 하기 싫다</span> <!-- 닉네임 -->
-            </div>
-            <div class="actions">
-                <button class="message-btn">메시지</button> <!-- 메시지 보내기 버튼 -->
-                <span class="remove">✕</span> <!-- 언팔/삭제 아이콘 -->
-            </div>
-        </li>
-        <!-- 아래 항목들도 동일한 구조 -->
-        <li class="follower">
-            <div class="profile">
-                <img src="/LOA/public/images/hungry.jpg" alt="프로필" />
-                <span>배고파</span>
-            </div>
-            <div class="actions">
-                <button class="message-btn">메시지</button>
-                <span class="remove">✕</span>
-            </div>
-        </li>
-        <li class="follower">
-            <div class="profile">
-                <img src="/LOA/public/images/go_home.jpg" alt="프로필" />
-                <span>집가고 싶다</span>
-            </div>
-            <div class="actions">
-                <button class="message-btn">메시지</button>
-                <span class="remove">✕</span>
-            </div>
-        </li>
-        <li class="follower">
-            <div class="profile">
-                <img src="/LOA/public/images/default_profile.jpg" alt="프로필" />
-                <span>제발..</span>
-            </div>
-            <div class="actions">
-                <button class="message-btn">메시지</button>
-                <span class="remove">✕</span>
-            </div>
-        </li>
+        <!-- JS로 동적 렌더링 -->
     </ul>
 
-    <!-- 팔로잉 리스트 영역 (기본 숨김 처리) -->
+    <!-- 팔로잉 리스트 -->
     <ul class="follower-list" id="following-list" style="display: none;">
-        <li class="follower">
-            <div class="profile">
-                <img src="/LOA/public/images/default_profile.jpg" alt="프로필" />
-                <span>열심히 사는 중</span>
-            </div>
-            <div class="actions">
-                <button class="message-btn">메시지</button>
-                <span class="remove">✕</span>
-            </div>
-        </li>
-        <li class="follower">
-            <div class="profile">
-                <img src="/LOA/public/images/exercise_addict.jpg" alt="프로필" />
-                <span>운동 중독자</span>
-            </div>
-            <div class="actions">
-                <button class="message-btn">메시지</button>
-                <span class="remove">✕</span>
-            </div>
-        </li>
+        <!-- JS로 동적 렌더링 -->
     </ul>
 </div>
 
-<!-- 자바스크립트 연결: 탭 전환, 검색 커서 설정 등 처리 -->
-<script src="../static/js/follow.js"></script>
+<!-- 스크립트 -->
+<script src="/js/follow.js"></script>
 </body>
 </html>

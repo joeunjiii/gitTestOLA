@@ -19,4 +19,5 @@ public class FollowDto {
 
     // 상태 확인용 (선택)
     private Boolean isFollowing;
+
 }
