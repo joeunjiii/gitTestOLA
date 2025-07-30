@@ -53,8 +53,4 @@
 - **다양한 리뷰 데이터를 기반**으로 개인 맞춤형 콘텐츠 추천 기능 고도화
 
 ---
-
-## 🔗 GitHub Repository
-[👉 프로젝트 GitHub 바로가기](https://github.com/Park-Ji-Gwang/gitTestOLA)
-
 > 🔧 README.md는 지속적으로 업데이트됩니다.
